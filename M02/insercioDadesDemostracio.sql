@@ -1,5 +1,4 @@
-use projecte;
-
+/* Inserint Usuaris */
 INSERT INTO users(email,nom,cognoms,password,data_naix,genere,telefon, nacionalitat)  VALUES('gbalsells@milaifontanals.org', 'Gerard', 'Balsells Franquesa', '4b0523991642e703770b92a323787731', date '2002-09-21','H',608975968,(SELECT codi FROM nacionalitat WHERE nom like 'Spanish'));
 
 INSERT INTO users(email,nom,cognoms,password,data_naix,genere,telefon, nacionalitat)  VALUES('gerard.proves.01@gmail.com', 'Manel', 'Alfons Enric', '37f14363d3982af4ac1c3a3978d3468d', date '2002-05-19','H',608975967,(SELECT codi FROM nacionalitat WHERE nom like 'Spanish'));
@@ -22,10 +21,12 @@ INSERT INTO users(email,nom,cognoms,password,data_naix,genere,telefon, nacionali
 
 INSERT INTO users(email,nom,cognoms,password,data_naix,genere,telefon, nacionalitat, bloquejat)  VALUES('dfuentes1@milaifontanls', 'Prova', 'Hernandez Garcia', '189bbbb00c5f1fb7fba9ad9285f193d1', date '2000-04-10','H',608975967,(SELECT codi FROM nacionalitat WHERE nom like 'Spanish'), true);
 
+/* Inseritn Calendaris i assignant-los a algun usuari */
 INSERT INTO calendari(nom,data_creacio,user) VALUES("DAW 2n", date '2021-09-14',1);
 
 INSERT INTO calendari(nom,data_creacio,user) VALUES("DAW 1r", date '2021-09-14',2);
 
+/* Inserint tipus de activitat a dos usuaris */
 INSERT INTO tipus_activitat(codi,nom, user) VALUES (1,'Excursio' , 1);
 
 INSERT INTO tipus_activitat(codi, nom,user) VALUES (2,'Xerrada', 1);
@@ -46,10 +47,11 @@ INSERT INTO tipus_activitat(codi,nom,user) VALUES(9,'Sortida', 2);
 
 INSERT INTO tipus_activitat(codi,nom,user) VALUES(10,'Tallers', 2);
 
+/* Inserint activitats */
 INSERT INTO activitat(calendari,nom, data_inici, data_fi, descripcio, user, tipus) VALUES(1,'Xerrada Trilogi', '2022-05-25 15:00:00','2022-05-25 17:00:00', "Una xerrada de presentacio de l'empresa",1, 2);
 
 INSERT INTO activitat(calendari,nom, data_inici, data_fi, descripcio, user, tipus) VALUES(1,'Sortida Exterior', '2022-05-26 15:00:00','2022-05-26 17:00:00', "Sortida a el autoforum de tarragona",2, 9);
-
+/* Inserint target del calendari */
 INSERT INTO calendari_target(email, calendar) VALUES ('gerard.proves.01@gmail.com', 1);
 
 INSERT INTO calendari_target(email, calendar) VALUES ('gerard.proves.02@gmail.com', 1);

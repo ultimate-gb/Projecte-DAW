@@ -1,9 +1,14 @@
-use projecte;
-
+/* Esborrant Taula Calendari */
 DROP TABLE IF EXISTS calendari_target;
+/* Esborrant Taula Ajuda */
 DROP TABLE IF EXISTS ajuda;
+/* Esborrant Taula Activitat */
 DROP TABLE IF EXISTS activitat;
+/* Esborrant Taula Activitat */
 DROP TABLE IF EXISTS tipus_activitat;
+/* Esborrant Taula Calendari */
 DROP TABLE IF EXISTS calendari;
+/* Esborrant Taula Users */
 DROP TABLE IF EXISTS users;
+/* Esborrant Taula Nacionalitat */
 DROP TABLE IF EXISTS nacionalitat;

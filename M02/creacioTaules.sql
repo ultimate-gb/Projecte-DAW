@@ -1,6 +1,3 @@
-/* Entrant a base de dades projecte */
-use projecte;
-
 /* Creant Nacionalitat */
 CREATE TABLE IF NOT EXISTS nacionalitat (
         `codi` varchar(3),
