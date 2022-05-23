@@ -1,5 +1,5 @@
 /* Inserint Usuaris */
-INSERT INTO users(email,nom,cognoms,password,data_naix,genere,telefon, nacionalitat)  VALUES('gbalsells@milaifontanals.org', 'Gerard', 'Balsells Franquesa', '4b0523991642e703770b92a323787731', date '2002-09-21','H',608975968,(SELECT codi FROM nacionalitat WHERE nom like 'Spanish'));
+INSERT INTO users(email,nom,cognoms,password,data_naix,genere,telefon, nacionalitat ,role)  VALUES('gbalsells@milaifontanals.org', 'Gerard', 'Balsells Franquesa', '4b0523991642e703770b92a323787731', date '2002-09-21','H',608975968,(SELECT codi FROM nacionalitat WHERE nom like 'Spanish'), 1);
 
 INSERT INTO users(email,nom,cognoms,password,data_naix,genere,telefon, nacionalitat)  VALUES('gerard.proves.01@gmail.com', 'Manel', 'Alfons Enric', '37f14363d3982af4ac1c3a3978d3468d', date '2002-05-19','H',608975967,(SELECT codi FROM nacionalitat WHERE nom like 'Spanish'));
 
@@ -19,7 +19,7 @@ INSERT INTO users(email,nom,cognoms,password,data_naix,genere,telefon, nacionali
 
 INSERT INTO users(email,nom,cognoms,password,data_naix,genere,telefon, nacionalitat)  VALUES('dsun@gbalsells.home', 'Donghai', 'Sun', '9e7c0b97808e0825b82e1950e6ffd9db', date '2002-08-06','H',608675560,(SELECT codi FROM nacionalitat WHERE nom like 'Chinese'));
 
-INSERT INTO users(email,nom,cognoms,password,data_naix,genere,telefon, nacionalitat, bloquejat)  VALUES('dfuentes1@milaifontanls', 'Prova', 'Hernandez Garcia', '189bbbb00c5f1fb7fba9ad9285f193d1', date '2000-04-10','H',608975967,(SELECT codi FROM nacionalitat WHERE nom like 'Spanish'), true);
+INSERT INTO users(email,nom,cognoms,password,data_naix,genere,telefon, nacionalitat, bloquejat, role)  VALUES('dfuentes1@milaifontanls', 'Prova', 'Hernandez Garcia', '189bbbb00c5f1fb7fba9ad9285f193d1', date '2000-04-10','H',608975967,(SELECT codi FROM nacionalitat WHERE nom like 'Spanish'), true, 1);
 
 /* Inseritn Calendaris i assignant-los a algun usuari */
 INSERT INTO calendari(nom,data_creacio,user) VALUES("DAW 2n", date '2021-09-14',1);
