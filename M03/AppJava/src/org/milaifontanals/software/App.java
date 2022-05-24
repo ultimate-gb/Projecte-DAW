@@ -24,6 +24,8 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
+import org.milaifontanals.iface.IBaseDeDades;
+import org.milaifontanals.iface.ProjecteDawException;
 
 /**
  *
@@ -126,6 +128,20 @@ public class App {
 
     public static void main(String[] args) {
         App app = new App();
+        IBaseDeDades db = null;
+        /* Suposant que obj sigui un objecte de la capa que pertoqui en temps 
+        d'execució...
+        */
+        String nomCapa = "org.milaifontanals.mysql.MySQL";     // Aquest nom s'ha d'obtenir
+        try {
+            // des de fitxer de propietats o via args. Mai per codi
+            db = (IBaseDeDades) Class.forName(nomCapa).newInstance();
+            System.out.println("Capa carregada i en funcionament");
+        } catch (InstantiationException | IllegalAccessException | ClassNotFoundException ex) {
+            System.out.println("No es pot carregar capa per motiu.....");
+            System.out.println(ex.getMessage() + ex.getCause());
+            return;
+        }
     }
 
     class ObrirNavegador implements ActionListener {

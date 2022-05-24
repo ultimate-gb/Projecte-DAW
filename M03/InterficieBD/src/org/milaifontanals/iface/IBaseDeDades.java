@@ -14,15 +14,15 @@ import org.milaifontanals.models.Usuari;
  * @author Usuari
  */
 public interface IBaseDeDades {
-    public void updateUser(Usuari user);
-    public Usuari getUser(String email);
-    public Usuari[] cercaUserByEmail(String email);
-    public Usuari[] cercaByNomCognom(String nom, String cognom);
-    public Calendari[] cercaCalendariPropietari(Usuari user);
-    public Calendari[] cercaCalendariAjudant(Usuari user);
-    public void insertActivitat(Activitat act);
-    public void updateActivitat (Activitat act);
-    public void deleteActivitat(Activitat act);
+    public void updateUser(Usuari user) throws ProjecteDawException;
+    public Usuari getUser(String email) throws ProjecteDawException;
+    public Usuari[] cercaUserByEmail(String email) throws ProjecteDawException;
+    public Usuari[] cercaByNomCognom(String nom, String cognom) throws ProjecteDawException;
+    public Calendari[] cercaCalendariPropietari(Usuari user) throws ProjecteDawException;
+    public Calendari[] cercaCalendariAjudant(Usuari user) throws ProjecteDawException;
+    public void insertActivitat(Activitat act) throws ProjecteDawException;
+    public void updateActivitat (Activitat act) throws ProjecteDawException;
+    public void deleteActivitat(Activitat act) throws ProjecteDawException;
     
     public void aplicarCanvis() throws ProjecteDawException;
     public void desfer() throws ProjecteDawException;
