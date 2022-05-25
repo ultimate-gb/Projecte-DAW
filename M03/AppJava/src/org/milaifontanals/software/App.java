@@ -5,8 +5,15 @@
  */
 package org.milaifontanals.software;
 
+import java.awt.BorderLayout;
 import java.awt.Desktop;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.GraphicsEnvironment;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
+import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
@@ -18,10 +25,12 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.BoxLayout;
+import javax.swing.GroupLayout;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
@@ -29,6 +38,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
+import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 import org.milaifontanals.iface.IBaseDeDades;
 import org.milaifontanals.models.Usuari;
@@ -118,13 +128,13 @@ public class App {
         f.setJMenuBar(topBar);
 
         m1Op1.addActionListener(new ObrirNavegador("http://localhost:8081"));
-        
+
         m1Op2.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 carregarPaginaUsuari();
             }
-            
+
         });
 
         m2Op1.addActionListener(new ObrirNavegador("https://www.google.com"));
@@ -140,23 +150,25 @@ public class App {
 
     /* Aquesta funcio s'encarrega de carregar la pagina principal */
     private void carregarPaginaUsuari() {
-        userPage = new JDialog(f,"Pagina Usuari");
+        userPage = new JDialog(f, "Pagina Usuari");
         /* Inicialitza el jpanel */
         panell = new JPanel();
         /* S'estableix el Layout que es vol utilitzar per visualitzar la pagina web */
-        panell.setLayout(new BoxLayout(panell, BoxLayout.Y_AXIS));
+        panell.setLayout(new BorderLayout());
         JPanel panellSuperior = new JPanel();
+        panellSuperior.setLayout(new BoxLayout(panellSuperior, BoxLayout.Y_AXIS));
         JComboBox<Filter> filtratge = new JComboBox();
         filtratge.addItem(new Filter(0, "Sense Filtre"));
         filtratge.addItem(new Filter(1, "Filtre per Correu Electronic"));
         filtratge.addItem(new Filter(2, "Filtre per Nom-Cognom"));
+        filtratge.setSize(600, 25);
+        JPanel filterForm = new JPanel();
+        filterForm.add(filtratge);
         JPanel form = new JPanel();
-        JTextField email = new JTextField();
-        email.setPreferredSize(new Dimension(500, 25));
-        JTextField nom = new JTextField();
-        nom.setPreferredSize(new Dimension(250, 25));
-        JTextField cognom = new JTextField();
-        cognom.setPreferredSize(new Dimension(250, 25));
+        form.setLayout(new BoxLayout(form, BoxLayout.Y_AXIS));
+        JTextField email = new JTextField(50);
+        JTextField nom = new JTextField(50);
+        JTextField cognom = new JTextField(50);
         JButton cerca = new JButton("Cercar");
         JComboBox<Usuari> jUserList = new JComboBox();
         try {
@@ -164,8 +176,9 @@ public class App {
             for (Usuari user : userList) {
                 jUserList.addItem(user);
             }
+            jUserList.setSelectedIndex(-1);
         } catch (ProjecteDawException ex) {
-            JOptionPane.showMessageDialog(f, "Error en la cerca " + ex.getMessage(), "Error En Cerca", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(userPage, "Error en la cerca " + ex.getMessage(), "Error En Cerca", JOptionPane.ERROR_MESSAGE);
         }
         filtratge.addActionListener(new ActionListener() {
             @Override
@@ -177,12 +190,61 @@ public class App {
                 nom.setText("");
                 cognom.setText("");
                 if (fil.getId() == 1) {
-                    form.add(email);
-                    form.add(cerca);
+                    JPanel p1 = new JPanel();
+                    p1.setLayout(new GridBagLayout());
+                    GridBagConstraints gc = new GridBagConstraints();
+                    gc.fill = GridBagConstraints.HORIZONTAL;
+                    gc.insets = new Insets(10, 10, 10, 10);
+                    gc.gridx = 0;
+                    gc.gridy = 0;
+                    JLabel label1 = new JLabel("Email: ");
+                    label1.setHorizontalAlignment(SwingConstants.LEFT);
+                    p1.add(label1, gc);
+
+                    gc.gridx = 1;
+                    gc.gridy = 0;
+                    p1.add(email, gc);
+
+                    gc.gridx = 0;
+                    gc.gridy = 1;
+                    gc.gridwidth = 2;
+                    JPanel cercaZone = new JPanel();
+                    cercaZone.setLayout(new FlowLayout(FlowLayout.RIGHT));
+                    cercaZone.add(cerca);
+                    p1.add(cercaZone, gc);
+                    //p1.add(email);
+                    form.add(p1);
+                    //form.add(cerca);
                 } else if (fil.getId() == 2) {
-                    form.add(nom);
-                    form.add(cognom);
-                    form.add(cerca);
+                    JPanel p1 = new JPanel();
+                    p1.setLayout(new GridBagLayout());
+                    GridBagConstraints gc = new GridBagConstraints();
+                    gc.fill = GridBagConstraints.HORIZONTAL;
+                    gc.insets = new Insets(10, 10, 10, 10);
+                    gc.gridx = 0;
+                    gc.gridy = 0;
+                    JLabel label1 = new JLabel("Nom: ");
+                    label1.setHorizontalAlignment(SwingConstants.LEFT);
+                    p1.add(label1, gc);
+                    gc.gridx = 1;
+                    gc.gridy = 0;
+                    p1.add(nom, gc);
+                    gc.gridx = 0;
+                    gc.gridy = 1;
+                    JLabel label2 = new JLabel("Cognom: ");
+                    label2.setHorizontalAlignment(SwingConstants.LEFT);
+                    p1.add(label2, gc);
+                    gc.gridx = 1;
+                    gc.gridy = 1;
+                    p1.add(cognom, gc);
+                    gc.gridx = 0;
+                    gc.gridy = 2;
+                    gc.gridwidth = 2;
+                    JPanel cercaZone = new JPanel();
+                    cercaZone.setLayout(new FlowLayout(FlowLayout.RIGHT));
+                    cercaZone.add(cerca);
+                    p1.add(cercaZone, gc);
+                    form.add(p1);
                 } else if (fil.getId() == 0) {
                     try {
                         ArrayList<Usuari> userList = db.getAllUsers();
@@ -190,11 +252,12 @@ public class App {
                         for (Usuari user : userList) {
                             jUserList.addItem(user);
                         }
+                        jUserList.setSelectedIndex(-1);
                     } catch (ProjecteDawException ex) {
-                        JOptionPane.showMessageDialog(f, "Error en la cerca " + ex.getMessage(), "Error En Cerca", JOptionPane.ERROR_MESSAGE);
+                        JOptionPane.showMessageDialog(userPage, "Error en la cerca " + ex.getMessage(), "Error En Cerca", JOptionPane.ERROR_MESSAGE);
                     }
                 }
-                SwingUtilities.updateComponentTreeUI(f);
+                SwingUtilities.updateComponentTreeUI(userPage);
             }
         });
 
@@ -207,13 +270,13 @@ public class App {
                     try {
                         userList = db.cercaUserByEmail(email.getText());
                     } catch (ProjecteDawException ex) {
-                        JOptionPane.showMessageDialog(f, "Error en la cerca " + ex.getMessage(), "Error En Cerca", JOptionPane.ERROR_MESSAGE);
+                        JOptionPane.showMessageDialog(userPage, "Error en la cerca " + ex.getMessage(), "Error En Cerca", JOptionPane.ERROR_MESSAGE);
                     }
                 } else if (fil.getId() == 2) {
                     try {
                         userList = db.cercaByNomCognom(nom.getText(), cognom.getText());
                     } catch (ProjecteDawException ex) {
-                        JOptionPane.showMessageDialog(f, "Error en la cerca " + ex.getMessage(), "Error En Cerca", JOptionPane.ERROR_MESSAGE);
+                        JOptionPane.showMessageDialog(userPage, "Error en la cerca " + ex.getMessage(), "Error En Cerca", JOptionPane.ERROR_MESSAGE);
                     }
                 }
                 if (userList != null) {
@@ -222,25 +285,41 @@ public class App {
                         for (Usuari user : userList) {
                             jUserList.addItem(user);
                         }
-                    }
-                    else {
-                        JOptionPane.showMessageDialog(f, "No s'han trobat cap Usuari que contingui en el Correu: " +email.getText() , "Info Cerca", JOptionPane.INFORMATION_MESSAGE);
+                        jUserList.setSelectedIndex(-1);
+                    } else {
+                        JOptionPane.showMessageDialog(f, "No s'han trobat cap Usuari que contingui en el Correu: " + email.getText(), "Info Cerca", JOptionPane.INFORMATION_MESSAGE);
                     }
                 } else {
                     JOptionPane.showMessageDialog(f, "No s'han trobat cap resultat", "Info Cerca", JOptionPane.INFORMATION_MESSAGE);
                 }
-                SwingUtilities.updateComponentTreeUI(f);
+                SwingUtilities.updateComponentTreeUI(userPage);
             }
         });
-        panellSuperior.add(filtratge);
+        jUserList.setSelectedIndex(-1);
+        jUserList.addActionListener( new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JComboBox selUser = (JComboBox) e.getSource();
+                if(selUser.getSelectedIndex() > -1) {
+                    Usuari user = (Usuari) selUser.getSelectedItem();
+                    JOptionPane.showMessageDialog(f, "Has seleccionat a " +user.toString(), "Info", JOptionPane.INFORMATION_MESSAGE);
+                }
+            }
+        });
+        panellSuperior.add(filterForm);
         panellSuperior.add(form);
-        panell.add(panellSuperior);
+        //panellSuperior.setPreferredSize(new Dimension(800,250));
+        panell.add(panellSuperior, BorderLayout.NORTH);
         JPanel usersZone = new JPanel();
         usersZone.add(jUserList);
         panell.add(usersZone);
         userPage.add(panell);
-        userPage.setSize(500, 250);
+        userPage.setSize(800, 250);
+        userPage.setType(Window.Type.NORMAL);
+        userPage.setLocationRelativeTo(null);
+        userPage.setResizable(false);
         userPage.setVisible(true);
+
     }
 
     public static void main(String[] args) {

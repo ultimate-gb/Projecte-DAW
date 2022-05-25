@@ -134,6 +134,6 @@ public class Usuari {
     
     @Override
     public String toString() {
-        return "Usuari: Nom: " + nom + ", Cognom: " + cognoms;
+        return  nom + " " + cognoms;
     }
 }
