@@ -21,6 +21,27 @@ public class Usuari {
     private Integer telefon;
     private boolean bloquejat;
     private int role;
+    private Nacionalitat nacionalitat;
+
+    public Usuari(int id, String email, String nom, String cognoms, Date data_naix, char genere, boolean bloquejat, int role, Nacionalitat nacionalitat) {
+        setId(id);
+        setEmail(email);
+        setNom(nom);
+        setCognoms(cognoms);
+        setData_naix(data_naix);
+        setGenere(genere);
+        setBloquejat(bloquejat);
+        setRole(role);
+        setNacionalitat(nacionalitat);
+    }
+
+    public Nacionalitat getNacionalitat() {
+        return nacionalitat;
+    }
+
+    public void setNacionalitat(Nacionalitat nacionalitat) {
+        this.nacionalitat = nacionalitat;
+    }
 
     public int getId() {
         return id;
@@ -69,7 +90,7 @@ public class Usuari {
 
     public void setData_naix(Date data_naix) {
         java.util.Date today = new java.util.Date();
-        if(data_naix == null || data_naix.compareTo(today) >= 0 || (today.getYear() - data_naix.getYear()) >= 18) {
+        if(data_naix == null || data_naix.compareTo(today) >= 0 || (today.getYear() - data_naix.getYear()) < 18) {
             throw new RuntimeException("El camp data_naix no pot null ni pot ser la data actual, ha de ser una data de naixement amb la que sigui major de edat");
         }
         this.data_naix = data_naix;
@@ -111,5 +132,8 @@ public class Usuari {
         this.role = role;
     }
     
-    
+    @Override
+    public String toString() {
+        return "Usuari: Nom: " + nom + ", Cognom: " + cognoms;
+    }
 }
