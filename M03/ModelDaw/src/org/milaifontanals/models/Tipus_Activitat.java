@@ -14,6 +14,14 @@ public class Tipus_Activitat {
     private String nom;
     private Usuari user;
 
+    public Tipus_Activitat(int codi, String nom, Usuari user) {
+        setCodi(codi);
+        setNom(nom);
+        setUser(user);
+    }
+
+    
+    
     public Usuari getUser() {
         return user;
     }
@@ -39,6 +47,11 @@ public class Tipus_Activitat {
             throw new RuntimeException("Longitud del nom del tipus de activitat no pot superar els 250 caracters");
         }
         this.nom = nom;
+    }
+
+    @Override
+    public String toString() {
+        return nom;
     }
     
     

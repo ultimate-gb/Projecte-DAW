@@ -90,84 +90,7 @@ public class UserPage {
         filtratge.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                JComboBox filSel = (JComboBox) e.getSource();
-                Filter fil = (Filter) filSel.getSelectedItem();
-                form.removeAll();
-                email.setText("");;
-                nom.setText("");
-                cognom.setText("");
-                jUserList.setSelectedIndex(-1);
-                if (fil.getId() == 1) {
-                    JPanel p1 = new JPanel();
-                    p1.setLayout(new GridBagLayout());
-                    GridBagConstraints gc = new GridBagConstraints();
-                    gc.fill = GridBagConstraints.HORIZONTAL;
-                    gc.insets = new Insets(10, 10, 10, 10);
-                    gc.gridx = 0;
-                    gc.gridy = 0;
-                    JLabel label1 = new JLabel("Email: ");
-                    label1.setHorizontalAlignment(SwingConstants.LEFT);
-                    p1.add(label1, gc);
-
-                    gc.gridx = 1;
-                    gc.gridy = 0;
-                    p1.add(email, gc);
-
-                    gc.gridx = 0;
-                    gc.gridy = 1;
-                    gc.gridwidth = 2;
-                    JPanel cercaZone = new JPanel();
-                    cercaZone.setLayout(new FlowLayout(FlowLayout.RIGHT));
-                    cercaZone.add(cerca);
-                    p1.add(cercaZone, gc);
-                    //p1.add(email);
-                    form.add(p1);
-                    //form.add(cerca);
-                } else if (fil.getId() == 2) {
-                    JPanel p1 = new JPanel();
-                    p1.setLayout(new GridBagLayout());
-                    GridBagConstraints gc = new GridBagConstraints();
-                    gc.fill = GridBagConstraints.HORIZONTAL;
-                    gc.insets = new Insets(10, 10, 10, 10);
-                    gc.gridx = 0;
-                    gc.gridy = 0;
-                    JLabel label1 = new JLabel("Nom: ");
-                    label1.setHorizontalAlignment(SwingConstants.LEFT);
-                    p1.add(label1, gc);
-                    gc.gridx = 1;
-                    gc.gridy = 0;
-                    p1.add(nom, gc);
-                    gc.gridx = 0;
-                    gc.gridy = 1;
-                    JLabel label2 = new JLabel("Cognom: ");
-                    label2.setHorizontalAlignment(SwingConstants.LEFT);
-                    p1.add(label2, gc);
-                    gc.gridx = 1;
-                    gc.gridy = 1;
-                    p1.add(cognom, gc);
-                    gc.gridx = 0;
-                    gc.gridy = 2;
-                    gc.gridwidth = 2;
-                    JPanel cercaZone = new JPanel();
-                    cercaZone.setLayout(new FlowLayout(FlowLayout.RIGHT));
-                    cercaZone.add(cerca);
-                    p1.add(cercaZone, gc);
-                    form.add(p1);
-                } else if (fil.getId() == 0) {
-                    try {
-                        ArrayList<Usuari> userList = db.getAllUsers();
-                        jUserList.removeAllItems();
-                        jUserList.removeActionListener(jUserList.getActionListeners()[0]);
-                        for (Usuari user : userList) {
-                            jUserList.addItem(user);
-                        }
-                        jUserList.setSelectedIndex(-1);
-                        jUserList.addActionListener(new SeeUsers());
-                    } catch (ProjecteDawException ex) {
-                        JOptionPane.showMessageDialog(userPage, "Error en la cerca " + ex.getMessage(), "Error En Cerca", JOptionPane.ERROR_MESSAGE);
-                    }
-                }
-                SwingUtilities.updateComponentTreeUI(userPage);
+                aplicarFiltre((JComboBox) e.getSource(), form, email, nom, cognom, jUserList, cerca);
             }
         });
 
@@ -188,6 +111,86 @@ public class UserPage {
         userPage.setResizable(false);
         userPage.setVisible(true);
 
+    }
+
+    public void aplicarFiltre(JComboBox filSel, JPanel form, JTextField email, JTextField nom, JTextField cognom, JComboBox<Usuari> jUserList, JButton cerca) {
+        Filter fil = (Filter) filSel.getSelectedItem();
+        form.removeAll();
+        email.setText("");;
+        nom.setText("");
+        cognom.setText("");
+        jUserList.setSelectedIndex(-1);
+        if (fil.getId() == 1) {
+            JPanel p1 = new JPanel();
+            p1.setLayout(new GridBagLayout());
+            GridBagConstraints gc = new GridBagConstraints();
+            gc.fill = GridBagConstraints.HORIZONTAL;
+            gc.insets = new Insets(10, 10, 10, 10);
+            gc.gridx = 0;
+            gc.gridy = 0;
+            JLabel label1 = new JLabel("Email: ");
+            label1.setHorizontalAlignment(SwingConstants.LEFT);
+            p1.add(label1, gc);
+
+            gc.gridx = 1;
+            gc.gridy = 0;
+            p1.add(email, gc);
+
+            gc.gridx = 0;
+            gc.gridy = 1;
+            gc.gridwidth = 2;
+            JPanel cercaZone = new JPanel();
+            cercaZone.setLayout(new FlowLayout(FlowLayout.RIGHT));
+            cercaZone.add(cerca);
+            p1.add(cercaZone, gc);
+            //p1.add(email);
+            form.add(p1);
+            //form.add(cerca);
+        } else if (fil.getId() == 2) {
+            JPanel p1 = new JPanel();
+            p1.setLayout(new GridBagLayout());
+            GridBagConstraints gc = new GridBagConstraints();
+            gc.fill = GridBagConstraints.HORIZONTAL;
+            gc.insets = new Insets(10, 10, 10, 10);
+            gc.gridx = 0;
+            gc.gridy = 0;
+            JLabel label1 = new JLabel("Nom: ");
+            label1.setHorizontalAlignment(SwingConstants.LEFT);
+            p1.add(label1, gc);
+            gc.gridx = 1;
+            gc.gridy = 0;
+            p1.add(nom, gc);
+            gc.gridx = 0;
+            gc.gridy = 1;
+            JLabel label2 = new JLabel("Cognom: ");
+            label2.setHorizontalAlignment(SwingConstants.LEFT);
+            p1.add(label2, gc);
+            gc.gridx = 1;
+            gc.gridy = 1;
+            p1.add(cognom, gc);
+            gc.gridx = 0;
+            gc.gridy = 2;
+            gc.gridwidth = 2;
+            JPanel cercaZone = new JPanel();
+            cercaZone.setLayout(new FlowLayout(FlowLayout.RIGHT));
+            cercaZone.add(cerca);
+            p1.add(cercaZone, gc);
+            form.add(p1);
+        } else if (fil.getId() == 0) {
+            try {
+                ArrayList<Usuari> userList = db.getAllUsers();
+                jUserList.removeAllItems();
+                jUserList.removeActionListener(jUserList.getActionListeners()[0]);
+                for (Usuari user : userList) {
+                    jUserList.addItem(user);
+                }
+                jUserList.setSelectedIndex(-1);
+                jUserList.addActionListener(new SeeUsers());
+            } catch (ProjecteDawException ex) {
+                JOptionPane.showMessageDialog(userPage, "Error en la cerca " + ex.getMessage(), "Error En Cerca", JOptionPane.ERROR_MESSAGE);
+            }
+        }
+        SwingUtilities.updateComponentTreeUI(userPage);
     }
 
     class SeeUsers implements ActionListener {
@@ -366,7 +369,7 @@ public class UserPage {
         JPanel tableZone = new JPanel();
         try {
             ArrayList<Calendari> owner = this.db.cercaCalendariPropietari(user);
-            JTable calendarOwner = crearTaulaCalendari(owner, dadesUser);
+            JTable calendarOwner = crearTaulaCalendari(owner, dadesUser, user);
             JScrollPane ownerCalScrol = new JScrollPane(calendarOwner,
                     JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
                     JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
@@ -377,7 +380,7 @@ public class UserPage {
         }
         try {
             ArrayList<Calendari> helper = this.db.cercaCalendariAjudant(user);
-            JTable calendarHelper = crearTaulaCalendari(helper, dadesUser);
+            JTable calendarHelper = crearTaulaCalendari(helper, dadesUser, user);
 
             JScrollPane helperCalScrol = new JScrollPane(calendarHelper,
                     JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
@@ -390,7 +393,7 @@ public class UserPage {
         return tableZone;
     }
 
-    public JTable crearTaulaCalendari(ArrayList<Calendari> calList, JDialog pare) {
+    public JTable crearTaulaCalendari(ArrayList<Calendari> calList, JDialog pare, Usuari user) {
         DefaultTableModel modelTaula = new DefaultTableModel();
         JTable calendar = new JTable(modelTaula) {
             @Override
@@ -431,12 +434,7 @@ public class UserPage {
                 int row = table.rowAtPoint(point);
                 if (mouseEvent.getClickCount() == 2 && table.getSelectedRow() != -1) {
                     Calendari cal = (Calendari) calList.get(table.getSelectedRow());
-                    JDialog calendarPage = new JDialog(pare, "Editant Calendari:  " + cal.getNom(), true);
-                    calendarPage.setSize(800, 250);
-                    calendarPage.setType(Window.Type.NORMAL);
-                    calendarPage.setLocationRelativeTo(null);
-                    calendarPage.setResizable(false);
-                    calendarPage.setVisible(true);
+                    CalendarPage calendarPage = new CalendarPage(userPage,db, cal, user);
                 }
             }
         });

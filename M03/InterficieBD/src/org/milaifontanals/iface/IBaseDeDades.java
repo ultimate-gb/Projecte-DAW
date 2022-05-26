@@ -25,6 +25,9 @@ public interface IBaseDeDades {
     public void insertActivitat(Activitat act) throws ProjecteDawException;
     public void updateActivitat (Activitat act) throws ProjecteDawException;
     public void deleteActivitat(Activitat act) throws ProjecteDawException;
+    public boolean esPropietariCalendari(Usuari user, Calendari calendari) throws ProjecteDawException;
+    public boolean esAjudantCalendari(Usuari user, Calendari calendari) throws ProjecteDawException;
+    public ArrayList<Activitat> getActivitatsCalendari(Calendari calendari, Usuari user) throws ProjecteDawException;
     
     public void aplicarCanvis() throws ProjecteDawException;
     public void desfer() throws ProjecteDawException;

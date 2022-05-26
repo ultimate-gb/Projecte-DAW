@@ -21,6 +21,7 @@ import org.milaifontanals.iface.ProjecteDawException;
 import org.milaifontanals.models.Activitat;
 import org.milaifontanals.models.Calendari;
 import org.milaifontanals.models.Nacionalitat;
+import org.milaifontanals.models.Tipus_Activitat;
 import org.milaifontanals.models.Usuari;
 
 /**
@@ -198,6 +199,57 @@ public class MySql implements IBaseDeDades {
             con.close();
         } catch (SQLException ex) {
             throw new ProjecteDawException("Error en tancar la capa", ex);
+        }
+    }
+
+    @Override
+    public boolean esPropietariCalendari(Usuari user, Calendari calendari) throws ProjecteDawException {
+        try {
+            PreparedStatement ps = con.prepareStatement("select 1 from calendari WHERE user = ? and id = ?");
+            ps.setInt(1, user.getId());
+            ps.setInt(2, calendari.getId());
+            ResultSet rs = ps.executeQuery();
+            boolean esPropietari = false;
+            if (rs.next()) {
+                esPropietari = true;
+            }
+            return esPropietari;
+        } catch (SQLException ex) {
+            throw new ProjecteDawException("No s'ha pogut cercar el usuari per nom cognom", (Throwable) ex);
+        }
+    }
+
+    @Override
+    public boolean esAjudantCalendari(Usuari user, Calendari calendari) throws ProjecteDawException {
+        try {
+            PreparedStatement ps = con.prepareStatement("select 1 from ajuda WHERE user = ? and calendari = ?");
+            ps.setInt(1, user.getId());
+            ps.setInt(2, calendari.getId());
+            ResultSet rs = ps.executeQuery();
+            boolean esAjudant = false;
+            if (rs.next()) {
+                esAjudant = true;
+            }
+            return esAjudant;
+        } catch (SQLException ex) {
+            throw new ProjecteDawException("No s'ha pogut cercar el usuari per nom cognom", (Throwable) ex);
+        }
+    }
+
+    @Override
+    public ArrayList<Activitat> getActivitatsCalendari(Calendari calendari, Usuari user) throws ProjecteDawException {
+        try {
+            PreparedStatement ps = con.prepareStatement("select a.id, a.nom, a.data_inici, a.data_fi, a.descripcio, t.codi as 'Codi Act', t.nom as 'Nom Act', a.publicada from activitat a JOIN tipus_activitat t ON t.codi = a.tipus Where a.user = ? and a.calendari = ?");
+            ps.setInt(1, user.getId());
+            ps.setInt(2, calendari.getId());
+            ResultSet rs = ps.executeQuery();
+            ArrayList<Activitat> activityList = new ArrayList();
+            while (rs.next()) {
+                activityList.add(new Activitat(rs.getInt("id"), rs.getString("nom"), rs.getTimestamp("data_inici"), rs.getTimestamp("data_fi"), rs.getString("descripcio"), new Tipus_Activitat(rs.getInt("Codi Act"), rs.getString("Nom Act"), user), user, calendari, rs.getBoolean("publicada")));
+            }
+            return activityList;
+        } catch (SQLException ex) {
+            throw new ProjecteDawException("No s'ha pogut obtenir les activitats del usuari en el calendari " + calendari.getNom(), (Throwable) ex);
         }
     }
 
