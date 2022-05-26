@@ -59,3 +59,8 @@ INSERT INTO calendari_target(email, calendar) VALUES ('gerard.proves.02@gmail.co
 INSERT INTO calendari_target(email, calendar) VALUES ('dfuentes1@milaifontanals.org', 1);
 
 INSERT INTO calendari_target(email, calendar) VALUES ('gbalsells@milaifontanals.org', 1);
+
+/* Inserint Ajudants */
+INSERT INTO ajuda(user, calendari) VALUES(1,2);
+INSERT INTO ajuda(user,calendari) VALUES(3,2);
+INSERT INTO ajuda(user,calendari) VALUES(4,1);

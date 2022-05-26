@@ -17,6 +17,13 @@ public class Calendari {
     private Timestamp data_creacio;
     private Usuari user;
 
+    public Calendari(int id, String nom, Timestamp data_creacio, Usuari user) {
+        setId(id);
+        setNom(nom);
+        setDataCreacio(data_creacio);
+        setUser(user);
+    }
+
     public int getId() {
         return id;
     }
@@ -36,11 +43,11 @@ public class Calendari {
         this.nom = nom;
     }
 
-    public Timestamp getData_creacio() {
+    public Timestamp getDataCreacio() {
         return data_creacio;
     }
 
-    public void setData_creacio(Timestamp data_creacio) {
+    public void setDataCreacio(Timestamp data_creacio) {
         this.data_creacio = data_creacio;
     }
 
@@ -50,5 +57,10 @@ public class Calendari {
 
     public void setUser(Usuari user) {
         this.user = user;
+    }
+
+    @Override
+    public String toString() {
+        return nom + " - " + data_creacio;
     }
 }

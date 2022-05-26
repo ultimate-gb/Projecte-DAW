@@ -111,7 +111,7 @@ public class MySql implements IBaseDeDades {
 
     @Override
     public ArrayList<Usuari> cercaByNomCognom(String nom, String cognom) throws ProjecteDawException {
-                try {
+        try {
             PreparedStatement ps = con.prepareStatement("select u.id, u.email, u.nom, u.cognoms, u.data_naix, u.genere, u.telefon, u.bloquejat, u.role, n.codi as 'NatCode', n.nom as 'Nacionalitat' from users u JOIN nacionalitat n ON n.codi=u.nacionalitat where u.nom like CONCAT(CONCAT('%',?),'%') and u.cognoms like CONCAT(CONCAT('%',?),'%')");
             ps.setString(1, nom);
             ps.setString(2, cognom);
@@ -128,12 +128,34 @@ public class MySql implements IBaseDeDades {
 
     @Override
     public ArrayList<Calendari> cercaCalendariPropietari(Usuari user) throws ProjecteDawException {
-        throw new ProjecteDawException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        try {
+            PreparedStatement ps = con.prepareStatement("select id, nom, data_creacio from calendari WHERE user = ?");
+            ps.setInt(1, user.getId());
+            ResultSet rs = ps.executeQuery();
+            ArrayList<Calendari> calList = new ArrayList();
+            while (rs.next()) {
+                calList.add(new Calendari(rs.getInt("id"), rs.getString("nom"), rs.getTimestamp("data_creacio"), user));
+            }
+            return calList;
+        } catch (SQLException ex) {
+            throw new ProjecteDawException("No s'ha pogut cercar el usuari per nom cognom", (Throwable) ex);
+        }
     }
 
     @Override
     public ArrayList<Calendari> cercaCalendariAjudant(Usuari user) throws ProjecteDawException {
-        throw new ProjecteDawException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        try {
+            PreparedStatement ps = con.prepareStatement("select id, nom, data_creacio from calendari c RIGHT JOIN ajuda a ON a.calendari = c.id WHERE a.user = ?");
+            ps.setInt(1, user.getId());
+            ResultSet rs = ps.executeQuery();
+            ArrayList<Calendari> calList = new ArrayList();
+            while (rs.next()) {
+                calList.add(new Calendari(rs.getInt("id"), rs.getString("nom"), rs.getTimestamp("data_creacio"), user));
+            }
+            return calList;
+        } catch (SQLException ex) {
+            throw new ProjecteDawException("No s'ha pogut cercar el usuari per nom cognom", (Throwable) ex);
+        }
     }
 
     @Override

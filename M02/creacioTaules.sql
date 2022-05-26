@@ -8,7 +8,7 @@ CREATE TABLE IF NOT EXISTS nacionalitat (
 
 /* Creant Taula Users */
 CREATE TABLE  IF NOT EXISTS users (
-        `id` int AUTO_INCREMENT,
+        `id` int(3) AUTO_INCREMENT,
 	`email` varchar(320) NOT NULL,
 	`nom` varchar(40) NOT NULL,
         `cognoms` varchar(100) NOT NULL,
@@ -18,22 +18,21 @@ CREATE TABLE  IF NOT EXISTS users (
         `telefon` int(9),
         `bloquejat` boolean DEFAULT false,
         `nacionalitat` varchar(3) NOT NULL,
-        `role` int NOT NULL DEFAULT 0,
+        `role` int(1) NOT NULL DEFAULT 0,
         CONSTRAINT users_pk PRIMARY KEY (`id`),
         CONSTRAINT users_uq_email UNIQUE (`email`),
         CONSTRAINT users_ck_genere CHECK (`genere` in ('H','D','I')),
         CONSTRAINT users_fk_nacionalitat FOREIGN KEY (`nacionalitat`) REFERENCES nacionalitat(`codi`),
         CONSTRAINT users_ck_role CHECK ( `role` >= 0 ),
-        CONSTRAINT users_ck_telefon CHECK (length(`telefon`) = 9),
         INDEX activitat_idx_email (`email`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 /* Creant Taula Calendari */
 CREATE TABLE  IF NOT EXISTS calendari (
-        `id` int auto_increment,
+        `id` int(3) auto_increment,
         `nom` varchar(250) NOT NULL,
         `data_creacio` datetime NOT NULL,
-        `user` int NOT NULL,
+        `user` int(3) NOT NULL,
         CONSTRAINT calendari_pk PRIMARY KEY (`id`),
         CONSTRAINT calendari_ck_dt_creacio CHECK (`data_creacio` <= sysdate()),
         CONSTRAINT calendari_fk_users FOREIGN KEY (`user`) REFERENCES users(`id`) ON DELETE CASCADE
@@ -41,9 +40,9 @@ CREATE TABLE  IF NOT EXISTS calendari (
 
 /* Creant Taula Tipus Activitat */
 CREATE TABLE IF NOT EXISTS tipus_activitat (
-        `codi` int AUTO_INCREMENT,
+        `codi` int(4) AUTO_INCREMENT,
         `nom` varchar(250),
-        `user` int,
+        `user` int(3),
         CONSTRAINT tipus_activitat_pk PRIMARY KEY (`codi`, `user`),
         CONSTRAINT tipus_activitat_nn_nom CHECK (`nom` is not null),
         CONSTRAINT tipus_activitat_fk_users FOREIGN KEY (`user`) REFERENCES users(`id`) ON DELETE CASCADE
@@ -51,8 +50,8 @@ CREATE TABLE IF NOT EXISTS tipus_activitat (
 
 /* Creant Taula Activitat */
 CREATE TABLE  IF NOT EXISTS activitat (
-        `calendari` int,
-        `id` int AUTO_INCREMENT,
+        `calendari` int(3),
+        `id` int(4) AUTO_INCREMENT,
         `nom` varchar(250),
         `data_inici` datetime,
         `data_fi` datetime,
@@ -73,17 +72,17 @@ CREATE TABLE  IF NOT EXISTS activitat (
 /* Creant Taula Calendari Target */
 CREATE TABLE IF NOT EXISTS calendari_target (
         `email` varchar(320),
-        `calendar` int,
+        `calendar` int(3),
         CONSTRAINT calendari_target_pk PRIMARY KEY (`calendar`,`email`),
         CONSTRAINT calendari_target_fk_calendari FOREIGN KEY (`calendar`) REFERENCES calendari(`id`) ON DELETE CASCADE 
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 /* Creant Taula Ajuda */
 CREATE TABLE IF NOT EXISTS ajuda (
-        `user` varchar(320),
-        `calendari` int,
+        `user` int,
+        `calendari` int(3),
         CONSTRAINT conte_pk PRIMARY KEY (`user`, `calendari`),
-        CONSTRAINT conte_fk_users FOREIGN KEY (`user`) REFERENCES users(`email`) ON DELETE CASCADE,
+        CONSTRAINT conte_fk_users FOREIGN KEY (`user`) REFERENCES users(`id`) ON DELETE CASCADE,
         CONSTRAINT conte_Fk_calendari FOREIGN KEY (`calendari`) REFERENCES calendari(`id`) ON DELETE CASCADE
 );
 
