@@ -17,6 +17,7 @@ import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -116,6 +117,18 @@ public class CalendarPage {
         } catch (ProjecteDawException ex) {
             JOptionPane.showMessageDialog(calendarPage, ex.getMessage(), "Error En Obirr el info Calendari", JOptionPane.ERROR_MESSAGE);
         }
+        JButton add = new JButton("Afegir Activitat");
+        JButton mod = new JButton("Editar Activitat");
+        JButton del = new JButton("Esborrar Activitat");            
+        JPanel buttonZone = new JPanel();
+        buttonZone.setLayout(new FlowLayout(FlowLayout.RIGHT));
+        buttonZone.add(add);
+        buttonZone.add(mod);
+        buttonZone.add(del);
+        gc.gridx = 0;
+        gc.gridy = 7;
+        gc.gridwidth = 4;
+        panellPrincipal.add(buttonZone, gc);
         calendarPage.setLayout(new FlowLayout());
         calendarPage.add(panellPrincipal);
         calendarPage.setType(Window.Type.NORMAL);

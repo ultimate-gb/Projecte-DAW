@@ -1,4 +1,5 @@
-#projecteCalendarApp #loginForm {
+#projecteCalendarApp #loginForm,
+#projecteCalendarApp #registerForm {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -6,51 +7,116 @@
   background-image: url("../img/backgroundLoginImg.jpg");
   background-repeat: no-repeat;
   background-size: cover;
+  background-position: center center;
 }
-#projecteCalendarApp #loginForm main {
-  width: 30%;
+#projecteCalendarApp #loginForm main,
+#projecteCalendarApp #registerForm main {
+  width: 576px;
   background-color: rgba(0,0,0,0.25);
   padding: 4% 2.5% 4% 2.5%;
 }
-#projecteCalendarApp #loginForm main header {
+#projecteCalendarApp #loginForm main header,
+#projecteCalendarApp #registerForm main header {
   padding-bottom: 2%;
   font-family: 'Baloo 2', cursive;
 }
-#projecteCalendarApp #loginForm main header h1 {
+#projecteCalendarApp #loginForm main header h1,
+#projecteCalendarApp #registerForm main header h1 {
   text-align: center;
   color: #fff;
   text-transform: uppercase;
   font-weight: bold;
 }
 #projecteCalendarApp #loginForm main form div .input-group-text,
-#projecteCalendarApp #loginForm main form div .form-control {
+#projecteCalendarApp #registerForm main form div .input-group-text,
+#projecteCalendarApp #loginForm main form div .form-control,
+#projecteCalendarApp #registerForm main form div .form-control {
   padding-top: 2%;
   padding-bottom: 2%;
   background-color: #fff;
   color: #000075;
 }
-#projecteCalendarApp #loginForm main form div label.input-group-text {
+#projecteCalendarApp #loginForm main form div label.input-group-text,
+#projecteCalendarApp #registerForm main form div label.input-group-text {
   border-right: 0px;
 }
-#projecteCalendarApp #loginForm main form div input.form-control {
+#projecteCalendarApp #loginForm main form div input.form-control,
+#projecteCalendarApp #registerForm main form div input.form-control {
   border-left: 0px;
 }
-#projecteCalendarApp #loginForm main form div input.form-check-input {
+#projecteCalendarApp #loginForm main form div input.form-check-input,
+#projecteCalendarApp #registerForm main form div input.form-check-input {
   margin-right: 2%;
 }
-#projecteCalendarApp #loginForm main form div label.form-check-label {
+#projecteCalendarApp #loginForm main form div label.form-check-label,
+#projecteCalendarApp #registerForm main form div label.form-check-label {
   color: #fff;
 }
-#projecteCalendarApp #loginForm .btnLogin {
+#projecteCalendarApp #loginForm .btnLogin,
+#projecteCalendarApp #registerForm .btnLogin {
   padding: 2%;
   font-family: 'Baloo 2', cursive;
   font-size: 20px;
   width: 100%;
 }
-#projecteCalendarApp #loginForm .topMessage {
+#projecteCalendarApp #loginForm .topMessage,
+#projecteCalendarApp #registerForm .topMessage {
   position: absolute;
   top: 0px;
   left: 0px;
   width: 100%;
   text-align: center;
+}
+@media only screen and (max-width: 1200px) {
+  #projecteCalendarApp #loginForm main,
+  #projecteCalendarApp #registerForm main {
+    width: 60%;
+  }
+}
+@media only screen and (max-width: 768px) {
+  #projecteCalendarApp {
+    height: 100%;
+  }
+  #projecteCalendarApp #loginForm,
+  #projecteCalendarApp #registerForm {
+    align-items: flex-start;
+    height: 100%;
+  }
+  #projecteCalendarApp #loginForm main,
+  #projecteCalendarApp #registerForm main {
+    margin-top: 25%;
+    width: 100%;
+  }
+  #projecteCalendarApp #loginForm main header h1,
+  #projecteCalendarApp #registerForm main header h1 {
+    font-size: 50px;
+  }
+  #projecteCalendarApp #loginForm main form div .input-group-text,
+  #projecteCalendarApp #registerForm main form div .input-group-text,
+  #projecteCalendarApp #loginForm main form div .form-control,
+  #projecteCalendarApp #registerForm main form div .form-control {
+    font-size: 20px;
+  }
+  #projecteCalendarApp #loginForm main form div input.form-check-input,
+  #projecteCalendarApp #registerForm main form div input.form-check-input {
+    margin-top: 0px;
+    width: 25px;
+    height: 25px;
+  }
+  #projecteCalendarApp #loginForm main form div label.form-check-label,
+  #projecteCalendarApp #registerForm main form div label.form-check-label {
+    font-size: 20px;
+  }
+  #projecteCalendarApp #loginForm main form div.checkboxGroup,
+  #projecteCalendarApp #registerForm main form div.checkboxGroup {
+    align-items: center;
+  }
+  #projecteCalendarApp #loginForm main form div.buttonGroup,
+  #projecteCalendarApp #registerForm main form div.buttonGroup {
+    flex-direction: column;
+  }
+  #projecteCalendarApp #loginForm main .btnLogin,
+  #projecteCalendarApp #registerForm main .btnLogin {
+    font-size: 20px;
+  }
 }

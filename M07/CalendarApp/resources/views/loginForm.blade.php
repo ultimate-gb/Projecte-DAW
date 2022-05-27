@@ -4,6 +4,10 @@
 
 @section('bodyId', "loginForm")
 
+@section('scriptHeaderZone')
+    <script src="{{ asset('js/loginScript.js') }}"></script>
+@endsection
+
 @section('mainContent')
     @if(strlen($message) > 0) 
         <div class="alert alert-danger topMessage" role="alert">
@@ -23,14 +27,15 @@
             <label class="input-group-text d-flex justify-content-center" for="passInput"><i class="fas fa-key"></i></label>
             <input type="password" name='pass' class="form-control" id="passInput" placeholder="Contrassenya" aria-label="Password" aria-describedby="password">
         </div>
-        <div class="input-group mb-3">
+        <div class="input-group mb-3 checkboxGroup">
             <input class="form-check-input" type="checkbox" id="showPasswd">
             <label class="form-check-label" for="showPasswd">
               Mostrar Contrassenya
             </label>
         </div>
-        <div class="col-12 d-flex justify-content-center">
-            <button type="submit" name='loginBtn' class="btn btnLogin btn-primary bg-newblue">Iniciar Sessio</button>
+        <div class="col-12 d-flex gap-2 buttonGroup">
+            <button type="submit" name='loginBtn' class="btn btnLogin btn-primary bg-newblue w-100">Iniciar Sessio</button>
+            <a role='button' href='{{ route("register") }}' class='btn btn-primary btnLogin bg-newblue w-100'>Registrar-se</a>
         </div>
     </form>
 @endsection

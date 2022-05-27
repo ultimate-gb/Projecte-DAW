@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AppController;
 use App\Http\Controllers\LoginController;
 
 /*
@@ -18,5 +19,9 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/login', [LoginController::class, 'login']);
-Route::get('/login/check', [LoginController::class, 'check'])->name("login.check");
+Route::get('/login', [LoginController::class, 'login'])->withoutMiddleware(\App\Http\Middleware\CheckLogin::class);
+Route::post('/login/check', [LoginController::class, 'check'])->name("login.check")->withoutMiddleware(\App\Http\Middleware\CheckLogin::class);
+Route::get('/login/logout', [LoginController::class, 'logout'])->name('login.logout');
+Route::get('/index', [AppController::class, 'index']);
+Route::get('/register', [AppController::class, 'register'])->name("register")->withoutMiddleware(\App\Http\Middleware\CheckLogin::class);
+Route::post("/register/save", [AppController::class, 'registerSave'])->name("register.save")->withoutMiddleware(\App\Http\Middleware\CheckLogin::class);

@@ -114,6 +114,7 @@ public class App {
         f.setLocationRelativeTo(null);
         carregarEntornGrafic();
         f.setVisible(true);
+                LoginPage l = new LoginPage(f, db);
 
     }
 

@@ -1,5 +1,5 @@
 #projecteCalendarApp {
-    #loginForm {
+    #loginForm, #registerForm {
         display: flex;
         justify-content: center;
         align-items: center;
@@ -7,8 +7,9 @@
         background-image: url("../img/backgroundLoginImg.jpg");
         background-repeat: no-repeat;
         background-size: cover;
+        background-position: center center;
         main {
-            width: 30%;
+            width: 576px;
             background-color: rgba(0,0,0,0.25);
             padding: 4% 2.5% 4% 2.5%;
             header {
@@ -60,5 +61,59 @@
             width: 100%;
             text-align: center;
         }
+    }
+}
+@media only screen and (max-width: 1200px) {
+    #projecteCalendarApp {
+        #loginForm, #registerForm  {
+            main {
+                width: 60%;
+            }
+        }
+        
+    }
+}
+
+@media only screen and (max-width: 768px) {
+    #projecteCalendarApp {
+        height: 100%;
+        #loginForm, #registerForm {
+            align-items: flex-start;
+            height: 100%;
+            main {
+                margin-top: 25%;
+                width: 100%;
+                header {
+                    h1 {
+                        font-size: 50px;
+                    }
+                }
+                form {
+                    div {
+                        .input-group-text, .form-control {
+                            font-size: 20px;
+                        }
+                        input.form-check-input {
+                            margin-top: 0px;
+                            width: 25px;
+                            height: 25px;
+                        }
+                        label.form-check-label {
+                            font-size: 20px;
+                        }
+                    }
+                    div.checkboxGroup {
+                        align-items: center;
+                    }
+                    div.buttonGroup {
+                        flex-direction: column;
+                    }
+                }
+                .btnLogin {
+                    font-size: 20px;
+                }
+            }
+        }
+        
     }
 }
