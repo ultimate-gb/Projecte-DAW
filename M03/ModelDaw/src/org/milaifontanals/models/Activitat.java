@@ -18,12 +18,12 @@ public class Activitat {
     private Timestamp date_inici;
     private Timestamp date_fi;
     private String descripcio;
-    private Tipus_Activitat tipus;
+    private TipusActivitat tipus;
     private Usuari user;
     private Calendari calendari;
     private boolean publicada;
 
-    public Activitat(int id, String nom, Timestamp date_inici, Timestamp date_fi, String descripcio, Tipus_Activitat tipus, Usuari user, Calendari calendari, boolean publicada) {
+    public Activitat(int id, String nom, Timestamp date_inici, Timestamp date_fi, String descripcio, TipusActivitat tipus, Usuari user, Calendari calendari, boolean publicada) {
         setId(id);
         setNom(nom);
         setDateInici(date_inici);
@@ -98,11 +98,11 @@ public class Activitat {
         this.descripcio = descripcio;
     }
 
-    public Tipus_Activitat getTipus() {
+    public TipusActivitat getTipus() {
         return tipus;
     }
 
-    public void setTipus(Tipus_Activitat tipus) {
+    public void setTipus(TipusActivitat tipus) {
         this.tipus = tipus;
     }
 

@@ -12,6 +12,8 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.Point;
 import java.awt.Window;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
@@ -29,7 +31,7 @@ import org.milaifontanals.iface.IBaseDeDades;
 import org.milaifontanals.iface.ProjecteDawException;
 import org.milaifontanals.models.Activitat;
 import org.milaifontanals.models.Calendari;
-import org.milaifontanals.models.Tipus_Activitat;
+import org.milaifontanals.models.TipusActivitat;
 import org.milaifontanals.models.Usuari;
 
 /**
@@ -103,9 +105,14 @@ public class CalendarPage {
         } catch (ProjecteDawException ex) {
             JOptionPane.showMessageDialog(userPage, "Error en obtenir si es propietari o ajudant del calendari " + cal.getNom(), "Error En Obrir el info calendari", JOptionPane.ERROR_MESSAGE);
         }
+        JTable activitatTable = new JTable();
+        ArrayList<Activitat> actList = new ArrayList();
+        JButton add = new JButton("Afegir Activitat");
+        JButton mod = new JButton("Editar Activitat");
+        JButton del = new JButton("Esborrar Activitat");
         try {
-            ArrayList<Activitat> actList = db.getActivitatsCalendari(cal, user);
-            JTable activitatTable = crearTaulaCalendari(actList, calendarPage, user);
+            actList = db.getActivitatsCalendari(cal, user);
+            activitatTable = crearTaulaCalendari(actList, calendarPage, user);
             JScrollPane actTableScrol = new JScrollPane(activitatTable,
                     JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
                     JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
@@ -114,12 +121,11 @@ public class CalendarPage {
             gc.gridwidth = 4;
             actTableScrol.setPreferredSize(new Dimension(700, 250));
             panellPrincipal.add(actTableScrol, gc);
+            add.addActionListener(new AddAct(actList));
+            mod.addActionListener(new ModificarAct(activitatTable,actList));
         } catch (ProjecteDawException ex) {
             JOptionPane.showMessageDialog(calendarPage, ex.getMessage(), "Error En Obirr el info Calendari", JOptionPane.ERROR_MESSAGE);
         }
-        JButton add = new JButton("Afegir Activitat");
-        JButton mod = new JButton("Editar Activitat");
-        JButton del = new JButton("Esborrar Activitat");            
         JPanel buttonZone = new JPanel();
         buttonZone.setLayout(new FlowLayout(FlowLayout.RIGHT));
         buttonZone.add(add);
@@ -161,7 +167,7 @@ public class CalendarPage {
                         clazz = String.class;
                         break;
                     case 4:
-                        clazz = Tipus_Activitat.class;
+                        clazz = TipusActivitat.class;
                         break;
                     case 5:
                         clazz = String.class;
@@ -186,33 +192,54 @@ public class CalendarPage {
         if (actList.size() > 0) {
             for (Activitat act : actList) {
                 String dataFi;
-                if(act.getDateFi() == null) {
+                if (act.getDateFi() == null) {
                     dataFi = "";
-                }
-                else {
+                } else {
                     dataFi = act.getDateFi().toString();
                 }
                 String publicada;
-                if(act.isPublicada()) {
+                if (act.isPublicada()) {
                     publicada = "Si";
-                }
-                else {
+                } else {
                     publicada = "No";
                 }
-                modelTaula.addRow(new Object[]{act.getNom(), act.getDateInici().toString(), dataFi,act.getTipus(), publicada});
+                modelTaula.addRow(new Object[]{act.getNom(), act.getDateInici().toString(), dataFi, act.getTipus(), publicada});
             }
         }
-        activitat.addMouseListener(new MouseAdapter() {
-            public void mousePressed(MouseEvent mouseEvent) {
-                JTable table = (JTable) mouseEvent.getSource();
-                Point point = mouseEvent.getPoint();
-                int row = table.rowAtPoint(point);
-                if (mouseEvent.getClickCount() == 2 && table.getSelectedRow() != -1) {
-                    Activitat cal = (Activitat) actList.get(table.getSelectedRow());
-                    //CalendarPage calendarPage = new CalendarPage(userPage,db, cal, user);
-                }
-            }
-        });
         return activitat;
     }
+
+    class ModificarAct implements ActionListener {
+        private JTable activitatTable;
+        private ArrayList<Activitat> actList;
+
+        public ModificarAct(JTable activitatTable, ArrayList<Activitat> actList) {
+            this.activitatTable = activitatTable;
+            this.actList = actList;
+        }
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            if (activitatTable.getSelectedRow() != -1) {
+                Activitat act = actList.get(activitatTable.getSelectedRow());
+                ActivitatPage activitatPage = new ActivitatPage(calendarPage, db, act, cal, user, 1);
+            }
+        }
+    }
+    
+     class AddAct implements ActionListener {
+        private ArrayList<Activitat> actList;
+
+        public AddAct(ArrayList<Activitat> actList) {
+            this.actList = actList;
+        }
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            Activitat act = actList.get(0);
+            ActivitatPage activitatPage = new ActivitatPage(calendarPage, db, act, cal, user, 0);
+        }
+    }
+
 }
+

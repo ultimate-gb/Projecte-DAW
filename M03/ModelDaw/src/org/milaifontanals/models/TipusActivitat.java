@@ -9,12 +9,12 @@ package org.milaifontanals.models;
  *
  * @author Usuari
  */
-public class Tipus_Activitat {
+public class TipusActivitat {
     private int codi;
     private String nom;
     private Usuari user;
 
-    public Tipus_Activitat(int codi, String nom, Usuari user) {
+    public TipusActivitat(int codi, String nom, Usuari user) {
         setCodi(codi);
         setNom(nom);
         setUser(user);

@@ -21,7 +21,7 @@ import org.milaifontanals.iface.ProjecteDawException;
 import org.milaifontanals.models.Activitat;
 import org.milaifontanals.models.Calendari;
 import org.milaifontanals.models.Nacionalitat;
-import org.milaifontanals.models.Tipus_Activitat;
+import org.milaifontanals.models.TipusActivitat;
 import org.milaifontanals.models.Usuari;
 
 /**
@@ -245,11 +245,27 @@ public class MySql implements IBaseDeDades {
             ResultSet rs = ps.executeQuery();
             ArrayList<Activitat> activityList = new ArrayList();
             while (rs.next()) {
-                activityList.add(new Activitat(rs.getInt("id"), rs.getString("nom"), rs.getTimestamp("data_inici"), rs.getTimestamp("data_fi"), rs.getString("descripcio"), new Tipus_Activitat(rs.getInt("Codi Act"), rs.getString("Nom Act"), user), user, calendari, rs.getBoolean("publicada")));
+                activityList.add(new Activitat(rs.getInt("id"), rs.getString("nom"), rs.getTimestamp("data_inici"), rs.getTimestamp("data_fi"), rs.getString("descripcio"), new TipusActivitat(rs.getInt("Codi Act"), rs.getString("Nom Act"), user), user, calendari, rs.getBoolean("publicada")));
             }
             return activityList;
         } catch (SQLException ex) {
             throw new ProjecteDawException("No s'ha pogut obtenir les activitats del usuari en el calendari " + calendari.getNom(), (Throwable) ex);
+        }
+    }
+    
+    @Override
+    public ArrayList<TipusActivitat> getTipusActivitats(Usuari user) throws ProjecteDawException {
+        try {
+            PreparedStatement ps = con.prepareStatement("select codi, nom from tipus_activitat Where user = ?");
+            ps.setInt(1, user.getId());
+            ResultSet rs = ps.executeQuery();
+            ArrayList<TipusActivitat> tActivityList = new ArrayList();
+            while (rs.next()) {
+                tActivityList.add(new TipusActivitat(rs.getInt("codi"), rs.getString("nom"), user));
+            }
+            return tActivityList;
+        } catch (SQLException ex) {
+            throw new ProjecteDawException("No s'ha pogut obtenir els tipus de activitats del usuari " + user.getNom(), (Throwable) ex);
         }
     }
 

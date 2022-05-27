@@ -8,6 +8,7 @@ package org.milaifontanals.iface;
 import java.util.ArrayList;
 import org.milaifontanals.models.Activitat;
 import org.milaifontanals.models.Calendari;
+import org.milaifontanals.models.TipusActivitat;
 import org.milaifontanals.models.Usuari;
 
 /**
@@ -32,4 +33,6 @@ public interface IBaseDeDades {
     public void aplicarCanvis() throws ProjecteDawException;
     public void desfer() throws ProjecteDawException;
     public void tancarConnexio() throws ProjecteDawException;
+
+    public ArrayList<TipusActivitat> getTipusActivitats(Usuari user) throws ProjecteDawException;
 }

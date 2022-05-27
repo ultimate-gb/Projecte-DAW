@@ -59,6 +59,9 @@ import org.milaifontanals.models.Calendari;
  *
  * @author Usuari
  */
+// Falta Actualitzar Usuaris
+// Falta Inserir, actualitzar i esborrar activitats
+// Falta que al tancar finestres que editen o insereixen dades preguntar si esta segur que vol tancar.
 public class App {
 
     private JFrame f;
