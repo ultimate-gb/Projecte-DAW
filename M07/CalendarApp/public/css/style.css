@@ -1,0 +1,56 @@
+#projecteCalendarApp #loginForm {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-image: url("../img/backgroundLoginImg.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+#projecteCalendarApp #loginForm main {
+  width: 30%;
+  background-color: rgba(0,0,0,0.25);
+  padding: 4% 2.5% 4% 2.5%;
+}
+#projecteCalendarApp #loginForm main header {
+  padding-bottom: 2%;
+  font-family: 'Baloo 2', cursive;
+}
+#projecteCalendarApp #loginForm main header h1 {
+  text-align: center;
+  color: #fff;
+  text-transform: uppercase;
+  font-weight: bold;
+}
+#projecteCalendarApp #loginForm main form div .input-group-text,
+#projecteCalendarApp #loginForm main form div .form-control {
+  padding-top: 2%;
+  padding-bottom: 2%;
+  background-color: #fff;
+  color: #000075;
+}
+#projecteCalendarApp #loginForm main form div label.input-group-text {
+  border-right: 0px;
+}
+#projecteCalendarApp #loginForm main form div input.form-control {
+  border-left: 0px;
+}
+#projecteCalendarApp #loginForm main form div input.form-check-input {
+  margin-right: 2%;
+}
+#projecteCalendarApp #loginForm main form div label.form-check-label {
+  color: #fff;
+}
+#projecteCalendarApp #loginForm .btnLogin {
+  padding: 2%;
+  font-family: 'Baloo 2', cursive;
+  font-size: 20px;
+  width: 100%;
+}
+#projecteCalendarApp #loginForm .topMessage {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  width: 100%;
+  text-align: center;
+}

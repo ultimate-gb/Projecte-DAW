@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" id='practicaLaravel'>
+<html lang="en" id='projecteCalendarApp'>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="{{ asset('css/style.css') }}">
     <title>Calendar App - @yield('webTitle')</title>
     <script src="https://kit.fontawesome.com/4bb281dcf1.js" crossorigin="anonymous"></script>
+    <script src="{{ asset('js/script.js') }}"></script>
 </head>
 <body id='@yield("bodyId")'>
     <header>

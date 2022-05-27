@@ -1,0 +1,64 @@
+#projecteCalendarApp {
+    #loginForm {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        background-image: url("../img/backgroundLoginImg.jpg");
+        background-repeat: no-repeat;
+        background-size: cover;
+        main {
+            width: 30%;
+            background-color: rgba(0,0,0,0.25);
+            padding: 4% 2.5% 4% 2.5%;
+            header {
+                padding-bottom: 2%;
+                font-family: 'Baloo 2', cursive;
+                //background-color: rgb(0, 0, 117);
+                h1 {
+                    text-align: center;
+                    color: white;
+                    text-transform: uppercase;
+                    font-weight: bold;
+                }
+            }
+            form {
+                div {
+                    .input-group-text, .form-control {
+                        padding-top: 2%;
+                        padding-bottom: 2%;
+                        background-color: white;
+                        color: rgb(0, 0, 117);
+                    }
+                    label.input-group-text  {
+                        border-right: 0px;
+                        
+                    }
+                    input.form-control {
+                        border-left: 0px;
+                    }
+                    input.form-check-input {
+                        
+                        margin-right: 2%;
+                    }
+                    label.form-check-label {
+                        color: white;
+                    }
+                }
+            }
+        }
+        .btnLogin {
+            padding: 2%;
+            font-family: 'Baloo 2', cursive;
+            font-size: 20px;
+            width: 100%;
+        }
+        .topMessage {
+            position: absolute;
+            top: 0px;
+            left: 0px;
+            width: 100%;
+            text-align: center;
+        }
+    }
+}
