@@ -6,6 +6,7 @@
 
 @section('scriptHeaderZone')
     <script src="{{ asset('js/loginScript.js') }}"></script>
+    <script src="{{ asset('js/inputsScript.js') }}"></script>
 @endsection
 
 @section('mainContent')

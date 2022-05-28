@@ -72,6 +72,11 @@
 #projecteCalendarApp .errorInputs {
   border-color: #f00;
 }
+#projecteCalendarApp .onFocus {
+  border-color: #00f;
+  border-width: 1.5px;
+  box-shadow: rgba(0,0,0,0.35) 0px 5px 15px;
+}
 @media only screen and (max-width: 1200px) {
   #projecteCalendarApp #loginForm main,
   #projecteCalendarApp #registerForm main {

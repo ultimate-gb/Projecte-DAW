@@ -9,7 +9,8 @@
     <link rel="stylesheet" href="{{ asset('css/style.css') }}">
     <title>Calendar App - @yield('webTitle')</title>
     <script src="https://kit.fontawesome.com/4bb281dcf1.js" crossorigin="anonymous"></script>
-    <script src="{{ asset('js/script.js') }}"></script>
+    @section('scriptHeaderZone')
+    @show
 </head>
 <body id='@yield("bodyId")'>
     <header>
