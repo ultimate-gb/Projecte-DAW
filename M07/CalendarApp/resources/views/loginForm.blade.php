@@ -9,11 +9,9 @@
 @endsection
 
 @section('mainContent')
-    @if(strlen($message) > 0) 
-        <div class="alert alert-danger topMessage" role="alert">
-            {{ $message }}
-        </div>
-    @endif
+    <div class="alert topMessage d-none" role="alert" id="topAlert">
+        {{ $message }}
+    </div>
     <header>
         <h1>Login</h1>
     </header>

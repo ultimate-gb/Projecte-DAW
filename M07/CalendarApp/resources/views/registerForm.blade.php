@@ -13,19 +13,17 @@
 @endsection
 
 @section('mainContent')
-    @if(strlen($message) > 0) 
-        <div class="alert alert-danger topMessage" role="alert">
-            {{ $message }}
-        </div>
-    @endif
+    <div class="alert alert-danger topMessage d-none" role="alert" id="errorMessage">
+    </div>
     <header>
         <h1>Registre</h1>
     </header>
+    <div class="alert alert-danger d-none" role="alert" id="errorAlert"></div>
     <form action="{{route('register.save')}}" method="post">
         @csrf
         <div class="input-group mb-4">
             <label id="emailL" class="input-group-text  {{ $labelClassCols }}" for="emailInput">Correu Electronic</label>
-            <input type="text" name='email' class="form-control {{ $inputClassCols }}" id="emailInput" placeholder="Correu Electronic" aria-label="Mail" aria-describedby="mail">
+            <input type="email" name='email' class="form-control {{ $inputClassCols }}" id="emailInput" placeholder="Correu Electronic" aria-label="Mail" aria-describedby="mail">
         </div>
         <div class="input-group mb-3">
             <label id="nomL" class="input-group-text   {{ $labelClassCols }}" for="nomInput">Nom</label>
