@@ -9,6 +9,6 @@ class Users extends Model
 {
     use HasFactory;
     public $table = "users";
-    public $fillable = array('id', "email", "nom", "cognoms", "password", "data_naix", "genere", "telefon", "bloquejat", "nacionalitat", "role");
+    public $fillable = array('id', "email", "nom", "cognoms", "password", "data_naix", "genere", "telefon", "bloquejat", "nacionalitat", "role", "token", "validat");
     public $timestamps = false;
 }

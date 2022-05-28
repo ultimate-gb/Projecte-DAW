@@ -19,6 +19,8 @@ CREATE TABLE  IF NOT EXISTS users (
         `bloquejat` boolean DEFAULT false,
         `nacionalitat` varchar(3) NOT NULL,
         `role` int(1) NOT NULL DEFAULT 0,
+        `token` varchar(64) NOT NULL,
+        `validat` boolean NOT NULL DEFAULT false,
         CONSTRAINT users_pk PRIMARY KEY (`id`),
         CONSTRAINT users_uq_email UNIQUE (`email`),
         CONSTRAINT users_ck_genere CHECK (`genere` in ('H','D','I')),

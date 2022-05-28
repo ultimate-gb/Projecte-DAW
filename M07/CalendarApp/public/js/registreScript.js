@@ -181,7 +181,14 @@ function f_enviarALogin(data) {
     let resposta = tryParseJSONObject(data.responseText);
     user = tryParseJSONObject(resposta.message);
     if(resposta != false) {
-        window.location.href = "http://localhost/projecte/CalendarApp/public/login?message="+encodeURIComponent('Registre Realitzat Correctament. En el correu ' + user.email +' se l\'hi ha enviat un correu de validacio del compte');
+        let message = "";
+        if(resposta.emailState == 1) {
+            message = encodeURIComponent('Registre Realitzat Correctament. En el correu ' + user.email +' se l\'hi ha enviat un correu de validacio del compte');
+        }
+        else {
+            message = encodeURIComponent('Registre Realitzat Correctament. No se li ha pogut enviar un correu de la validacio del compte en el correu ' + user.email );
+        }
+        window.location.href = "http://localhost/projecte/CalendarApp/public/login?message="+message;
     }
 
 }
