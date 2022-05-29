@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use PDOException;
+use App\Models\Ajuda;
 use App\Models\Users;
+use App\Models\Calendar;
 use App\Mail\VerifyMail;
 use App\Models\Nacionalitat;
 use Illuminate\Http\Request;
@@ -13,7 +15,19 @@ class AppController extends Controller
 {
     public function index()
     {
-        echo "Hola Mon";
+        $user = Users::where('email',session("email"))->get()->first();
+        $calendariList = $user->CalendariPropietari()->get();
+        $helperCalendarId = Ajuda::where('user', $user['id'])->get();
+        $helperCalendarList = array();
+        foreach($helperCalendarId as $item) {
+            array_push($helperCalendarList, $item->CalendariAjudant()->first());
+        }
+        $userNameList = array();
+       foreach($helperCalendarList as $item) {
+            $u = $item->Users()->first();
+            array_push($userNameList, $u->nom . " " . $u->cognoms);
+        }
+        return view("index", array('calendariPropis'=>$calendariList, 'calendariAjudant'=>$helperCalendarList, 'userNameList'=>$userNameList));
     }
 
     public function register()

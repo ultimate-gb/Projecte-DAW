@@ -77,6 +77,36 @@
   border-width: 1.5px;
   box-shadow: rgba(0,0,0,0.35) 0px 5px 15px;
 }
+#projecteCalendarApp .bg-newblue {
+  background-color: #000075;
+}
+#projecteCalendarApp .calendariArt {
+  width: 25%;
+  border: 1px solid #000;
+  padding-left: 0px;
+  padding-right: 0px;
+}
+#projecteCalendarApp .calendariArt header {
+  background-color: #000079;
+  color: #fff;
+}
+#projecteCalendarApp .calendariArt main {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin: 0px auto;
+}
+#projecteCalendarApp .calendariArt main .line {
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+}
+#projecteCalendarApp .calendariArt main .line p {
+  margin-bottom: 0px;
+}
+#projecteCalendarApp .calendariArt main .line:first-child {
+  margin-top: 2%;
+}
 @media only screen and (max-width: 1200px) {
   #projecteCalendarApp #loginForm main,
   #projecteCalendarApp #registerForm main {
