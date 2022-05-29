@@ -10,6 +10,7 @@
 @endphp
 @section('scriptHeaderZone')
     <script src="{{ asset('js/registreScript.js') }}"></script>
+    <script src="{{ asset('js/inputsScript.js') }}"></script>
 @endsection
 
 @section('mainContent')
@@ -40,6 +41,7 @@
         <div class="input-group mb-3">
             <label id="passwdL" class="input-group-text   {{ $labelClassCols }}" for="passInput">Password</label>
             <input type="password" name='pass' class="form-control {{ $inputClassCols }}" id="passInput" placeholder="Contrassenya" aria-label="Password" aria-describedby="password">
+            <p class="d-none col-12 align-self-center" id="majusInfo">Majuscules Actives</p>
         </div>
         <div class="input-group mb-3">
             <label id="dataNaixL" class="input-group-text   {{ $labelClassCols }}" for="dataNaixInput">Data Naixement</label>

@@ -25,6 +25,7 @@
         <div class="input-group mb-3">
             <label class="input-group-text d-flex justify-content-center" for="passInput"><i class="fas fa-key"></i></label>
             <input type="password" name='pass' class="form-control" id="passInput" placeholder="Contrassenya" aria-label="Password" aria-describedby="password">
+            <p class="d-none col-12 align-self-center" id="majusInfo">Majuscules Actives</p>
         </div>
         <div class="input-group mb-3 checkboxGroup">
             <input class="form-check-input" type="checkbox" id="showPasswd">
