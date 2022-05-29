@@ -107,6 +107,17 @@
 #projecteCalendarApp .calendariArt main .line:first-child {
   margin-top: 2%;
 }
+#projecteCalendarApp #index>main>div {
+  margin-top: 0.5%;
+  height: 5%;
+}
+#projecteCalendarApp #index>main>div .btn {
+  width: 5%;
+  height: 5%;
+}
+#projecteCalendarApp #index>main>main {
+  margin-bottom: 2%;
+}
 @media only screen and (max-width: 1200px) {
   #projecteCalendarApp #loginForm main,
   #projecteCalendarApp #registerForm main {

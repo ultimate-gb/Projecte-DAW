@@ -10,7 +10,10 @@
 @endsection
 
 @section('mainContent')
-    <h2>Els Meus Calendaris</h2>
+    <div class="d-flex justify-content-between">
+        <h2>Els Meus Calendaris</h2>
+        <a href="" class="btn btn-primary bg-newblue"><i class="fas fa-plus"></i></a>
+    </div>
     <main class="container">
         <section class="d-flex">
             @foreach ($calendariPropis as $item)
@@ -55,8 +58,6 @@
                         </div>
                         <div class="d-flex gap-2 mb-2">
                             <a href="" class="btn btn-primary bg-newblue w-100"><i class="fas fa-eye"></i></a>
-                            <a href="" class="btn btn-secondary w-100"><i class="fas fa-edit"></i></a>
-                            <a href="" class="btn btn-danger w-100"><i class="fas fa-trash-alt"></i></a>
                         </div>
                     </main>
                 </article>
