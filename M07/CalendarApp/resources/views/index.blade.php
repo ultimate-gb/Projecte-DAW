@@ -10,12 +10,17 @@
 @endsection
 
 @section('mainContent')
+    @if (strlen($message))
+        <div class="alert alert-{{ $tipus }}" role="alert">
+            {{ $message }}
+        </div>
+    @endif
     <div class="d-flex justify-content-between">
         <h2>Els Meus Calendaris</h2>
-        <a href="" class="btn btn-primary bg-newblue"><i class="fas fa-plus"></i></a>
+        <a href="{{ route("calendar", ['op'=>"add", "id"=>"-1"]) }}" class="btn btn-primary bg-newblue"><i class="fas fa-plus"></i></a>
     </div>
     <main class="container">
-        <section class="d-flex">
+        <section>
             @foreach ($calendariPropis as $item)
                 <article class="calendariArt">
                     <header class="d-flex justify-content-center">
@@ -27,9 +32,9 @@
                             <p class="col-10">{{ $item['data_creacio'] }}</p>
                         </div>
                         <div class="d-flex gap-2 mb-2">
-                            <a href="" class="btn btn-primary bg-newblue w-100"><i class="fas fa-eye"></i></a>
-                            <a href="" class="btn btn-secondary w-100"><i class="fas fa-edit"></i></a>
-                            <a href="" class="btn btn-danger w-100"><i class="fas fa-trash-alt"></i></a>
+                            <a href="{{ route("calendar.see", ['id'=>$item->id]) }}" class="btn btn-primary bg-newblue w-100"><i class="fas fa-eye"></i></a>
+                            <a href="{{ route("calendar", ['op'=>"edit", "id"=>$item->id]) }}" class="btn btn-secondary w-100"><i class="fas fa-edit"></i></a>
+                            <a href="{{ route("calendar", ['op' =>"del","id"=>$item->id]) }}" class="btn btn-danger w-100"><i class="fas fa-trash-alt"></i></a>
                         </div>
                     </main>
                 </article>
@@ -38,7 +43,7 @@
     </main>
     <h2>Els Calendaris on ajudo</h2>
     <section class="container">
-        <div class="d-flex">
+        <div>
             @php
                 $i = 0;
             @endphp
@@ -57,7 +62,7 @@
                             <p class="col-10">{{ $userNameList[$i] }}</p>
                         </div>
                         <div class="d-flex gap-2 mb-2">
-                            <a href="" class="btn btn-primary bg-newblue w-100"><i class="fas fa-eye"></i></a>
+                            <a href="{{ route("calendar.see", ['id'=>$item->id]) }}" class="btn btn-primary bg-newblue w-100"><i class="fas fa-eye"></i></a>
                         </div>
                     </main>
                 </article>

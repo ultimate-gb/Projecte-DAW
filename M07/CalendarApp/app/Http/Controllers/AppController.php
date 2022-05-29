@@ -15,6 +15,14 @@ class AppController extends Controller
 {
     public function index()
     {
+        $message = session('message');
+        $type = session("tipus");
+        if($message == null) {
+            $message = "";
+        }
+        if($type == null) {
+            $type == "";
+        }
         $user = Users::where('email',session("email"))->get()->first();
         $calendariList = $user->CalendariPropietari()->get();
         $helperCalendarId = Ajuda::where('user', $user['id'])->get();
@@ -27,7 +35,7 @@ class AppController extends Controller
             $u = $item->Users()->first();
             array_push($userNameList, $u->nom . " " . $u->cognoms);
         }
-        return view("index", array('calendariPropis'=>$calendariList, 'calendariAjudant'=>$helperCalendarList, 'userNameList'=>$userNameList));
+        return view("index", array('calendariPropis'=>$calendariList, 'calendariAjudant'=>$helperCalendarList, 'userNameList'=>$userNameList, "message"=>$message, "tipus"=>$type));
     }
 
     public function register()

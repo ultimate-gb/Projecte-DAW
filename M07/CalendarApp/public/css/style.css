@@ -61,14 +61,6 @@
   font-size: 20px;
   width: 100%;
 }
-#projecteCalendarApp #loginForm .topMessage,
-#projecteCalendarApp #registerForm .topMessage {
-  position: absolute;
-  top: 0px;
-  left: 0px;
-  width: 100%;
-  text-align: center;
-}
 #projecteCalendarApp .errorInputs {
   border-color: #f00;
 }
@@ -117,6 +109,37 @@
 }
 #projecteCalendarApp #index>main>main {
   margin-bottom: 2%;
+}
+#projecteCalendarApp #index>main>main>section {
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  gap: 2%;
+}
+#projecteCalendarApp #index>main>main>section .calendariArt {
+  margin-bottom: 2%;
+}
+#projecteCalendarApp #index>main>section {
+  margin-bottom: 2%;
+}
+#projecteCalendarApp #index>main>section>div {
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  gap: 2%;
+}
+#projecteCalendarApp #index>main>section>div .calendariArt {
+  margin-bottom: 2%;
+}
+#projecteCalendarApp #calendariManager .btn-manager {
+  width: 20%;
+}
+#projecteCalendarApp .topMessage {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  width: 100%;
+  text-align: center;
 }
 @media only screen and (max-width: 1200px) {
   #projecteCalendarApp #loginForm main,

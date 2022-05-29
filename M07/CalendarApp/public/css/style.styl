@@ -52,13 +52,6 @@
             font-size: 20px;
             width: 100%;
         }
-        .topMessage {
-            position: absolute;
-            top: 0px;
-            left: 0px;
-            width: 100%;
-            text-align: center;
-        }
     }
     .errorInputs {
         border-color: red;
@@ -99,18 +92,52 @@
         }
     }
     #index {
-        &>main>div {
+        &>main {
+            &>div {
             margin-top: 0.5%;
-            .btn {
-                width: 5%;
+                .btn {
+                    width: 5%;
+                    height: 5%;
+                }
                 height: 5%;
             }
-            height: 5%;
+            &>main {
+                margin-bottom: 2%;
+                &>section {
+                    display: flex;
+                    justify-content: space-around;
+                    flex-wrap: wrap;
+                    gap: 2%;
+                    .calendariArt {
+                        margin-bottom: 2%;
+                    }
+                }
+            }
+            &>section {
+                margin-bottom: 2%;
+                &>div {
+                    display: flex;
+                    justify-content: space-around;
+                    flex-wrap: wrap;
+                    gap: 2%;
+                    .calendariArt {
+                        margin-bottom: 2%;
+                    }
+                }
+            }
         }
-        &>main>main {
-            margin-bottom: 2%;
+    }
+    #calendariManager {
+        .btn-manager {
+            width: 20%;
         }
-
+    }
+    .topMessage {
+        position: absolute;
+        top: 0px;
+        left: 0px;
+        width: 100%;
+        text-align: center;
     }
 }
 @media only screen and (max-width: 1200px) {
