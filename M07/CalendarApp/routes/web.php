@@ -32,3 +32,7 @@ Route::get("/calendar/see", [CalendarController::class, 'see'])->name('calendar.
 Route::post("/calendar/create", [CalendarController::class, 'add'])->name('calendar.add');
 Route::post("/calendar/mod", [CalendarController::class, 'edit'])->name('calendar.edit');
 Route::delete("/calendar/destroy", [CalendarController::class, 'destroy'])->name('calendar.del');
+
+Route::get('/help', function() {
+    return view('help');
+})->withoutMiddleware(\App\Http\Middleware\CheckLogin::class);
