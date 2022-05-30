@@ -24,6 +24,15 @@ public class Calendari {
         setUser(user);
     }
 
+    public Calendari() {
+        setId(-1);
+        setNom("Prova");
+        java.util.Date today = new java.util.Date();
+        Timestamp data = new Timestamp(today.getTime());
+        setDataCreacio(data);
+        setUser(new Usuari());
+    }
+
     public int getId() {
         return id;
     }

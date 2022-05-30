@@ -59,10 +59,7 @@ import org.milaifontanals.models.Calendari;
  *
  * @author Usuari
  */
-// Falta Actualitzar Usuaris
-// Falta Inserir, actualitzar i esborrar activitats
-// Falta que al tancar finestres que editen o insereixen dades preguntar si esta segur que vol tancar.
-// Falta el login
+// No es permet inserir activitats en el mateix dia del que es avui
 public class App {
 
     private JFrame f;
@@ -118,8 +115,6 @@ public class App {
         f.setLocationRelativeTo(null);
         carregarEntornGrafic();
         f.setVisible(true);
-                LoginPage l = new LoginPage(f, db);
-
     }
 
     /* S'encarrega de carregar el entorn grafic */
@@ -149,7 +144,7 @@ public class App {
         m1Op2.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                UserPage userPage = new UserPage(f,db);
+                LoginPage l = new LoginPage(f, db);
             }
 
         });

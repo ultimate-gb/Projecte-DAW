@@ -225,10 +225,10 @@ public class UserPage {
     }
 
     public void generarDataLT(ArrayList<JLabel> dataLabel, ArrayList<JComponent> dataTarget, Usuari user) {
-        if(dataLabel.size()>0) {
+        if (dataLabel.size() > 0) {
             dataLabel.clear();
         }
-        if(dataTarget.size() > 0) {
+        if (dataTarget.size() > 0) {
             dataTarget.clear();
         }
         dataLabel.add(new JLabel("Email: "));
@@ -437,13 +437,24 @@ public class UserPage {
                                     campsInvalids += "cognoms";
                                 }
                             } else if (name.equals("dataNaix")) {
-                                if (text.getText().matches("^\\d{4}\\-\\d{2}\\-\\d{2}$$")) {
-                                    validades++;
+                                if (text.getText().matches("^\\d{4}\\-\\d{2}\\-\\d{2}$")) {
                                     int year = Integer.parseInt(text.getText().substring(0, 4));
                                     int mes = Integer.parseInt(text.getText().substring(5, 7));
                                     int dia = Integer.parseInt(text.getText().substring(8));
+                                    java.util.Date today = new java.util.Date();
+                                    java.sql.Date todayDate = new java.sql.Date(today.getTime());
                                     java.sql.Date data = new java.sql.Date(year - 1900, mes - 1, dia);
-                                    u.setData_naix(data);
+                                    if (todayDate.getYear() - data.getYear() >= 18) {
+                                        validades++;
+                                        u.setData_naix(data);
+                                    } else {
+                                        errorsTrobats++;
+                                        if (i < (dataTarget.size() - 1) && errorsTrobats > 1) {
+                                            campsInvalids += ",\n";
+                                        }
+                                        campsInvalids += "Data Naixement: Ha de ser major de 18 anys";
+                                    }
+
                                 } else {
                                     errorsTrobats++;
                                     if (i < (dataTarget.size() - 1) && errorsTrobats > 1) {
@@ -508,13 +519,11 @@ public class UserPage {
                                 }
                                 campsInvalids += jcbb.getName();
                             }
-                        }
-                        else {
+                        } else {
                             JCheckBox jckb = (JCheckBox) jc;
-                            if(jckb.getName().equals("bloq")) {
+                            if (jckb.getName().equals("bloq")) {
                                 u.setBloquejat(jckb.isSelected());
-                            }
-                            else if(jckb.getName().equals("val")) {
+                            } else if (jckb.getName().equals("val")) {
                                 u.setValidat(jckb.isSelected());
                             }
                         }
@@ -522,6 +531,7 @@ public class UserPage {
                     }
                     if (validades < 7) {
                         JOptionPane.showMessageDialog(userPage, "Dades Modificades Invalides.\nCamps invalids: " + campsInvalids, "Error Al Validar Les Dades", JOptionPane.ERROR_MESSAGE);
+                        return;
                     }
                     try {
                         if (db.updateUser(u) > 0) {

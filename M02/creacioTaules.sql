@@ -55,7 +55,7 @@ CREATE TABLE  IF NOT EXISTS activitat (
         `calendari` int(3),
         `id` int(4) AUTO_INCREMENT,
         `nom` varchar(250),
-        `data_inici` datetime,
+        `data_inici` datetime NOT NULL,
         `data_fi` datetime,
         `descripcio` varchar(500),
         `tipus` int(4) NOT NULL,
@@ -63,11 +63,10 @@ CREATE TABLE  IF NOT EXISTS activitat (
         `publicada` boolean DEFAULT false,
         CONSTRAINT activitat_pk PRIMARY KEY(`id`,`calendari`),
         CONSTRAINT activitat_nn_nom CHECK (`nom`  is not null),
-        CONSTRAINT activitat_nn_dt_inici CHECK (`data_inici` is not null),
         CONSTRAINT activitat_ck_dt_inici CHECK (`data_inici` >= sysdate()),
-        CONSTRAINT activitat_ck_dt_fi CHECK ((`data_fi` is null) or (`data_fi` is not null and `data_fi` >= sysdate() and `data_fi` >= `data_inici`)),
+        CONSTRAINT activitat_ck_dt_fi CHECK ((`data_fi` is null) or (`data_fi` is not null and `data_fi` >= `data_inici`)),
         CONSTRAINT activitat_fk_calendari FOREIGN KEY (`calendari`) REFERENCES calendari(`id`),
-        CONSTRAINT activitat_fk_tipus_activitat FOREIGN KEY (`tipus`, `user`) REFERENCES tipus_activitat(`codi`, `user`),
+        CONSTRAINT activitat_fk_tipus_activitat FOREIGN KEY (`tipus`) REFERENCES tipus_activitat(`codi`),
         CONSTRAINT activitat_fk_users FOREIGN KEY (`user`) REFERENCES users(`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 

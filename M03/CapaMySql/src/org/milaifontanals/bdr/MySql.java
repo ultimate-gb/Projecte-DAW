@@ -184,18 +184,51 @@ public class MySql implements IBaseDeDades {
     }
 
     @Override
-    public void insertActivitat(Activitat act) throws ProjecteDawException {
-        throw new ProjecteDawException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public int insertActivitat(Activitat act) throws ProjecteDawException {
+        try {
+            PreparedStatement ps = con.prepareStatement("insert into activitat (calendari, nom, data_inici,data_fi,descripcio,tipus,user,publicada) VALUES(?,?,?,?,?,?,?,?)");
+            ps.setInt(1, act.getCalendari().getId());
+            ps.setString(2, act.getNom());
+            ps.setTimestamp(3, act.getDateInici());
+            ps.setTimestamp(4, act.getDateFi());
+            ps.setString(5, act.getDescripcio());
+            ps.setInt(6, act.getTipus().getCodi());
+            ps.setInt(7, act.getUser().getId());
+            ps.setBoolean(8, act.isPublicada());
+            return ps.executeUpdate(); 
+        } catch (SQLException ex) {
+            throw new ProjecteDawException("No s'ha pogut inserir la activitat", (Throwable) ex);
+        }
     }
 
     @Override
-    public void updateActivitat(Activitat act) throws ProjecteDawException {
-        throw new ProjecteDawException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public int updateActivitat(Activitat act) throws ProjecteDawException {
+        try {
+            PreparedStatement ps = con.prepareStatement("update activitat SET calendari = ?, nom = ?, data_inici = ?, data_fi = ?, descripcio = ?,tipus = ?, user = ?,publicada = ? where id = ?");
+            ps.setInt(1, act.getCalendari().getId());
+            ps.setString(2, act.getNom());
+            ps.setTimestamp(3, act.getDateInici());
+            ps.setTimestamp(4, act.getDateFi());
+            ps.setString(5, act.getDescripcio());
+            ps.setInt(6, act.getTipus().getCodi());
+            ps.setInt(7, act.getUser().getId());
+            ps.setBoolean(8, act.isPublicada());
+            ps.setInt(9, act.getId());
+            return ps.executeUpdate(); 
+        } catch (SQLException ex) {
+            throw new ProjecteDawException("No s'ha pogut actualitzar el usuari", (Throwable) ex);
+        }
     }
 
     @Override
-    public void deleteActivitat(Activitat act) throws ProjecteDawException {
-        throw new ProjecteDawException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public int deleteActivitat(Activitat act) throws ProjecteDawException {
+        try {
+            PreparedStatement ps = con.prepareStatement("DELETE FROM activitat where id = ?");
+            ps.setInt(1, act.getId());
+            return ps.executeUpdate(); 
+        } catch (SQLException ex) {
+            throw new ProjecteDawException("No s'ha pogut actualitzar el usuari", (Throwable) ex);
+        }
     }
 
     @Override
@@ -303,6 +336,26 @@ public class MySql implements IBaseDeDades {
                 nacionalitatList.add(new Nacionalitat(rs.getString("codi"), rs.getString("nom")));
             }
             return nacionalitatList;
+        } catch (SQLException ex) {
+            throw new ProjecteDawException("No s'ha pogut obtenir totes les nacionalitats", (Throwable) ex);
+        }
+    }
+
+    @Override
+    public int validarUsuari(String email, String pass) throws ProjecteDawException {
+         try {
+            PreparedStatement ps = con.prepareStatement("select 1, bloquejat FROM users Where email = ? and password = ? and role = 1");
+            ps.setString(1, email);
+            ps.setString(2, pass);
+            ResultSet rs = ps.executeQuery();
+            int valid = 0;
+            if (rs.next()) {
+                valid = 1;
+                if(rs.getBoolean("bloquejat")) {
+                    valid = -1;
+                }
+            }
+            return valid;
         } catch (SQLException ex) {
             throw new ProjecteDawException("No s'ha pogut obtenir totes les nacionalitats", (Throwable) ex);
         }

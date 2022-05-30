@@ -16,6 +16,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -41,7 +43,7 @@ import org.milaifontanals.models.Usuari;
 public class CalendarPage {
 
     private JDialog userPage;
-    private JDialog calendarPage;
+    public JDialog calendarPage;
     private IBaseDeDades db;
     private Calendari cal;
     private Usuari user;
@@ -51,11 +53,11 @@ public class CalendarPage {
         this.db = db;
         this.cal = cal;
         this.user = user;
+        calendarPage = new JDialog(this.userPage, "Editant Calendari:  " + cal.getNom(), true);
         carregarVista();
     }
 
-    private void carregarVista() {
-        calendarPage = new JDialog(this.userPage, "Editant Calendari:  " + cal.getNom(), true);
+    public void carregarVista() {
         JPanel panellPrincipal = new JPanel();
         panellPrincipal.setLayout(new GridBagLayout());
         GridBagConstraints gc = new GridBagConstraints();
@@ -121,8 +123,9 @@ public class CalendarPage {
             gc.gridwidth = 4;
             actTableScrol.setPreferredSize(new Dimension(700, 250));
             panellPrincipal.add(actTableScrol, gc);
-            add.addActionListener(new AddAct(actList));
-            mod.addActionListener(new ModificarAct(activitatTable,actList));
+            add.addActionListener(new AddAct(actList, this));
+            mod.addActionListener(new ModificarAct(activitatTable, actList, this));
+            del.addActionListener(new DeleteAct(activitatTable, actList, this));
         } catch (ProjecteDawException ex) {
             JOptionPane.showMessageDialog(calendarPage, ex.getMessage(), "Error En Obirr el info Calendari", JOptionPane.ERROR_MESSAGE);
         }
@@ -137,7 +140,6 @@ public class CalendarPage {
         panellPrincipal.add(buttonZone, gc);
         calendarPage.setLayout(new FlowLayout());
         calendarPage.add(panellPrincipal);
-        calendarPage.setType(Window.Type.NORMAL);
         calendarPage.setLocationRelativeTo(null);
         calendarPage.setResizable(false);
         calendarPage.pack();
@@ -210,36 +212,76 @@ public class CalendarPage {
     }
 
     class ModificarAct implements ActionListener {
+
         private JTable activitatTable;
         private ArrayList<Activitat> actList;
+        private CalendarPage calendariPage;
 
-        public ModificarAct(JTable activitatTable, ArrayList<Activitat> actList) {
+        public ModificarAct(JTable activitatTable, ArrayList<Activitat> actList, CalendarPage calendariPage) {
             this.activitatTable = activitatTable;
             this.actList = actList;
+            this.calendariPage = calendariPage;
         }
 
         @Override
         public void actionPerformed(ActionEvent e) {
             if (activitatTable.getSelectedRow() != -1) {
                 Activitat act = actList.get(activitatTable.getSelectedRow());
-                ActivitatPage activitatPage = new ActivitatPage(calendarPage, db, act, cal, user, 1);
+                ActivitatPage activitatPage = new ActivitatPage(calendarPage, db, act, cal, user, 1, calendariPage);
+            } else {
+                JOptionPane.showMessageDialog(calendarPage, "Seleccioni algun element a eliminar", "Atencio ", JOptionPane.INFORMATION_MESSAGE);
             }
         }
     }
-    
-     class AddAct implements ActionListener {
-        private ArrayList<Activitat> actList;
 
-        public AddAct(ArrayList<Activitat> actList) {
+    class AddAct implements ActionListener {
+
+        private ArrayList<Activitat> actList;
+        private CalendarPage calendariPage;
+
+        public AddAct(ArrayList<Activitat> actList, CalendarPage calendariPage) {
             this.actList = actList;
+            this.calendariPage = calendariPage;
         }
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            Activitat act = actList.get(0);
-            ActivitatPage activitatPage = new ActivitatPage(calendarPage, db, act, cal, user, 0);
+            Activitat act = new Activitat();
+            ActivitatPage activitatPage = new ActivitatPage(calendarPage, db, act, cal, user, 0, calendariPage);
         }
     }
 
-}
+    class DeleteAct implements ActionListener {
 
+        private JTable activitatTable;
+        private ArrayList<Activitat> actList;
+        private CalendarPage calendariPage;
+
+        public DeleteAct(JTable activitatTable, ArrayList<Activitat> actList, CalendarPage calendariPage) {
+            this.activitatTable = activitatTable;
+            this.actList = actList;
+            this.calendariPage = calendariPage;
+        }
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            if (activitatTable.getSelectedRow() != -1) {
+                Activitat act = actList.get(activitatTable.getSelectedRow());
+                try {
+                    if (db.deleteActivitat(act) < 0) {
+                        JOptionPane.showMessageDialog(calendarPage, "Error En Eliminar la activtat " + act.getNom(), "Error En Eliminar la activtat " + act.getNom(), JOptionPane.ERROR_MESSAGE);
+                    } else {
+                        db.aplicarCanvis();
+                    }
+
+                } catch (ProjecteDawException ex) {
+                    JOptionPane.showMessageDialog(calendarPage, "Error En Eliminar la activtat " + act.getNom(), "Error En Eliminar la activtat " + act.getNom(), JOptionPane.ERROR_MESSAGE);
+                }
+            } else {
+                JOptionPane.showMessageDialog(calendarPage, "Seleccioni algun element a eliminar", "Atencio ", JOptionPane.INFORMATION_MESSAGE);
+            }
+        }
+
+    }
+
+}

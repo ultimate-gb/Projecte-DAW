@@ -5,6 +5,8 @@
  */
 package org.milaifontanals.models;
 
+import java.sql.Date;
+import java.sql.Time;
 import java.sql.Timestamp;
 
 /**
@@ -33,6 +35,20 @@ public class Activitat {
         setUser(user);
         setCalendari(calendari);
         setPublicada(publicada);
+    }
+
+    public Activitat() {
+        setId(-1);
+        setNom("Prova");
+        java.util.Date today = new java.util.Date();
+        Timestamp data = new Timestamp(today.getTime());
+        setDateInici(data);
+        setDateFi(null);
+        setDescripcio("Una prova");
+        setTipus(new TipusActivitat(-1,"Prova", new Usuari()));
+        setUser(new Usuari());
+        setCalendari(new Calendari());
+        setPublicada(false);
     }
 
     public boolean isPublicada() {
@@ -67,9 +83,6 @@ public class Activitat {
     }
 
     public void setDateInici(Timestamp date_inici) {
-        if (date_inici.compareTo(new java.util.Date()) < 0) {
-            throw new RuntimeException("La data Inici no pot ser anterior a la data actual");
-        }
         this.date_inici = date_inici;
     }
 
@@ -78,9 +91,6 @@ public class Activitat {
     }
 
     public void setDateFi(Timestamp date_fi) {
-        if (date_fi != null && date_fi.compareTo(new java.util.Date()) < 0) {
-            throw new RuntimeException("La data Fi no pot ser anterior a la data actual");
-        }
         if (date_fi != null && date_fi.compareTo(date_inici) < 0) {
             throw new RuntimeException("La data Fi no pot ser anterior a la data d'inici.");
         }

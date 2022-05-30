@@ -24,9 +24,9 @@ public interface IBaseDeDades {
     public ArrayList<Calendari> cercaCalendariPropietari(Usuari user) throws ProjecteDawException;
     public ArrayList<Calendari> cercaCalendariAjudant(Usuari user) throws ProjecteDawException;
     public ArrayList<Usuari> getAllUsers() throws ProjecteDawException;
-    public void insertActivitat(Activitat act) throws ProjecteDawException;
-    public void updateActivitat (Activitat act) throws ProjecteDawException;
-    public void deleteActivitat(Activitat act) throws ProjecteDawException;
+    public int insertActivitat(Activitat act) throws ProjecteDawException;
+    public int updateActivitat (Activitat act) throws ProjecteDawException;
+    public int deleteActivitat(Activitat act) throws ProjecteDawException;
     public boolean esPropietariCalendari(Usuari user, Calendari calendari) throws ProjecteDawException;
     public boolean esAjudantCalendari(Usuari user, Calendari calendari) throws ProjecteDawException;
     public ArrayList<Activitat> getActivitatsCalendari(Calendari calendari, Usuari user) throws ProjecteDawException;
@@ -37,4 +37,6 @@ public interface IBaseDeDades {
     public void tancarConnexio() throws ProjecteDawException;
 
     public ArrayList<TipusActivitat> getTipusActivitats(Usuari user) throws ProjecteDawException;
+
+    public int validarUsuari(String text, String text0) throws ProjecteDawException;
 }

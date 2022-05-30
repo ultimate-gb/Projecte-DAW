@@ -11,7 +11,12 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.Window;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
@@ -25,6 +30,7 @@ import javax.swing.JTextField;
 import org.milaifontanals.iface.IBaseDeDades;
 import org.milaifontanals.iface.ProjecteDawException;
 import org.milaifontanals.models.Activitat;
+import java.security.*;
 
 /**
  *
@@ -67,6 +73,38 @@ public class LoginPage {
         gc.gridy = 2;
         gc.gridwidth = 2;
         JButton login = new JButton("Login");
+        login.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    byte[] msg = passwdField.getText().getBytes();
+                    byte[] hash = null;
+                    MessageDigest md = MessageDigest.getInstance("MD5");
+                    hash = md.digest(msg);
+                    StringBuilder strBuilder = new StringBuilder();
+                    for (byte b : hash) {
+                        strBuilder.append(String.format("%02x", b));
+                    }
+                    String strHash = strBuilder.toString();
+                    int valid = db.validarUsuari(emailField.getText(), strHash);
+                    System.out.print(md.digest(passwdField.getText().getBytes("UTF-8")).toString());
+                    if (valid == 1) {
+                        loginPage.dispose();
+                        UserPage userPage = new UserPage(appPage, db);
+                    } else if (valid == 0) {
+                        JOptionPane.showMessageDialog(loginPage, "Credencials login invalides", "Error En Validar credencials", JOptionPane.ERROR_MESSAGE);
+                    } else {
+                        JOptionPane.showMessageDialog(loginPage, "Credencials login valides per el seu usuari esta bloquejat", "Error Usuari Bloquejat", JOptionPane.ERROR_MESSAGE);
+                    }
+                } catch (ProjecteDawException ex) {
+                    JOptionPane.showMessageDialog(loginPage, "Error en validar", "Error En Obrir Validar", JOptionPane.ERROR_MESSAGE);
+                } catch (NoSuchAlgorithmException ex) {
+                    JOptionPane.showMessageDialog(loginPage, "Error en crear md5", "Error", JOptionPane.ERROR_MESSAGE);
+                } catch (UnsupportedEncodingException ex) {
+                    JOptionPane.showMessageDialog(loginPage, "Error Codificacio no suportada", "Error", JOptionPane.ERROR_MESSAGE);
+                }
+            }
+        });
         JPanel buttonZone = new JPanel();
         buttonZone.setLayout(new FlowLayout(FlowLayout.CENTER));
         buttonZone.add(login);
