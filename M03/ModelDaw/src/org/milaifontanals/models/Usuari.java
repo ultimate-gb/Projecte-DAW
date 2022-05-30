@@ -22,8 +22,10 @@ public class Usuari {
     private boolean bloquejat;
     private int role;
     private Nacionalitat nacionalitat;
+    private String token;
+    private boolean validat;
 
-    public Usuari(int id, String email, String nom, String cognoms, Date data_naix, char genere, boolean bloquejat, int role, Nacionalitat nacionalitat) {
+    public Usuari(int id, String email, String nom, String cognoms, Date data_naix, char genere, boolean bloquejat, int role, Nacionalitat nacionalitat, String token, boolean validat) {
         setId(id);
         setEmail(email);
         setNom(nom);
@@ -33,6 +35,40 @@ public class Usuari {
         setBloquejat(bloquejat);
         setRole(role);
         setNacionalitat(nacionalitat);
+        setToken(token);
+        setValidat(validat);
+    }
+
+    public Usuari() {
+        setId(-1);
+        setEmail("prova@gbalsells.home");
+        setNom("Usuari");
+        setCognoms("Usuari Usuari");
+        Date data = new Date(2000-1900,04,05);
+        setData_naix(data);
+        setGenere('I');
+        setBloquejat(false);
+        setRole(0);
+        setNacionalitat(new Nacionalitat("ESP", "Spanish"));
+        setToken("f92374c5657eebed008ffd68d6567864");
+        setValidat(false);
+        
+    }
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
+    }
+
+    public boolean isValidat() {
+        return validat;
+    }
+
+    public void setValidat(boolean validat) {
+        this.validat = validat;
     }
 
     public Nacionalitat getNacionalitat() {
@@ -112,8 +148,10 @@ public class Usuari {
     }
 
     public void setTelefon(Integer telefon) {
-        if(telefon != null && telefon >= 100000000 && telefon <= 99999999)
-        this.telefon = telefon;
+        if(telefon != null && telefon >= 100000000 && telefon <= 999999999){
+            this.telefon = telefon;
+        }
+        
     }
 
     public boolean isBloquejat() {

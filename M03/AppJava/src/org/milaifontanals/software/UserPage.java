@@ -18,6 +18,9 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.Action;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
@@ -34,10 +37,12 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.text.TextAction;
 import org.milaifontanals.iface.IBaseDeDades;
 import org.milaifontanals.iface.ProjecteDawException;
 import org.milaifontanals.models.Calendari;
 import org.milaifontanals.models.Usuari;
+import org.milaifontanals.models.Nacionalitat;
 
 /**
  *
@@ -206,74 +211,7 @@ public class UserPage {
                 panellPrincipal.setLayout(new GridBagLayout());
                 ArrayList<JLabel> dataLabel = new ArrayList();
                 ArrayList<JComponent> dataTarget = new ArrayList();
-                dataLabel.add(new JLabel("Email: "));
-                dataLabel.add(new JLabel(user.getEmail()));
-                JTextField emailT = new JTextField(15);
-                emailT.setText(user.getEmail());
-                emailT.setEditable(false);
-                dataTarget.add(emailT);
-                dataLabel.add(new JLabel("Nom: "));
-                dataLabel.add(new JLabel(user.getNom()));
-                JTextField nomT = new JTextField(15);
-                nomT.setText(user.getNom());
-                dataTarget.add(nomT);
-                dataLabel.add(new JLabel("Cognom"));
-                dataLabel.add(new JLabel(user.getCognoms()));
-                JTextField cognomT = new JTextField(15);
-                cognomT.setText(user.getCognoms());
-                dataTarget.add(cognomT);
-                dataLabel.add(new JLabel("Data Naixement: "));
-                dataLabel.add(new JLabel(user.getData_naix().toString()));
-                JTextField dataNaixT = new JTextField(15);
-                dataNaixT.setText(user.getData_naix().toString());
-                dataTarget.add(dataNaixT);
-                dataLabel.add(new JLabel("Genere"));
-                JComboBox<String> gen = new JComboBox();
-                gen.addItem("Home");
-                gen.addItem("Dona");
-                gen.addItem("Desconegut");
-                if (user.getGenere() == 'H') {
-                    dataLabel.add(new JLabel("Home"));
-                    gen.setSelectedIndex(0);
-                } else if (user.getGenere() == 'D') {
-                    dataLabel.add(new JLabel("Dona"));
-                    gen.setSelectedIndex(1);
-                } else {
-                    dataLabel.add(new JLabel("No Conegut"));
-                    gen.setSelectedIndex(2);
-                }
-                dataTarget.add(gen);
-                dataLabel.add(new JLabel("Telefon"));
-                JTextField telefonT = new JTextField(15);
-                if (user.getTelefon() != null) {
-                    dataLabel.add(new JLabel(user.getTelefon().toString()));
-                    telefonT.setText(user.getTelefon().toString());
-                } else {
-                    dataLabel.add(new JLabel(""));
-                    telefonT.setText("");;
-                }
-                dataTarget.add(telefonT);
-                dataLabel.add(new JLabel("Bloquejat: "));
-                JCheckBox bloq = new JCheckBox();
-                if (user.isBloquejat()) {
-                    dataLabel.add(new JLabel("Si"));
-                    bloq.setSelected(true);
-                } else {
-                    dataLabel.add(new JLabel("No"));
-                    bloq.setSelected(false);
-                }
-                dataTarget.add(bloq);
-                dataLabel.add(new JLabel("Role: "));
-                JComboBox<String> rol = new JComboBox();
-                rol.addItem("Usuari");
-                rol.addItem("Admin");
-                if (user.getRole() == 0) {
-                    dataLabel.add(new JLabel("Usuari"));
-                } else {
-                    dataLabel.add(new JLabel("Admin"));
-                }
-                rol.setSelectedIndex(user.getRole());
-                dataTarget.add(rol);
+                generarDataLT(dataLabel, dataTarget, user);
                 visitarUser(dataLabel, panellPrincipal, user, dataTarget, dadesUser);
                 dadesUser.add(panellPrincipal);
                 dadesUser.setResizable(false);
@@ -284,6 +222,128 @@ public class UserPage {
                 dadesUser.setVisible(true);
             }
         }
+    }
+
+    public void generarDataLT(ArrayList<JLabel> dataLabel, ArrayList<JComponent> dataTarget, Usuari user) {
+        if(dataLabel.size()>0) {
+            dataLabel.clear();
+        }
+        if(dataTarget.size() > 0) {
+            dataTarget.clear();
+        }
+        dataLabel.add(new JLabel("Email: "));
+        dataLabel.add(new JLabel(user.getEmail()));
+        JTextField emailT = new JTextField(15);
+        emailT.setText(user.getEmail());
+        emailT.setName("email");
+        emailT.setEditable(false);
+        dataTarget.add(emailT);
+        dataLabel.add(new JLabel("Nom: "));
+        dataLabel.add(new JLabel(user.getNom()));
+        JTextField nomT = new JTextField(15);
+        nomT.setText(user.getNom());
+        nomT.setName("nom");
+        dataTarget.add(nomT);
+        dataLabel.add(new JLabel("Cognom"));
+        dataLabel.add(new JLabel(user.getCognoms()));
+        JTextField cognomT = new JTextField(15);
+        cognomT.setText(user.getCognoms());
+        cognomT.setName("cognoms");
+        dataTarget.add(cognomT);
+        dataLabel.add(new JLabel("Data Naixement: "));
+        dataLabel.add(new JLabel(user.getData_naix().toString()));
+        JTextField dataNaixT = new JTextField(15);
+        dataNaixT.setText(user.getData_naix().toString());
+        dataNaixT.setName("dataNaix");
+        dataTarget.add(dataNaixT);
+        dataLabel.add(new JLabel("Genere"));
+        JComboBox<String> gen = new JComboBox();
+        gen.addItem("Home");
+        gen.addItem("Dona");
+        gen.addItem("Desconegut");
+        if (user.getGenere() == 'H') {
+            dataLabel.add(new JLabel("Home"));
+            gen.setSelectedIndex(0);
+        } else if (user.getGenere() == 'D') {
+            dataLabel.add(new JLabel("Dona"));
+            gen.setSelectedIndex(1);
+        } else {
+            dataLabel.add(new JLabel("No Conegut"));
+            gen.setSelectedIndex(2);
+        }
+        gen.setName("genere");
+        dataTarget.add(gen);
+        dataLabel.add(new JLabel("Telefon"));
+        JTextField telefonT = new JTextField(15);
+        if (user.getTelefon() != null) {
+            dataLabel.add(new JLabel(user.getTelefon().toString()));
+            telefonT.setText(user.getTelefon().toString());
+        } else {
+            dataLabel.add(new JLabel(""));
+            telefonT.setText("");;
+        }
+        telefonT.setName("telefon");
+        dataTarget.add(telefonT);
+        dataLabel.add(new JLabel("Bloquejat: "));
+        JCheckBox bloq = new JCheckBox();
+        if (user.isBloquejat()) {
+            dataLabel.add(new JLabel("Si"));
+            bloq.setSelected(true);
+        } else {
+            dataLabel.add(new JLabel("No"));
+            bloq.setSelected(false);
+        }
+        bloq.setName("bloq");
+        dataTarget.add(bloq);
+        dataLabel.add(new JLabel("Role: "));
+        JComboBox<String> rol = new JComboBox();
+        rol.addItem("Usuari");
+        rol.addItem("Admin");
+        if (user.getRole() == 0) {
+            dataLabel.add(new JLabel("Usuari"));
+        } else {
+            dataLabel.add(new JLabel("Admin"));
+        }
+        rol.setName("role");
+        rol.setSelectedIndex(user.getRole());
+        dataTarget.add(rol);
+        dataLabel.add(new JLabel("Token:"));
+        dataLabel.add(new JLabel(user.getToken()));
+        JTextField tokenT = new JTextField(15);
+        tokenT.setText(user.getToken());
+        tokenT.setName("token");
+        dataTarget.add(tokenT);
+        dataLabel.add(new JLabel("Validat: "));
+        JCheckBox val = new JCheckBox();
+        if (user.isValidat()) {
+            dataLabel.add(new JLabel("Si"));
+            val.setSelected(true);
+        } else {
+            dataLabel.add(new JLabel("No"));
+            val.setSelected(false);
+        }
+        val.setName("val");
+        dataTarget.add(val);
+        dataLabel.add(new JLabel("Nacionalitat: "));
+        dataLabel.add(new JLabel(user.getNacionalitat().getNom()));
+        JComboBox<Nacionalitat> nacionalitatT = new JComboBox();
+        try {
+            ArrayList<Nacionalitat> nacionalitatList = db.getAllNacionalitats();
+            int nacionalitatPersona = -1;
+            int i = 0;
+            for (Nacionalitat nat : nacionalitatList) {
+                nacionalitatT.addItem(nat);
+                if (nat.getCodi().equals(user.getNacionalitat().getCodi())) {
+                    nacionalitatPersona = i;
+                }
+                i++;
+            }
+            nacionalitatT.setSelectedIndex(nacionalitatPersona);
+        } catch (ProjecteDawException ex) {
+            JOptionPane.showMessageDialog(userPage, "Error en obtenir totes les nacionalitats.\nLi recomanem que tanqui la finestra i la torni a obrir.", "Error En Obrir Pagina Usuari", JOptionPane.ERROR_MESSAGE);
+        }
+        nacionalitatT.setName("nacionalitat");
+        dataTarget.add(nacionalitatT);
     }
 
     class EditAction implements ActionListener {
@@ -342,6 +402,144 @@ public class UserPage {
             editZone.setLayout(new FlowLayout(FlowLayout.CENTER));
             JButton guardarBtn = new JButton("Guardar");
             editZone.add(guardarBtn);
+            guardarBtn.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    int validades = 0;
+                    int i = 0;
+                    int errorsTrobats = 0;
+                    String campsInvalids = "";
+                    Usuari u = new Usuari();
+                    for (JComponent jc : dataTarget) {
+                        if (jc instanceof JTextField) {
+                            JTextField text = (JTextField) jc;
+                            String name = text.getName();
+                            if (name.equals("nom")) {
+                                if (text.getText().length() <= 40 && text.getText().matches("^[A-Z][a-z]+\\s?[A-Z]?[a-z]*$")) {
+                                    validades++;
+                                    u.setNom(text.getText());
+                                } else {
+                                    errorsTrobats++;
+                                    if (i < (dataTarget.size() - 1) && errorsTrobats > 1) {
+                                        campsInvalids += ",\n";
+                                    }
+                                    campsInvalids += "nom";
+                                }
+                            } else if (name.equals("cognoms")) {
+                                if (text.getText().length() <= 100 && text.getText().matches("^[A-Z][a-z]+\\s?[A-Z]?[a-z]*$")) {
+                                    validades++;
+                                    u.setCognoms(text.getText());
+                                } else {
+                                    errorsTrobats++;
+                                    if (i < (dataTarget.size() - 1) && errorsTrobats > 1) {
+                                        campsInvalids += ",\n";
+                                    }
+                                    campsInvalids += "cognoms";
+                                }
+                            } else if (name.equals("dataNaix")) {
+                                if (text.getText().matches("^\\d{4}\\-\\d{2}\\-\\d{2}$$")) {
+                                    validades++;
+                                    int year = Integer.parseInt(text.getText().substring(0, 4));
+                                    int mes = Integer.parseInt(text.getText().substring(5, 7));
+                                    int dia = Integer.parseInt(text.getText().substring(8));
+                                    java.sql.Date data = new java.sql.Date(year - 1900, mes - 1, dia);
+                                    u.setData_naix(data);
+                                } else {
+                                    errorsTrobats++;
+                                    if (i < (dataTarget.size() - 1) && errorsTrobats > 1) {
+                                        campsInvalids += ",\n";
+                                    }
+                                    campsInvalids += "Data Naixement(Format Any-Mes-Dia)";
+                                }
+                            } else if (name.equals("telefon")) {
+                                if (text.getText().length() == 0) {
+                                    validades++;
+                                } else if (text.getText().matches("^[1-9][0-9]{8}$")) {
+                                    validades++;
+                                    u.setTelefon(Integer.parseInt(text.getText()));
+                                } else {
+                                    errorsTrobats++;
+                                    if (i < (dataTarget.size() - 1) && errorsTrobats > 1) {
+                                        campsInvalids += ",\n";
+                                    }
+                                    campsInvalids += "telefon";
+                                }
+                            } else if (name.equals("token")) {
+                                if (!text.getText().equals(user.getToken())) {
+                                    Object[] noms = {"Sí", "No"};
+                                    int opc
+                                            = JOptionPane.showOptionDialog(f, "S'ha detectat que has modiificat el token, estas segur que vols continuar?", "Atenció!",
+                                                    JOptionPane.YES_NO_OPTION,
+                                                    JOptionPane.QUESTION_MESSAGE, null, noms, noms[0]);
+
+                                    if (opc == JOptionPane.YES_OPTION) {
+                                        u.setToken(text.getText());
+                                    } else {
+                                        text.setText(user.getToken());
+                                        u.setToken(user.getToken());
+                                    }
+                                }
+                            } else if (name.equals("email")) {
+                                u.setEmail(text.getText());
+                            }
+                        } else if (jc instanceof JComboBox) {
+                            JComboBox jcbb = (JComboBox) jc;
+                            if (jcbb.getSelectedIndex() > -1) {
+                                validades++;
+                                if (jcbb.getName().equals("role")) {
+                                    u.setRole(jcbb.getSelectedIndex());
+                                } else if (jcbb.getName().equals("genere")) {
+                                    int tGenere = jcbb.getSelectedIndex();
+                                    if (tGenere == 0) {
+                                        u.setGenere('H');
+                                    } else if (tGenere == 1) {
+                                        u.setGenere('D');
+                                    } else {
+                                        u.setGenere('I');
+                                    }
+                                } else if (jcbb.getName().equals("nacionalitat")) {
+                                    Nacionalitat nact = (Nacionalitat) jcbb.getSelectedItem();
+                                    u.setNacionalitat(nact);
+                                }
+                            } else {
+                                errorsTrobats++;
+                                if (i < (dataTarget.size() - 1) && errorsTrobats > 1) {
+                                    campsInvalids += ",\n";
+                                }
+                                campsInvalids += jcbb.getName();
+                            }
+                        }
+                        else {
+                            JCheckBox jckb = (JCheckBox) jc;
+                            if(jckb.getName().equals("bloq")) {
+                                u.setBloquejat(jckb.isSelected());
+                            }
+                            else if(jckb.getName().equals("val")) {
+                                u.setValidat(jckb.isSelected());
+                            }
+                        }
+                        i++;
+                    }
+                    if (validades < 7) {
+                        JOptionPane.showMessageDialog(userPage, "Dades Modificades Invalides.\nCamps invalids: " + campsInvalids, "Error Al Validar Les Dades", JOptionPane.ERROR_MESSAGE);
+                    }
+                    try {
+                        if (db.updateUser(u) > 0) {
+                            db.aplicarCanvis();
+                            u.setId(user.getId());
+                            user = u;
+                            generarDataLT(dataLabel, dataTarget, user);
+                            visitarUser(dataLabel, panellPrincipal, user, dataTarget, dadesUser);
+                            dadesUser.pack();
+                        } else {
+                            JOptionPane.showMessageDialog(userPage, "Error en Actualitzar.", "Error Al Actualitzar", JOptionPane.ERROR_MESSAGE);
+                        }
+
+                    } catch (ProjecteDawException ex) {
+                        JOptionPane.showMessageDialog(userPage, "Error en Actualitzar.", "Error Al Actualitzar", JOptionPane.ERROR_MESSAGE);
+                    }
+                }
+            });
             JButton cancelarBtn = new JButton("Cancelar");
             cancelarBtn.addActionListener(new ActionListener() {
                 @Override
@@ -434,7 +632,7 @@ public class UserPage {
                 int row = table.rowAtPoint(point);
                 if (mouseEvent.getClickCount() == 2 && table.getSelectedRow() != -1) {
                     Calendari cal = (Calendari) calList.get(table.getSelectedRow());
-                    CalendarPage calendarPage = new CalendarPage(userPage,db, cal, user);
+                    CalendarPage calendarPage = new CalendarPage(userPage, db, cal, user);
                 }
             }
         });

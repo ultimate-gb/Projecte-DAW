@@ -59,19 +59,36 @@ public class MySql implements IBaseDeDades {
     }
 
     @Override
-    public void updateUser(Usuari user) throws ProjecteDawException {
-        throw new ProjecteDawException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public int updateUser(Usuari user) throws ProjecteDawException {
+        try {
+            PreparedStatement ps = con.prepareStatement("update users set nom = ?, cognoms = ?, data_naix = ?, genere = ?,telefon = ?, bloquejat = ?, role = ?, validat = ?, token = ?, nacionalitat = ? Where email=?");
+            ps.setString(1, user.getNom());
+            ps.setString(2, user.getCognoms());
+            ps.setDate(3, user.getData_naix());
+            ps.setString(4, String.valueOf(user.getGenere()));
+            ps.setInt(5, user.getTelefon());
+            ps.setBoolean(6, user.isBloquejat());
+            ps.setInt(7, user.getRole());
+            ps.setBoolean(8, user.isValidat());
+            ps.setString(9, user.getToken());
+            ps.setString(10, user.getNacionalitat().getCodi());
+            ps.setString(11, user.getEmail());
+            return ps.executeUpdate(); 
+        } catch (SQLException ex) {
+            throw new ProjecteDawException("No s'ha pogut actualitzar el usuari", (Throwable) ex);
+        }
     }
 
     @Override
     public Usuari getUser(String email) throws ProjecteDawException {
         try {
-            PreparedStatement ps = con.prepareStatement("select u.id, u.email, u.nom, u.cognoms, u.data_naix, u.genere, u.telefon, u.bloquejat, u.role, n.codi as 'NatCode', n.nom as 'Nacionalitat' from users u JOIN nacionalitat n ON n.codi=u.nacionalitat where email=?");
+            PreparedStatement ps = con.prepareStatement("select u.id, u.email, u.nom, u.cognoms, u.data_naix, u.genere, u.telefon, u.bloquejat, u.role, u.token, u.validat, n.codi as 'NatCode', n.nom as 'Nacionalitat' from users u JOIN nacionalitat n ON n.codi=u.nacionalitat where email=?");
             ps.setString(1, email);
             ResultSet rs = ps.executeQuery();
             Usuari user = null;
             if (rs.next()) {
-                user = new Usuari(rs.getInt("id"), rs.getString("email"), rs.getString("nom"), rs.getString("cognoms"), rs.getDate("data_naix"), rs.getString("genere").charAt(0), rs.getBoolean("bloquejat"), rs.getInt("role"), new Nacionalitat(rs.getString("NatCode"), rs.getString("Nacionalitat")));
+                user = new Usuari(rs.getInt("id"), rs.getString("email"), rs.getString("nom"), rs.getString("cognoms"), rs.getDate("data_naix"), rs.getString("genere").charAt(0), rs.getBoolean("bloquejat"), rs.getInt("role"), new Nacionalitat(rs.getString("NatCode"), rs.getString("Nacionalitat")), rs.getString("token"), rs.getBoolean("validat"));
+                user.setTelefon(rs.getInt("telefon"));
             }
             return user;
         } catch (SQLException ex) {
@@ -82,11 +99,13 @@ public class MySql implements IBaseDeDades {
     @Override
     public ArrayList<Usuari> getAllUsers() throws ProjecteDawException {
         try {
-            PreparedStatement ps = con.prepareStatement("select u.id, u.email, u.nom, u.cognoms, u.data_naix, u.genere, u.telefon, u.bloquejat, u.role, n.codi as 'NatCode', n.nom as 'Nacionalitat' from users u JOIN nacionalitat n ON n.codi=u.nacionalitat");
+            PreparedStatement ps = con.prepareStatement("select u.id, u.email, u.nom, u.cognoms, u.data_naix, u.genere, u.telefon, u.bloquejat, u.role, u.token, u.validat, n.codi as 'NatCode', n.nom as 'Nacionalitat' from users u JOIN nacionalitat n ON n.codi=u.nacionalitat");
             ResultSet rs = ps.executeQuery();
             ArrayList<Usuari> userList = new ArrayList();
             while (rs.next()) {
-                userList.add(new Usuari(rs.getInt("id"), rs.getString("email"), rs.getString("nom"), rs.getString("cognoms"), rs.getDate("data_naix"), rs.getString("genere").charAt(0), rs.getBoolean("bloquejat"), rs.getInt("role"), new Nacionalitat(rs.getString("NatCode"), rs.getString("Nacionalitat"))));
+                Usuari u = new Usuari(rs.getInt("id"), rs.getString("email"), rs.getString("nom"), rs.getString("cognoms"), rs.getDate("data_naix"), rs.getString("genere").charAt(0), rs.getBoolean("bloquejat"), rs.getInt("role"), new Nacionalitat(rs.getString("NatCode"), rs.getString("Nacionalitat")), rs.getString("token"), rs.getBoolean("validat"));
+                u.setTelefon(rs.getInt("telefon"));
+                userList.add(u);
             }
             return userList;
         } catch (SQLException ex) {
@@ -97,12 +116,14 @@ public class MySql implements IBaseDeDades {
     @Override
     public ArrayList<Usuari> cercaUserByEmail(String email) throws ProjecteDawException {
         try {
-            PreparedStatement ps = con.prepareStatement("select u.id, u.email, u.nom, u.cognoms, u.data_naix, u.genere, u.telefon, u.bloquejat, u.role, n.codi as 'NatCode', n.nom as 'Nacionalitat' from users u JOIN nacionalitat n ON n.codi=u.nacionalitat where email like CONCAT(CONCAT('%',?),'%')");
+            PreparedStatement ps = con.prepareStatement("select u.id, u.email, u.nom, u.cognoms, u.data_naix, u.genere, u.telefon, u.bloquejat, u.role, u.token, u.validat, n.codi as 'NatCode', n.nom as 'Nacionalitat' from users u JOIN nacionalitat n ON n.codi=u.nacionalitat where email like CONCAT(CONCAT('%',?),'%')");
             ps.setString(1, email);
             ResultSet rs = ps.executeQuery();
             ArrayList<Usuari> userList = new ArrayList();
             while (rs.next()) {
-                userList.add(new Usuari(rs.getInt("id"), rs.getString("email"), rs.getString("nom"), rs.getString("cognoms"), rs.getDate("data_naix"), rs.getString("genere").charAt(0), rs.getBoolean("bloquejat"), rs.getInt("role"), new Nacionalitat(rs.getString("NatCode"), rs.getString("Nacionalitat"))));
+                Usuari u = new Usuari(rs.getInt("id"), rs.getString("email"), rs.getString("nom"), rs.getString("cognoms"), rs.getDate("data_naix"), rs.getString("genere").charAt(0), rs.getBoolean("bloquejat"), rs.getInt("role"), new Nacionalitat(rs.getString("NatCode"), rs.getString("Nacionalitat")), rs.getString("token"), rs.getBoolean("validat"));
+                u.setTelefon(rs.getInt("telefon"));
+                userList.add(u);
             }
             return userList;
         } catch (SQLException ex) {
@@ -113,13 +134,16 @@ public class MySql implements IBaseDeDades {
     @Override
     public ArrayList<Usuari> cercaByNomCognom(String nom, String cognom) throws ProjecteDawException {
         try {
-            PreparedStatement ps = con.prepareStatement("select u.id, u.email, u.nom, u.cognoms, u.data_naix, u.genere, u.telefon, u.bloquejat, u.role, n.codi as 'NatCode', n.nom as 'Nacionalitat' from users u JOIN nacionalitat n ON n.codi=u.nacionalitat where u.nom like CONCAT(CONCAT('%',?),'%') and u.cognoms like CONCAT(CONCAT('%',?),'%')");
+            PreparedStatement ps = con.prepareStatement("select u.id, u.email, u.nom, u.cognoms, u.data_naix, u.genere, u.telefon, u.bloquejat, u.role, u.token, u.validat, n.codi as 'NatCode', n.nom as 'Nacionalitat' from users u JOIN nacionalitat n ON n.codi=u.nacionalitat where u.nom like CONCAT(CONCAT('%',?),'%') and u.cognoms like CONCAT(CONCAT('%',?),'%')");
             ps.setString(1, nom);
             ps.setString(2, cognom);
             ResultSet rs = ps.executeQuery();
             ArrayList<Usuari> userList = new ArrayList();
             while (rs.next()) {
-                userList.add(new Usuari(rs.getInt("id"), rs.getString("email"), rs.getString("nom"), rs.getString("cognoms"), rs.getDate("data_naix"), rs.getString("genere").charAt(0), rs.getBoolean("bloquejat"), rs.getInt("role"), new Nacionalitat(rs.getString("NatCode"), rs.getString("Nacionalitat"))));
+                Usuari u = new Usuari(rs.getInt("id"), rs.getString("email"), rs.getString("nom"), rs.getString("cognoms"), rs.getDate("data_naix"), rs.getString("genere").charAt(0), rs.getBoolean("bloquejat"), rs.getInt("role"), new Nacionalitat(rs.getString("NatCode"), rs.getString("Nacionalitat")), rs.getString("token"), rs.getBoolean("validat"));
+                u.setTelefon(rs.getInt("telefon"));
+                
+                userList.add(u);
             }
             return userList;
         } catch (SQLException ex) {
@@ -252,7 +276,7 @@ public class MySql implements IBaseDeDades {
             throw new ProjecteDawException("No s'ha pogut obtenir les activitats del usuari en el calendari " + calendari.getNom(), (Throwable) ex);
         }
     }
-    
+
     @Override
     public ArrayList<TipusActivitat> getTipusActivitats(Usuari user) throws ProjecteDawException {
         try {
@@ -266,6 +290,21 @@ public class MySql implements IBaseDeDades {
             return tActivityList;
         } catch (SQLException ex) {
             throw new ProjecteDawException("No s'ha pogut obtenir els tipus de activitats del usuari " + user.getNom(), (Throwable) ex);
+        }
+    }
+
+    @Override
+    public ArrayList<Nacionalitat> getAllNacionalitats() throws ProjecteDawException {
+        try {
+            PreparedStatement ps = con.prepareStatement("select codi, nom from nacionalitat");
+            ResultSet rs = ps.executeQuery();
+            ArrayList<Nacionalitat> nacionalitatList = new ArrayList();
+            while (rs.next()) {
+                nacionalitatList.add(new Nacionalitat(rs.getString("codi"), rs.getString("nom")));
+            }
+            return nacionalitatList;
+        } catch (SQLException ex) {
+            throw new ProjecteDawException("No s'ha pogut obtenir totes les nacionalitats", (Throwable) ex);
         }
     }
 

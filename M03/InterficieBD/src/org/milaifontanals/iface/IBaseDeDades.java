@@ -8,6 +8,7 @@ package org.milaifontanals.iface;
 import java.util.ArrayList;
 import org.milaifontanals.models.Activitat;
 import org.milaifontanals.models.Calendari;
+import org.milaifontanals.models.Nacionalitat;
 import org.milaifontanals.models.TipusActivitat;
 import org.milaifontanals.models.Usuari;
 
@@ -16,7 +17,7 @@ import org.milaifontanals.models.Usuari;
  * @author Usuari
  */
 public interface IBaseDeDades {
-    public void updateUser(Usuari user) throws ProjecteDawException;
+    public int updateUser(Usuari user) throws ProjecteDawException;
     public Usuari getUser(String email) throws ProjecteDawException;
     public ArrayList<Usuari> cercaUserByEmail(String email) throws ProjecteDawException;
     public ArrayList<Usuari> cercaByNomCognom(String nom, String cognom) throws ProjecteDawException;
@@ -29,6 +30,7 @@ public interface IBaseDeDades {
     public boolean esPropietariCalendari(Usuari user, Calendari calendari) throws ProjecteDawException;
     public boolean esAjudantCalendari(Usuari user, Calendari calendari) throws ProjecteDawException;
     public ArrayList<Activitat> getActivitatsCalendari(Calendari calendari, Usuari user) throws ProjecteDawException;
+    public ArrayList<Nacionalitat> getAllNacionalitats() throws ProjecteDawException;
     
     public void aplicarCanvis() throws ProjecteDawException;
     public void desfer() throws ProjecteDawException;

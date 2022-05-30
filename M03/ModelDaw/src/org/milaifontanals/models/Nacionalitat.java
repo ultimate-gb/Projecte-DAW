@@ -39,6 +39,11 @@ public class Nacionalitat {
         }
         this.nom = nom;
     }
+
+    @Override
+    public String toString() {
+        return nom;
+    }
     
     
 }
