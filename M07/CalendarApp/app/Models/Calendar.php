@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Ajuda;
 use App\Models\Users;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -15,6 +16,10 @@ class Calendar extends Model
 
     public function Users(): \Illuminate\Database\Eloquent\RelatioNS\BelongsTo
     { 
-        return $this->belongsTo(Users::class, 'user');
+        return $this->belongsTo(Users::class, 'user', "id");
+    }
+    public function Ajuda(): \Illuminate\Database\Eloquent\RelatioNS\HasMany
+    { 
+        return $this->hasMany(Ajuda::class, "calendari", "id");
     }
 }

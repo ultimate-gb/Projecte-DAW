@@ -113,11 +113,7 @@
 #projecteCalendarApp #index>main>main>section {
   display: flex;
   justify-content: space-around;
-  flex-wrap: wrap;
   gap: 2%;
-}
-#projecteCalendarApp #index>main>main>section .calendariArt {
-  margin-bottom: 2%;
 }
 #projecteCalendarApp #index>main>section {
   margin-bottom: 2%;
@@ -131,8 +127,28 @@
 #projecteCalendarApp #index>main>section>div .calendariArt {
   margin-bottom: 2%;
 }
+#projecteCalendarApp #index .titolZone {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 0.5%;
+  height: 5%;
+}
+#projecteCalendarApp #index .titolZone .btn {
+  width: 5%;
+  height: 5%;
+}
 #projecteCalendarApp #calendariManager .btn-manager {
   width: 20%;
+}
+#projecteCalendarApp #calendariViewer .titolZone {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 0.5%;
+  height: 5%;
+}
+#projecteCalendarApp #calendariViewer .titolZone .btn {
+  width: 5%;
+  height: 5%;
 }
 #projecteCalendarApp .topMessage {
   position: absolute;
@@ -140,6 +156,11 @@
   left: 0px;
   width: 100%;
   text-align: center;
+}
+#projecteCalendarApp .leftHeader {
+  display: flex;
+  justify-content: space-between;
+  width: 8%;
 }
 @media only screen and (max-width: 1200px) {
   #projecteCalendarApp #loginForm main,

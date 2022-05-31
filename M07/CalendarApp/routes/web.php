@@ -35,4 +35,4 @@ Route::delete("/calendar/destroy", [CalendarController::class, 'destroy'])->name
 
 Route::get('/help', function() {
     return view('help');
-})->withoutMiddleware(\App\Http\Middleware\CheckLogin::class);
+})->withoutMiddleware(\App\Http\Middleware\CheckLogin::class)->name("help");

@@ -15,7 +15,7 @@
             {{ $message }}
         </div>
     @endif
-    <div class="d-flex justify-content-between">
+    <div class="titolZone">
         <h2>Els Meus Calendaris</h2>
         <a href="{{ route("calendar", ['op'=>"add", "id"=>"-1"]) }}" class="btn btn-primary bg-newblue"><i class="fas fa-plus"></i></a>
     </div>

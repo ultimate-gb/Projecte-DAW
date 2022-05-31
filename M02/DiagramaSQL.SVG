@@ -101,7 +101,7 @@
       <text x="84" xml:space="preserve" y="246.9072" clip-path="url(#clipPath2)" font-weight="normal" stroke="none">int</text>
       <text x="26" xml:space="preserve" y="267.5381" clip-path="url(#clipPath2)" font-weight="normal" stroke="none">nom</text>
       <text x="84" xml:space="preserve" y="267.5381" clip-path="url(#clipPath2)" font-weight="normal" stroke="none">varchar(250)</text>
-      <text x="26" xml:space="preserve" y="288.1689" clip-path="url(#clipPath2)" font-weight="normal" stroke="none">data_inici</text>
+      <text x="26" xml:space="preserve" y="288.1689" clip-path="url(#clipPath2)" stroke="none">data_inici</text>
       <text x="84" xml:space="preserve" y="288.1689" clip-path="url(#clipPath2)" font-weight="normal" stroke="none">datetime</text>
       <text x="26" xml:space="preserve" y="308.7998" clip-path="url(#clipPath2)" font-weight="normal" stroke="none">data_fi</text>
       <text x="84" xml:space="preserve" y="308.7998" clip-path="url(#clipPath2)" font-weight="normal" stroke="none">datetime</text>

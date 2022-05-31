@@ -3,9 +3,15 @@
 namespace App\Http\Controllers;
 
 use PDOException;
-use App\Models\Calendar;
+use App\Models\Ajuda;
 use App\Models\Users;
+use App\Models\Calendar;
+use App\Models\Activitat;
 use Illuminate\Http\Request;
+use App\Models\CalendariTarget;
+use Illuminate\Pagination\Paginator;
+use Illuminate\Support\Collection;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 class CalendarController extends Controller
 {
@@ -93,5 +99,49 @@ class CalendarController extends Controller
         if($id == null) {
             return redirect("/index")->with("message", "Falta el id")->with("tipus", "danger");
         }
+        $calendari = Calendar::find($id);
+        $activitats = Activitat::where('calendari', $id)->paginate(10)->withQueryString();
+        $activitats->append(['id'=>$id]);
+        $email = session("email");
+        $user = Users::where('email',$email)->get()->first();
+        $esPropietari = false;
+        if($user->id == $calendari->user) {
+            $esPropietari =true;
+        }
+        $ajudants = array();
+        $calendariTarget = array();
+        $data = array();
+        if($esPropietari) {
+            foreach($calendari->Ajuda()->get() as $ajuda) {
+                array_push($ajudants, $ajuda->Users()->first());
+            }
+            $myCollectionObj = collect($ajudants);
+            $data = $this->paginate($myCollectionObj);
+            $calendarisTarget = CalendariTarget::where('calendar', $id)->get();
+            foreach($calendarisTarget as $target) {
+                array_push($calendariTarget, $target);
+            }
+        }
+        return view("calendarView", array(
+            'calendari'=>$calendari, 
+            "activitats"=>$activitats, 
+            "esPropietari"=>$esPropietari, 
+            "ajudants"=> $data,
+            "targets"=>$calendariTarget, 
+            "message"=>"",
+            "tipus"=>array()
+        ));
+    }
+
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+    public function paginate($items, $perPage = 5, $page = null, $options = [])
+    {
+        $page = $page ?: (Paginator::resolveCurrentPage() ?: 1);
+        $items = $items instanceof Collection ? $items : Collection::make($items);
+        return new LengthAwarePaginator($items->forPage($page, $perPage), $items->count(), $perPage, $page, $options);
     }
 }

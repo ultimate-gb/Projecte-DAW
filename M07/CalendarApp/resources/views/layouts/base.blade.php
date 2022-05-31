@@ -17,7 +17,11 @@
 		<nav class="navbar navbar-light bg-newblue">
 			<div class="container text-white">
 				<a class="navbar-brand text-white h1">Calendar App - @yield('webZone')</a>
-				<a href="{{ route('login.logout') }}" ><i class="fas fa-sign-out-alt text-white"></i></a>
+                <div class="leftHeader">
+                    <a href="{{ route('help') }}" ><i class="fas fa-question text-white"></i></a>
+                    <a href="{{ route('login.logout') }}" ><i class="fas fa-sign-out-alt text-white"></i></a>
+                </div>
+				
 			</div>
 		</nav>
 	</header>

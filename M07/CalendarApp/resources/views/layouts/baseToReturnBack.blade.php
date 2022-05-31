@@ -18,7 +18,10 @@
 			<div class="container text-white">
                 <a href="@yield('returnBack')"><i class="fas fa-arrow-left text-white"></i></a>
 				<a class="navbar-brand text-white h1">Calendar App - @yield('webZone')</a>
-				<a href="{{ route('login.logout') }}" ><i class="fas fa-sign-out-alt text-white"></i></a>
+                <div class="leftHeader">
+                    <a href="{{ route('help') }}" ><i class="fas fa-question text-white"></i></a>
+                    <a href="{{ route('login.logout') }}" ><i class="fas fa-sign-out-alt text-white"></i></a>
+                </div>
 			</div>
 		</nav>
 	</header>

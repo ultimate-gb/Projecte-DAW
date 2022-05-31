@@ -16,11 +16,11 @@ class Ajuda extends Model
 
     public function Users(): \Illuminate\Database\Eloquent\RelatioNS\BelongsTo
     { 
-        return $this->belongsTo(Users::class, 'user');
+        return $this->belongsTo(Users::class, "user", "id");
     }
 
     public function CalendariAjudant(): \Illuminate\Database\Eloquent\RelatioNS\BelongsTo
     {
-        return $this->belongsTo(Calendar::class, 'calendari');
+        return $this->belongsTo(Calendar::class, "calendari");
     }
 }

@@ -35,6 +35,8 @@
         @endif
         @if ($op == "edit" || $op == "del")
             <input type="hidden" name="id" value="{{ $id }}">
+        @endif
+        @if($op == "del")
             @method("DELETE")
         @endif
         <div class="d-flex justify-content-end">
