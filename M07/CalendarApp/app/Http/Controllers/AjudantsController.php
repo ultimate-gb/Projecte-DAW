@@ -17,11 +17,6 @@ class AjudantsController extends Controller
             $type == "";
         }
         $email = session('email');
-        $calendar = (object) array(
-            'id'=>"",
-            'nom'=>"",
-            'data_creacio'=>""
-        );
         $usuaris = Users::all();
         $opType = "";
         if($op == "add") {

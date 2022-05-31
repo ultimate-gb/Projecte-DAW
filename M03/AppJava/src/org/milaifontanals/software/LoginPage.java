@@ -87,7 +87,6 @@ public class LoginPage {
                     }
                     String strHash = strBuilder.toString();
                     int valid = db.validarUsuari(emailField.getText(), strHash);
-                    System.out.print(md.digest(passwdField.getText().getBytes("UTF-8")).toString());
                     if (valid == 1) {
                         loginPage.dispose();
                         UserPage userPage = new UserPage(appPage, db);
@@ -100,8 +99,6 @@ public class LoginPage {
                     JOptionPane.showMessageDialog(loginPage, "Error en validar", "Error En Obrir Validar", JOptionPane.ERROR_MESSAGE);
                 } catch (NoSuchAlgorithmException ex) {
                     JOptionPane.showMessageDialog(loginPage, "Error en crear md5", "Error", JOptionPane.ERROR_MESSAGE);
-                } catch (UnsupportedEncodingException ex) {
-                    JOptionPane.showMessageDialog(loginPage, "Error Codificacio no suportada", "Error", JOptionPane.ERROR_MESSAGE);
                 }
             }
         });

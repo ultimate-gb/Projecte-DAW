@@ -19,7 +19,7 @@
     @endif
     <div class="titolZone">
         <h2>Calendari: {{ $calendari->nom }}</h2>
-        <a href="{{ route("calendar", ['op'=>"add", "id"=>"-1"]) }}" class="btn btn-primary bg-newblue"><i class="fas fa-plus"></i></a>
+        <a href="{{ route("activitat", ['op'=>"add", "id"=>"-1", "calendariId"=>$calendari->id]) }}" class="btn btn-primary bg-newblue"><i class="fas fa-plus"></i></a>
     </div>
     <main class="container">
         <section class="table-responsive">
@@ -54,8 +54,8 @@
                         </td>
                         <td>
                             <div class="d-flex gap-2 mb-2">
-                                <a href="" class="btn btn-secondary w-100"><i class="fas fa-edit"></i></a>
-                                <a href="" class="btn btn-danger w-100"><i class="fas fa-trash-alt"></i></a>
+                                <a href="{{ route("activitat", ['op'=>"edit", "id"=>$item->id, "calendariId"=>$calendari->id]) }}" class="btn btn-secondary w-100"><i class="fas fa-edit"></i></a>
+                                <a href="{{ route("activitat", ['op'=>"del", "id"=>$item->id, "calendariId"=>$calendari->id]) }}" class="btn btn-danger w-100"><i class="fas fa-trash-alt"></i></a>
                             </div>
                         </td>
                     </tr>
@@ -77,6 +77,7 @@
                                 <th scope="rol">#</th>
                                 <th>Nom</th>
                                 <th>Cognoms</th>
+                                <th>Opcions</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -103,7 +104,7 @@
         <section class="container">
             <header class="titolZone">
                 <h2>Destinataris: </h2>
-                <a href="{{ route("calendar", ['op'=>"add", "id"=>"-1"]) }}" class="btn btn-primary bg-newblue"><i class="fas fa-plus"></i></a>
+                <a href="{{ route("calendar.destinataris",['id'=>$calendari->id]) }}" class="btn btn-primary bg-newblue"><i class="fas fa-plus"></i></a>
             </header>
             <table class="table table-bordered">
                 <thead>

@@ -554,6 +554,59 @@ public class UserPage {
             cancelarBtn.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
+                    for (JComponent jc : dataTarget) {
+                        if (jc instanceof JTextField) {
+                            JTextField text = (JTextField) jc;
+                            String name = text.getName();
+                            if (name.equals("nom")) {
+                                text.setText(user.getNom());
+                            } else if (name.equals("cognoms")) {
+                                text.setText(user.getCognoms());
+                            } else if (name.equals("dataNaix")) {
+                                text.setText(user.getData_naix().toString());
+                            } else if (name.equals("telefon")) {
+                                text.setText(user.getTelefon().toString());
+                            } else if (name.equals("token")) {
+                                text.setText(user.getToken());
+                            }
+
+                        } else if (jc instanceof JComboBox) {
+                            JComboBox jcbb = (JComboBox) jc;
+                            if (jcbb.getName().equals("role")) {
+                                jcbb.setSelectedIndex(user.getRole());
+                            } else if (jcbb.getName().equals("genere")) {
+                                if (user.getGenere() == 'H') {
+                                    jcbb.setSelectedIndex(0);
+                                } else if (user.getGenere() == 'D') {
+                                    jcbb.setSelectedIndex(1);
+                                } else {
+                                    jcbb.setSelectedIndex(1);
+                                }
+                            } else if (jcbb.getName().equals("nacionalitat")) {
+                                try {
+                                    ArrayList<Nacionalitat> nacionalitatList = db.getAllNacionalitats();
+                                    int nacionalitatPersona = -1;
+                                    int i = 0;
+                                    for (Nacionalitat nat : nacionalitatList) {
+                                        if (nat.getCodi().equals(user.getNacionalitat().getCodi())) {
+                                            nacionalitatPersona = i;
+                                        }
+                                        i++;
+                                    }
+                                    jcbb.setSelectedIndex(nacionalitatPersona);
+                                } catch (ProjecteDawException ex) {
+                                    JOptionPane.showMessageDialog(userPage, "Error en obtenir totes les nacionalitats.\nLi recomanem que tanqui la finestra i la torni a obrir.", "Error En Obrir Pagina Usuari", JOptionPane.ERROR_MESSAGE);
+                                }
+                            }
+                        } else {
+                            JCheckBox jckb = (JCheckBox) jc;
+                            if (jckb.getName().equals("bloq")) {
+                                jckb.setSelected(user.isBloquejat());
+                            } else if (jckb.getName().equals("val")) {
+                                jckb.setSelected(user.isValidat());
+                            }
+                        }
+                    }
                     visitarUser(dataLabel, panellPrincipal, user, dataTarget, dadesUser);
                     dadesUser.pack();
                 }

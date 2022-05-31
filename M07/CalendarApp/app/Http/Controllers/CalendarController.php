@@ -40,7 +40,7 @@ class CalendarController extends Controller
         }
         else if($op == "edit") {
             try {
-                $calendar = Calendar::where('id', $id)->get()->first();
+                $calendar = Calendar::find($id);
             }
             catch (PDOException $ex) {
                 return redirect("/index");
@@ -101,7 +101,6 @@ class CalendarController extends Controller
         }
         $calendari = Calendar::find($id);
         $activitats = Activitat::where('calendari', $id)->paginate(10)->withQueryString();
-        $activitats->append(['id'=>$id]);
         $email = session("email");
         $user = Users::where('email',$email)->get()->first();
         $esPropietari = false;
@@ -117,6 +116,7 @@ class CalendarController extends Controller
             }
             $myCollectionObj = collect($ajudants);
             $data = $this->paginate($myCollectionObj);
+            $data->withQueryString();
             $calendarisTarget = CalendariTarget::where('calendar', $id)->get();
             foreach($calendarisTarget as $target) {
                 array_push($calendariTarget, $target);
@@ -143,5 +143,17 @@ class CalendarController extends Controller
         $page = $page ?: (Paginator::resolveCurrentPage() ?: 1);
         $items = $items instanceof Collection ? $items : Collection::make($items);
         return new LengthAwarePaginator($items->forPage($page, $perPage), $items->count(), $perPage, $page, $options);
+    }
+
+    public function vistaAfegirDestinataris(Request $request) {
+        $calendari = Calendar::find($request->id);
+        if($calendari == null) {
+            return redirect("/index")->with("message", "Falta el id o el id es incorrecte")->with("tipus", "danger");
+        }
+        return view("calendarTargetView", array('calendar'=>$request->id, "message"=>"", "tipus"=>""));
+    }
+
+    public function afegirDestinataris(Request $request) {
+        
     }
 }
