@@ -150,6 +150,12 @@
   width: 5%;
   height: 5%;
 }
+#projecteCalendarApp #helperManager form .selectDiv {
+  height: 65px;
+}
+#projecteCalendarApp #helperManager form .selectDiv select {
+  height: 100%;
+}
 #projecteCalendarApp .topMessage {
   position: absolute;
   top: 0px;

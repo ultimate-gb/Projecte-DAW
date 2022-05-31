@@ -68,7 +68,7 @@
             <section>
                 <header class="titolZone">
                     <h2>Ajudants: </h2>
-                    <a href="{{ route("calendar", ['op'=>"add", "id"=>"-1"]) }}" class="btn btn-primary bg-newblue"><i class="fas fa-plus"></i></a>
+                    <a href="{{ route("ajudants", ['op'=>"add", "id"=>"-1", 'calendariId'=>$calendari->id]) }}" class="btn btn-primary bg-newblue"><i class="fas fa-plus"></i></a>
                 </header>
                 <main class="table-responsive w-100">
                     <table class="table table-bordered">
@@ -85,6 +85,11 @@
                                 <td scope="row">{{$item->id}}</td>
                                 <td>{{$item->nom}}</td>
                                 <td>{{$item->cognoms}}</td>
+                                <td>
+                                    <div class="d-flex gap-2 mb-2">
+                                        <a href="{{ route("ajudants", ['op' =>"del","id"=>$item->id, 'calendariId'=>$calendari->id]) }}" class="btn btn-danger w-100"><i class="fas fa-trash-alt"></i></a>
+                                    </div>
+                                </td>
                             </tr>
                         @endforeach
                         </tbody>

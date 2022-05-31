@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AppController;
 use App\Http\Controllers\CalendarController;
 use App\Http\Controllers\LoginController;
+use App\Http\Controllers\AjudantsController;
 
 /*
 |--------------------------------------------------------------------------
@@ -32,6 +33,8 @@ Route::get("/calendar/see", [CalendarController::class, 'see'])->name('calendar.
 Route::post("/calendar/create", [CalendarController::class, 'add'])->name('calendar.add');
 Route::post("/calendar/mod", [CalendarController::class, 'edit'])->name('calendar.edit');
 Route::delete("/calendar/destroy", [CalendarController::class, 'destroy'])->name('calendar.del');
+Route::get("/ajudants/{op}/{id}/{calendariId}", [AjudantsController::class, 'index'])->name("ajudants");
+Route::post("/ajudants/create", [AjudantsController::class, 'afegir'])->name("ajudants.add");
 
 Route::get('/help', function() {
     return view('help');
