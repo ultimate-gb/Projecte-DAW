@@ -18,7 +18,7 @@ public class Usuari {
     private String cognoms;
     private Date data_naix;
     private char genere;
-    private Integer telefon;
+    private String telefon;
     private boolean bloquejat;
     private int role;
     private Nacionalitat nacionalitat;
@@ -46,6 +46,7 @@ public class Usuari {
         setCognoms("Usuari Usuari");
         Date data = new Date(2000-1900,04,05);
         setData_naix(data);
+        setTelefon(null);
         setGenere('I');
         setBloquejat(false);
         setRole(0);
@@ -143,14 +144,15 @@ public class Usuari {
         this.genere = genere;
     }
 
-    public Integer getTelefon() {
+    public String getTelefon() {
         return telefon;
     }
 
-    public void setTelefon(Integer telefon) {
-        if(telefon != null && telefon >= 100000000 && telefon <= 999999999){
+    public void setTelefon(String telefon) {
+        if(telefon != null && telefon.matches("^\\+?\\d+$") && telefon.length() >= 20){
             this.telefon = telefon;
         }
+        this.telefon = telefon;
         
     }
 

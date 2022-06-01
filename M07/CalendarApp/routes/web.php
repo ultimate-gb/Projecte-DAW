@@ -44,7 +44,7 @@ Route::post("/ajudants/destroy", [AjudantsController::class, 'destroy'])->name("
 Route::get("/activitat/{op}/{id}/{calendariId}", [ActivitatsController::class, "index"])->name("activitat");
 Route::post("/activitat/create", [ActivitatsController::class, "add"])->name("activitat.add");
 Route::post("/activitat/mod", [ActivitatsController::class, "edit"])->name("activitat.edit");
-Route::post("/activitat/destroy", [ActivitatsController::class, "destroy"])->name("activitat.del");
+Route::delete("/activitat/destroy", [ActivitatsController::class, "destroy"])->name("activitat.del");
 
 Route::get('/help', function() {
     return view('help');
@@ -52,3 +52,9 @@ Route::get('/help', function() {
 
 Route::get("/calendar/destinataris", [CalendarController::class, "vistaAfegirDestinataris"])->name("calendar.destinataris");
 Route::post("/calendar/destinataris/add", [CalendarController::class, "afegirDestinataris"])->name("calendar.destinataris.add");
+
+Route::get("/calendar/publicar", [CalendarController::class, "publicar"])->name("calendar.publicar");
+Route::get("/calendar/publicar/on", [CalendarController::class, "publicarActivitats"])->name("calendar.publicar.on");
+
+Route::get("/calendar/export", [CalendarController::class, "export"])->name("calendar.export");
+Route::post("/calendar/export/on", [CalendarController::class, "exportarActivitats"])->name("calendar.export.on");

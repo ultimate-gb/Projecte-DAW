@@ -30,6 +30,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
+import javax.swing.table.DefaultTableModel;
 import org.milaifontanals.iface.IBaseDeDades;
 import org.milaifontanals.iface.ProjecteDawException;
 import org.milaifontanals.models.Activitat;
@@ -50,14 +51,20 @@ public class ActivitatPage {
     private Calendari cal;
     private Usuari user;
     private CalendarPage calendariPage;
+    private DefaultTableModel modelTaula;
+    private int selectedRowTable;
+    private ArrayList<Activitat> actList;
 
-    public ActivitatPage(JDialog calendarPage, IBaseDeDades db, Activitat act, Calendari cal, Usuari user, int tipus, CalendarPage calendariPage) {
+    public ActivitatPage(JDialog calendarPage, IBaseDeDades db, Activitat act, Calendari cal, Usuari user, int tipus, CalendarPage calendariPage, DefaultTableModel modelTaula, int selectedRowTable, ArrayList<Activitat> actList) {
         this.calendarPage = calendarPage;
         this.db = db;
         this.act = act;
         this.cal = cal;
         this.user = user;
         this.calendariPage = calendariPage;
+        this.modelTaula = modelTaula;
+        this.selectedRowTable = selectedRowTable;
+        this.actList = actList;
         if (tipus == 0) {
             carregarVistaAfegir();
         } else if (tipus == 1) {
@@ -84,7 +91,12 @@ public class ActivitatPage {
         dataTarget.add(dataIniciT);
         dataLabel.add(new JLabel("Data Final: "));
         JTextField dataFiT = new JTextField(15);
-        dataFiT.setText(act.getDateFi().toString());
+        if(act.getDateFi() == null) {
+            dataFiT.setText("");
+        }
+        else {
+            dataFiT.setText(act.getDateFi().toString());
+        }
         dataFiT.setName("dataFi");
         dataTarget.add(dataFiT);
         dataLabel.add(new JLabel("Descripcio: "));
@@ -100,13 +112,13 @@ public class ActivitatPage {
             int selectedIndex = -1;
             for (TipusActivitat tip : tpList) {
                 tp.addItem(tip);
-                if(tip.getCodi() == act.getTipus().getCodi()) {
+                if (tip.getCodi() == act.getTipus().getCodi()) {
                     selectedIndex = i;
                 }
                 i++;
             }
             tp.setSelectedIndex(selectedIndex);
-            
+
         } catch (ProjecteDawException ex) {
             JOptionPane.showMessageDialog(activitatPage, "Error en Obrir Editar Activitat", "Error En Obrir Editar Activitat", JOptionPane.ERROR_MESSAGE);
         }
@@ -186,12 +198,6 @@ public class ActivitatPage {
         editZone.add(cancelarBtn);
         carregarForm(panellPrincipal, dataLabel, dataTarget, editZone);
         activitatPage.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        activitatPage.addWindowListener(new WindowAdapter() {
-            @Override
-            public void windowClosing(WindowEvent e) {
-
-            }
-        });
         activitatPage.add(panellPrincipal);
         activitatPage.setResizable(false);
         activitatPage.setType(Window.Type.POPUP);
@@ -377,6 +383,20 @@ public class ActivitatPage {
                 act.setUser(user);
                 if (db.insertActivitat(act) > 0) {
                     db.aplicarCanvis();
+                    String dataFi = "";
+                    if (act.getDateFi() == null) {
+                        dataFi = "";
+                    } else {
+                        dataFi = act.getDateFi().toString();
+                    }
+                    String publicada = "";
+                    if (act.isPublicada()) {
+                        publicada = "Si";
+                    } else {
+                        publicada = "No";
+                    }
+                    actList.add(act);
+                    modelTaula.addRow(new Object[]{act.getNom(), act.getDateInici().toString(), dataFi, act.getTipus(), publicada});
                     activitatPage.dispose();
                 } else {
                     JOptionPane.showMessageDialog(activitatPage, "Error en Inserir.", "Error Al Inserir", JOptionPane.ERROR_MESSAGE);
@@ -525,6 +545,17 @@ public class ActivitatPage {
                 act.setId(activitat.getId());
                 if (db.updateActivitat(act) > 0) {
                     db.aplicarCanvis();
+                    modelTaula.setValueAt(act.getNom(), selectedRowTable, 0);
+                    modelTaula.setValueAt(act.getDateInici().toString(), selectedRowTable, 1);
+                    modelTaula.setValueAt(act.getDateFi().toString(), selectedRowTable, 2);
+                    modelTaula.setValueAt(act.getTipus(), selectedRowTable, 3);
+                    String publicada;
+                    if (act.isPublicada()) {
+                        publicada = "Si";
+                    } else {
+                        publicada = "No";
+                    }
+                    modelTaula.setValueAt(publicada, selectedRowTable, 4);
                     activitatPage.dispose();
                 } else {
                     JOptionPane.showMessageDialog(activitatPage, "Error en Actualitzar.", "Error Al Actualitzar", JOptionPane.ERROR_MESSAGE);

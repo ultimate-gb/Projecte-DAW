@@ -2,8 +2,7 @@
     #loginForm, #registerForm {
         display: flex;
         justify-content: center;
-        align-items: center;
-        height: 100vh;
+        min-height: 100vh;
         background-image: url("../img/backgroundLoginImg.jpg");
         background-repeat: no-repeat;
         background-size: cover;
@@ -51,6 +50,18 @@
             font-family: 'Baloo 2', cursive;
             font-size: 20px;
             width: 100%;
+        }
+    }
+    &>#loginForm {
+        align-items: center;
+        main {
+            height: 25%;
+        }
+    }
+    &>#registerForm {
+        main {
+            margin-bottom: 4%;
+            margin-top: 4%;
         }
     }
     .errorInputs {

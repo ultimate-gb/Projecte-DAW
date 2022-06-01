@@ -2,8 +2,7 @@
 #projecteCalendarApp #registerForm {
   display: flex;
   justify-content: center;
-  align-items: center;
-  height: 100vh;
+  min-height: 100vh;
   background-image: url("../img/backgroundLoginImg.jpg");
   background-repeat: no-repeat;
   background-size: cover;
@@ -60,6 +59,16 @@
   font-family: 'Baloo 2', cursive;
   font-size: 20px;
   width: 100%;
+}
+#projecteCalendarApp>#loginForm {
+  align-items: center;
+}
+#projecteCalendarApp>#loginForm main {
+  height: 25%;
+}
+#projecteCalendarApp>#registerForm main {
+  margin-bottom: 4%;
+  margin-top: 4%;
 }
 #projecteCalendarApp .errorInputs {
   border-color: #f00;

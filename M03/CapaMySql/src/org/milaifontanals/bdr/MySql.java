@@ -12,6 +12,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Types;
 import java.util.ArrayList;
 import java.util.Properties;
 import java.util.logging.Level;
@@ -66,7 +67,12 @@ public class MySql implements IBaseDeDades {
             ps.setString(2, user.getCognoms());
             ps.setDate(3, user.getData_naix());
             ps.setString(4, String.valueOf(user.getGenere()));
-            ps.setInt(5, user.getTelefon());
+            if(user.getTelefon() == null) {
+                ps.setNull(5, Types.VARCHAR);
+            }
+            else {
+                ps.setString(5, user.getTelefon());
+            }
             ps.setBoolean(6, user.isBloquejat());
             ps.setInt(7, user.getRole());
             ps.setBoolean(8, user.isValidat());
@@ -88,7 +94,7 @@ public class MySql implements IBaseDeDades {
             Usuari user = null;
             if (rs.next()) {
                 user = new Usuari(rs.getInt("id"), rs.getString("email"), rs.getString("nom"), rs.getString("cognoms"), rs.getDate("data_naix"), rs.getString("genere").charAt(0), rs.getBoolean("bloquejat"), rs.getInt("role"), new Nacionalitat(rs.getString("NatCode"), rs.getString("Nacionalitat")), rs.getString("token"), rs.getBoolean("validat"));
-                user.setTelefon(rs.getInt("telefon"));
+                user.setTelefon(rs.getString("telefon"));
             }
             return user;
         } catch (SQLException ex) {
@@ -104,7 +110,7 @@ public class MySql implements IBaseDeDades {
             ArrayList<Usuari> userList = new ArrayList();
             while (rs.next()) {
                 Usuari u = new Usuari(rs.getInt("id"), rs.getString("email"), rs.getString("nom"), rs.getString("cognoms"), rs.getDate("data_naix"), rs.getString("genere").charAt(0), rs.getBoolean("bloquejat"), rs.getInt("role"), new Nacionalitat(rs.getString("NatCode"), rs.getString("Nacionalitat")), rs.getString("token"), rs.getBoolean("validat"));
-                u.setTelefon(rs.getInt("telefon"));
+                u.setTelefon(rs.getString("telefon"));
                 userList.add(u);
             }
             return userList;
@@ -122,7 +128,7 @@ public class MySql implements IBaseDeDades {
             ArrayList<Usuari> userList = new ArrayList();
             while (rs.next()) {
                 Usuari u = new Usuari(rs.getInt("id"), rs.getString("email"), rs.getString("nom"), rs.getString("cognoms"), rs.getDate("data_naix"), rs.getString("genere").charAt(0), rs.getBoolean("bloquejat"), rs.getInt("role"), new Nacionalitat(rs.getString("NatCode"), rs.getString("Nacionalitat")), rs.getString("token"), rs.getBoolean("validat"));
-                u.setTelefon(rs.getInt("telefon"));
+                u.setTelefon(rs.getString("telefon"));
                 userList.add(u);
             }
             return userList;
@@ -141,7 +147,7 @@ public class MySql implements IBaseDeDades {
             ArrayList<Usuari> userList = new ArrayList();
             while (rs.next()) {
                 Usuari u = new Usuari(rs.getInt("id"), rs.getString("email"), rs.getString("nom"), rs.getString("cognoms"), rs.getDate("data_naix"), rs.getString("genere").charAt(0), rs.getBoolean("bloquejat"), rs.getInt("role"), new Nacionalitat(rs.getString("NatCode"), rs.getString("Nacionalitat")), rs.getString("token"), rs.getBoolean("validat"));
-                u.setTelefon(rs.getInt("telefon"));
+                u.setTelefon(rs.getString("telefon"));
                 
                 userList.add(u);
             }
@@ -163,23 +169,33 @@ public class MySql implements IBaseDeDades {
             }
             return calList;
         } catch (SQLException ex) {
-            throw new ProjecteDawException("No s'ha pogut cercar el usuari per nom cognom", (Throwable) ex);
+            throw new ProjecteDawException("No s'ha pogut cercar els calendaris on es propietari el usuari", (Throwable) ex);
         }
     }
 
     @Override
     public ArrayList<Calendari> cercaCalendariAjudant(Usuari user) throws ProjecteDawException {
         try {
-            PreparedStatement ps = con.prepareStatement("select id, nom, data_creacio from calendari c RIGHT JOIN ajuda a ON a.calendari = c.id WHERE a.user = ?");
+            PreparedStatement ps = con.prepareStatement("select id, nom, data_creacio, c.user from calendari c RIGHT JOIN ajuda a ON a.calendari = c.id WHERE a.user = ?");
+            PreparedStatement ps2 = con.prepareStatement("select u.id, u.email, u.nom, u.cognoms, u.data_naix, u.genere, u.telefon, u.bloquejat, u.role, u.token, u.validat, n.codi as 'NatCode', n.nom as 'Nacionalitat' from users u JOIN nacionalitat n ON n.codi=u.nacionalitat where u.id=?");
             ps.setInt(1, user.getId());
             ResultSet rs = ps.executeQuery();
             ArrayList<Calendari> calList = new ArrayList();
             while (rs.next()) {
-                calList.add(new Calendari(rs.getInt("id"), rs.getString("nom"), rs.getTimestamp("data_creacio"), user));
+                ps2.setInt(1, rs.getInt("user"));
+                ResultSet rs2 = ps2.executeQuery();
+                Usuari calOwner = new Usuari();
+                if(rs2.next()) {
+                   calOwner = new Usuari(rs2.getInt("id"), rs2.getString("email"), rs2.getString("nom"), rs2.getString("cognoms"), rs2.getDate("data_naix"), rs2.getString("genere").charAt(0), rs2.getBoolean("bloquejat"), rs2.getInt("role"), new Nacionalitat(rs2.getString("NatCode"), rs2.getString("Nacionalitat")), rs2.getString("token"), rs2.getBoolean("validat"));
+                }
+                else {
+                    throw new ProjecteDawException("No s'ha pogut trobar un el propietari del calendari " + rs.getString("nom"));
+                }
+                calList.add(new Calendari(rs.getInt("id"), rs.getString("nom"), rs.getTimestamp("data_creacio"), calOwner));
             }
             return calList;
         } catch (SQLException ex) {
-            throw new ProjecteDawException("No s'ha pogut cercar el usuari per nom cognom", (Throwable) ex);
+            throw new ProjecteDawException("No s'ha pogut cercar el calendari on ajuda el usuari", (Throwable) ex);
         }
     }
 

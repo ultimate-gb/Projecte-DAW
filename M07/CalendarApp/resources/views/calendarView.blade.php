@@ -31,6 +31,9 @@
                         <th>Data Inici:</th>
                         <th>Data Fi</th>
                         <th>Descripcio</th>
+                        @if ($esPropietari)
+                            <th>Propietari</th>
+                        @endif
                         <th>Tipus</th>
                         <th>Publicada</th>
                         <th>Opcions</th>
@@ -44,7 +47,15 @@
                         <td>{{$item->data_inici}}</td>
                         <td>{{$item->data_fi}}</td>
                         <td>{{$item->descripcio}}</td>
-                        <td>{{ $item->tipus }}</td>
+                        @if ($esPropietari)
+                            @if ($user->id == $item->user)
+                                <td>Jo</td>
+                            @else
+                                <td>{{ $item->Propietari()->get()->first()->nom . " " . $item->Propietari()->get()->first()->cognoms }}</td>
+                            @endif
+                            
+                        @endif
+                        <td>{{ $item->Tipus()->get()->first()->nom }}</td>
                         <td>
                             @if($item->publicada == 1)
                                 <i class="fa fa-check"></i>
@@ -127,7 +138,7 @@
             </header>
             <main>
                 <p>Si es aixi pressiona el buto de publica</p>
-                <a href="{{ route("calendar", ['op'=>"add", "id"=>"-1"]) }}" class="btn btn-primary bg-newblue">Publicar</a>
+                <a href="{{ route("calendar.publicar", ["id"=>$calendari->id]) }}" class="btn btn-primary bg-newblue">Publicar</a>
             </main>
             
         </section>
@@ -138,8 +149,7 @@
         </header>
         <main>
             <p>Si es aixi pressiona el buto d'exporta</p>
-            <a href="{{ route("calendar", ['op'=>"add", "id"=>"-1"]) }}" class="btn btn-primary bg-newblue">Exportar</a>
-        </main>
-        
+            <a href="{{ route("calendar.export", ["id"=>$calendari->id]) }}" class="btn btn-primary bg-newblue">Exportar</a>
+        </main>    
     </section>  
 @endsection

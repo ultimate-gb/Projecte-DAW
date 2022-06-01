@@ -21,4 +21,9 @@ class Activitat extends Model
     {
         return $this->belongsTo(Users::class, "user", "id");
     }
+
+    public function Tipus(): \Illuminate\Database\Eloquent\RelatioNS\BelongsTo
+    {
+        return $this->belongsTo(TipusActivitat::class, "tipus", "codi");
+    }
 }

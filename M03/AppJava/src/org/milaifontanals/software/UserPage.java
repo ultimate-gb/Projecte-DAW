@@ -467,7 +467,7 @@ public class UserPage {
                                     validades++;
                                 } else if (text.getText().matches("^[1-9][0-9]{8}$")) {
                                     validades++;
-                                    u.setTelefon(Integer.parseInt(text.getText()));
+                                    u.setTelefon(text.getText());
                                 } else {
                                     errorsTrobats++;
                                     if (i < (dataTarget.size() - 1) && errorsTrobats > 1) {

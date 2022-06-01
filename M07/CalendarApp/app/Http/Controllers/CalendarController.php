@@ -100,12 +100,16 @@ class CalendarController extends Controller
             return redirect("/index")->with("message", "Falta el id")->with("tipus", "danger");
         }
         $calendari = Calendar::find($id);
-        $activitats = Activitat::where('calendari', $id)->paginate(10)->withQueryString();
         $email = session("email");
         $user = Users::where('email',$email)->get()->first();
+        $activitats = null;;
         $esPropietari = false;
         if($user->id == $calendari->user) {
             $esPropietari =true;
+            $activitats = Activitat::where('calendari', $id)->paginate(10)->withQueryString();
+        }
+        else {
+            $activitats = Activitat::where('calendari', $id)->where('user',$user->id)->paginate(10)->withQueryString();
         }
         $ajudants = array();
         $calendariTarget = array();
@@ -129,7 +133,7 @@ class CalendarController extends Controller
             "ajudants"=> $data,
             "targets"=>$calendariTarget, 
             "message"=>"",
-            "tipus"=>array()
+            "user"=>$user
         ));
     }
 
@@ -146,6 +150,9 @@ class CalendarController extends Controller
     }
 
     public function vistaAfegirDestinataris(Request $request) {
+        if($request->id == null) {
+            return redirect("/index")->with("message", "Falta el id o el id es incorrecte")->with("tipus", "danger");
+        }
         $calendari = Calendar::find($request->id);
         if($calendari == null) {
             return redirect("/index")->with("message", "Falta el id o el id es incorrecte")->with("tipus", "danger");
@@ -155,5 +162,36 @@ class CalendarController extends Controller
 
     public function afegirDestinataris(Request $request) {
         
+    }
+
+    public function publicar(Request $request) {
+        if($request->id == null) {
+            return redirect("/index")->with("message", "Falta el id o el id es incorrecte")->with("tipus", "danger");
+        }
+        $calendari = Calendar::find($request->id);
+        $activitats = Activitat::where('calendari', $request->id)->paginate(10)->withQueryString();
+        if($calendari == null) {
+            return redirect("/index")->with("message", "Falta el id o el id es incorrecte")->with("tipus", "danger");
+        }
+        return view("publicarView", array('calendar'=>$request->id, "message"=>"", "tipus"=>"", "activitats"=>$activitats));
+    }
+
+    public function publicarActivitats(Request $request) {
+
+    }
+
+    public function export(Request $request) {
+        if($request->id == null) {
+            return redirect("/index")->with("message", "Falta el id o el id es incorrecte")->with("tipus", "danger");
+        }
+        $calendari = Calendar::find($request->id);
+        if($calendari == null) {
+            return redirect("/index")->with("message", "Falta el id o el id es incorrecte")->with("tipus", "danger");
+        }
+        return view("exportarView", array('calendar'=>$request->id, "message"=>"", "tipus"=>""));
+    }
+
+    public function exportacioActivitats(Request $request) {
+
     }
 }

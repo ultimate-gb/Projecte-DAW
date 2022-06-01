@@ -137,7 +137,7 @@ function validarForm() {
         document.querySelector('#telefonInput').classList.remove("errorInputs");
         telOptional = true;
     }
-    if(telefon.length > 0 && telefon.match(new RegExp('^[1-9][0-9]{8}$'))) {
+    if(telefon.length > 0 && telefon.match(new RegExp('^\\+?\\d{1,20}$'))) {
         document.querySelector('#telefonL').classList.remove("errorInputs");
         document.querySelector('#telefonInput').classList.remove("errorInputs");
         nValids++;
@@ -199,8 +199,6 @@ function f_notificarError(data) {
         let errorMessage = document.querySelector('#errorMessage');
         errorMessage.classList.remove('d-none');
         errorMessage.textContent = resposta.message;
-        document.querySelector("#emailL").classList.add("errorInputs");
-        document.querySelector("#emailInput").classList.add("errorInputs");
         setTimeout(f_removeAlert, 5000);
     }
 }
