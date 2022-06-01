@@ -51,7 +51,7 @@
             @endforeach
         </ul>
     </div>
-@endif
+    @endif
     <h2>{{ $opType }} Activitat: </h2>
     @if ($op == "del")
         <p>Estas Segur que vols esborar el activitat. Si aixo es cert pressiona el buto de esborrar. Si no es pot esborrar tambe se li notificara</p>

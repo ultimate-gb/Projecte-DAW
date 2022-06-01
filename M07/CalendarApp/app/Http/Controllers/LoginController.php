@@ -23,6 +23,10 @@ class LoginController extends Controller
             session()->flash("message","Credencials Introduides Invalides");
             return redirect("/login");
         }
+        if($usuari->bloquejat) {
+            session()->flash("message","Usuari bloquejat");
+            return redirect("/login");
+        }
         session()->flash("message","Login Correcte");
         session()->put("email",$email);
         return redirect('/index');

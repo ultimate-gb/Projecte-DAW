@@ -39,7 +39,7 @@ Route::delete("/calendar/destroy", [CalendarController::class, 'destroy'])->name
 
 Route::get("/ajudants/{op}/{id}/{calendariId}", [AjudantsController::class, 'index'])->name("ajudants");
 Route::post("/ajudants/create", [AjudantsController::class, 'add'])->name("ajudants.add");
-Route::post("/ajudants/destroy", [AjudantsController::class, 'destroy'])->name("ajudants.del");
+Route::delete("/ajudants/destroy", [AjudantsController::class, 'destroy'])->name("ajudants.del");
 
 Route::get("/activitat/{op}/{id}/{calendariId}", [ActivitatsController::class, "index"])->name("activitat");
 Route::post("/activitat/create", [ActivitatsController::class, "add"])->name("activitat.add");

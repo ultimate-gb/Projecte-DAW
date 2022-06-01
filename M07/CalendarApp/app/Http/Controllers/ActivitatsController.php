@@ -95,9 +95,9 @@ class ActivitatsController extends Controller
         try {
             Activitat::create(array('nom'=>$request->nom, "data_inici"=>$dataInici, "data_fi"=>$dataFi, "calendari"=>$request->calendar, 'user'=>$request->user, "descripcio"=>$request->descripcio, "publicada"=>false, 'tipus'=>$request->tipus));
         } catch (PDOException $ex) {
-            return redirect('/activitat/add/-1/'.$request->calendar)->with("message","No s'ha inserit la activitat")->with('type',"danger");
+            return redirect('/activitat/add/-1/'.$request->calendar)->with("message","No s'ha inserit la activitat")->with('tipus',"danger");
         }
-        return redirect('/calendar/see?id='.$request->calendar)->with("message", "S'ha inserit correctament la activitat")->with("type", "success");
+        return redirect('/calendar/see?id='.$request->calendar)->with("message", "S'ha inserit correctament la activitat")->with("tipus", "success");
     }
     public function edit(Request $request) {
         $validatedData = $request->validate([
@@ -124,9 +124,9 @@ class ActivitatsController extends Controller
             $activitat->descripcio = $request->descripcio;
             $activitat->tipus = $request->tipus;
             $activitat->save();
-            return redirect('/calendar/see?id='.$request->calendar)->with("message", "S'ha actualitzat correctament la activitat ".$activitat->nom)->with("type", "success");
+            return redirect('/calendar/see?id='.$request->calendar)->with("message", "S'ha actualitzat correctament la activitat ".$activitat->nom)->with("tipus", "success");
         } catch (PDOException $ex) {
-            return redirect('/activitat/edit/'. $request->id .'/'.$request->calendar)->with("message","No s'ha actualitzat la activitat")->with('type',"danger");
+            return redirect('/activitat/edit/'. $request->id .'/'.$request->calendar)->with("message","No s'ha actualitzat la activitat")->with('tipus',"danger");
         }
     }
     public function destroy(Request $request) {
