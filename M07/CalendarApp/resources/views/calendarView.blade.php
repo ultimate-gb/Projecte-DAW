@@ -132,7 +132,7 @@
                 </tbody>
             </table>
         </section>
-        <section class="container">
+        <section class="container mb-3">
             <header class="titolZone">
                 <h4>Vols Publicar El Calendari?</h4>
             </header>
@@ -143,7 +143,7 @@
             
         </section>
     @endif
-    <section class="container">
+    <section class="container mb-3">
         <header class="titolZone">
             <h4>Vols Exportar Les Activitats del Calendari?</h4>
         </header>

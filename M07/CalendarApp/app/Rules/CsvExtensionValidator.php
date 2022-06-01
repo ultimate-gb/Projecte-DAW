@@ -2,6 +2,7 @@
 
 namespace App\Rules;
 
+use App\Http\Controllers\MyUtilities;
 use Illuminate\Contracts\Validation\Rule;
 
 class CsvExtensionValidator implements Rule
@@ -25,8 +26,7 @@ class CsvExtensionValidator implements Rule
      */
     public function passes($attribute, $value)
     {
-        $dotPos = strrpos($value->getClientOriginalName(), "."); //  Busca el punt en el nom del fitxer
-        $ext = substr($value->getClientOriginalName(), $dotPos); // Obte l'extensio
+        $ext = MyUtilities::extensionDicover($value);
         if($ext == '.csv') {
             return true;
         }

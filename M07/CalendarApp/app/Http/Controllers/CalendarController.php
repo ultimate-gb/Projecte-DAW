@@ -187,7 +187,7 @@ class CalendarController extends Controller
         $fileStatus = "";
         if ($request->hasFile('csvFile')) {
             $name = $request->file('csvFile')->getClientOriginalName();
-            $fileName = $this->uniqueFileName($name);
+            $fileName = MyUtilities::uniqueFileName($name);
             $path = $request->file('csvFile')->storeAs('public/files', $fileName); // Puja un fitxer
             if($request->file('csvFile')->isValid()) {
                 $fileStatus = "Fitxer pujat correctament";
@@ -261,27 +261,38 @@ class CalendarController extends Controller
         if($calendari == null) {
             return redirect("/index")->with("message", "Falta el id o el id es incorrecte")->with("tipus", "danger");
         }
-        return view("exportarView", array('calendar'=>$request->id, "message"=>"", "tipus"=>""));
+        return view("exportarView", array('calendar'=>$request->id, "message"=>"", "tipus"=>"", "calendari"=>$calendari));
     }
 
-    public function exportacioActivitats(Request $request) {
+    public function exportarActivitats(Request $request) {
+        $user = Users::where("email", session('email'))->get()->first();
+        $url = "http://localhost:8081/projecte/CalendarApp/public/api/getToken";
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_POST, true);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, array('email'=>$user->email,"password"=>$user->password));
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        $result = curl_exec($ch);
+        $output = json_decode($result);
+        if($output->status == 200) {
+            $token = $output->data;
+            $url2 = "http://localhost:8081/projecte/CalendarApp/public/api/exportarActivitats";
+            $ch2 = curl_init();
+            curl_setopt($ch2, CURLOPT_URL, $url2);
+            curl_setopt($ch2, CURLOPT_POST, true);
+            curl_setopt($ch2, CURLOPT_HTTPHEADER, ["Authorization: ".$token]);
+            curl_setopt($ch2, CURLOPT_POSTFIELDS, array('calendari'=>$request->calendar, "dataInici"=>$request->dataInici,"dataFi"=>$request->dataFi));
+            curl_setopt($ch2, CURLOPT_RETURNTRANSFER, true);
+            $result2 = curl_exec($ch2);
+            $output2 = json_decode($result2);
+            Storage::put("activitats.csv", $output2->data);
+            return Storage::download("activitats.csv");
+        }
+        else {
+            return redirect("calendar/export?id=".$request->calendar)->with("message", "No s'ha pogut descarregar")->with("tipus","danger");
+        }
 
     }
 
-    private function uniqueFileName(string $fileName): string
-    {
-        $today = getdate(); // Obte data actual
-        $ext = $this->extensionDicover($fileName); // Obte extensio fitxer
-        $newFileName = str_replace($ext, "-" . $today['mday'] . $today['mon'] . $today['year']  . $today['hours'] . $today['minutes'] . $today['seconds'] . $ext, $fileName, $fileName); // Afegiex al nom del fitxer una data per fer-lo unic
 
-        return $newFileName; // Retorna el nom unic
-    }
-
-    private function extensionDicover(string $fileName = null): string
-    {
-        $dotPos = strrpos($fileName, "."); //  Busca el punt en el nom del fitxer
-        $ext = substr($fileName, $dotPos); // Obte l'extensio
-
-        return $ext; // Retorna la extensio
-    }
 }

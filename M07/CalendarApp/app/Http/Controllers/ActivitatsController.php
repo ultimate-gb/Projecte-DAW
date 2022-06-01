@@ -139,4 +139,5 @@ class ActivitatsController extends Controller
             return redirect("/index")->with("message", "Ha ocurregut un error no controlat i no s'ha pogut eliminar la activitat")->with("tipus", "danger");
         }
     }
+
 }
