@@ -10,7 +10,7 @@
 @endsection
 
 @section('mainContent')
-    <div class="alert topMessage d-none" role="alert" id="topAlert">
+    <div class="alert topMessage d-none alert-{{ $tipus }}" role="alert" id="topAlert">
         {{ $message }}
     </div>
     <header>

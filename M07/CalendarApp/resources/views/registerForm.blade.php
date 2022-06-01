@@ -24,7 +24,13 @@
         @csrf
         <div class="input-group mb-4">
             <label id="emailL" class="input-group-text  {{ $labelClassCols }}" for="emailInput">Correu Electronic</label>
-            <input type="email" name='email' class="form-control {{ $inputClassCols }}" id="emailInput" placeholder="Correu Electronic" aria-label="Mail" aria-describedby="mail">
+            @php
+                $readonly = "";
+                if(strlen($email) > 0) {
+                    $readonly = "readonly";
+                }
+            @endphp
+            <input type="email" name='email' class="form-control {{ $inputClassCols }}" id="emailInput" value="{{ $email }}" placeholder="Correu Electronic" aria-label="Mail" aria-describedby="mail" {{ $readonly }}>
         </div>
         <div class="input-group mb-3">
             <label id="nomL" class="input-group-text   {{ $labelClassCols }}" for="nomInput">Nom</label>
@@ -69,6 +75,9 @@
               @endforeach
             </select>
         </div>
+        @if (strlen($token)>0)
+            <input type="hidden" name="token" id="token" value="{{ $token }}">
+        @endif
         <div class="col-12 d-flex gap-2 buttonGroup">
             <button type="submit" name='registerBtn' id="registerBtn" class="btn btn-primary bg-newblue w-100">Registrar-se</button>
         </div>

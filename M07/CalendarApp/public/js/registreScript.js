@@ -18,6 +18,7 @@ function validarForm() {
     let genere = document.querySelector('#genereSel').value;
     let telefon = document.querySelector('#telefonInput').value;
     let nacionalitat = document.querySelector('#nacionalitatSel').value;
+    let token = document.querySelector('#token');
     let nValids = 0;
     let telOptional = false;
     let errors = new Array();
@@ -161,7 +162,14 @@ function validarForm() {
     }
     if((nValids == 11 && telOptional == true) || (nValids == 12 && telOptional == false)) {
         errorAlert.classList.add("d-none");
-        f_ferPeticioAjax("POST", "http://localhost/projecte/CalendarApp/public/register/save", true, generarLiniaDeParametres({email:email,nom:nom,cognom1:cognom1,cognom2:cognom2,pass:passwd, genere:genere,telefon:telefon,nacionalitat,nacionalitat, dataNaix:dataNaix}),f_enviarALogin, f_notificarError);
+        let data = "";
+        if(token != null) {
+            data =generarLiniaDeParametres({email:email,nom:nom,cognom1:cognom1,cognom2:cognom2,pass:passwd, genere:genere,telefon:telefon,nacionalitat,nacionalitat, dataNaix:dataNaix, token:token});
+        }
+        else {
+            data =generarLiniaDeParametres({email:email,nom:nom,cognom1:cognom1,cognom2:cognom2,pass:passwd, genere:genere,telefon:telefon,nacionalitat,nacionalitat, dataNaix:dataNaix, token:""}); 
+        }
+        f_ferPeticioAjax("POST", "http://localhost:8081/projecte/CalendarApp/public/register/save", true, data,f_enviarALogin, f_notificarError);
     }
     else {
         let errorAlert = document.querySelector('#errorAlert');
@@ -188,7 +196,7 @@ function f_enviarALogin(data) {
         else {
             message = encodeURIComponent('Registre Realitzat Correctament. No se li ha pogut enviar un correu de la validacio del compte en el correu ' + user.email );
         }
-        window.location.href = "http://localhost/projecte/CalendarApp/public/login?message="+message;
+        window.location.href = "http://localhost:8081/projecte/CalendarApp/public/login?message="+message;
     }
 
 }

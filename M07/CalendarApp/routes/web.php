@@ -30,6 +30,9 @@ Route::get('/login/logout', [LoginController::class, 'logout'])->name('login.log
 Route::get('/index', [AppController::class, 'index'])->name("index");
 Route::get('/register', [AppController::class, 'register'])->name("register")->withoutMiddleware(\App\Http\Middleware\CheckLogin::class);
 Route::post("/register/save", [AppController::class, 'registerSave'])->name("register.save")->withoutMiddleware(\App\Http\Middleware\CheckLogin::class);
+Route::get("/register/completarUsuari/{token}", [AppController::class, 'registerCompletar'])->withoutMiddleware(\App\Http\Middleware\CheckLogin::class);
+Route::get("/register/acceptarInvitacio/{token}", [AppController::class, 'registerAcceptarInvitacio'])->name("register.invitation.save")->withoutMiddleware(\App\Http\Middleware\CheckLogin::class);
+Route::post("/register/update", [AppController::class, 'registerUpdate'])->name("register.update")->withoutMiddleware(\App\Http\Middleware\CheckLogin::class);
 
 Route::get("/calendar/{op}/{id}", [CalendarController::class, 'index'])->name('calendar');
 Route::get("/calendar/see", [CalendarController::class, 'see'])->name('calendar.see');

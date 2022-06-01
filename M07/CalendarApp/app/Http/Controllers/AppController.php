@@ -41,7 +41,7 @@ class AppController extends Controller
     public function register()
     {
         $nacionalities = Nacionalitat::all();
-        return view("registerForm", array("nacionalities" => $nacionalities));
+        return view("registerForm", array("nacionalities" => $nacionalities, "email"=>"", 'token'=>""));
     }
 
     public function registerSave(Request $request)
@@ -57,12 +57,32 @@ class AppController extends Controller
         $nacionalitat = $request->nacionalitat;
         $users = null;
         try {
-            if (strlen($cognom2) == 0) {
-                $users = Users::create(array("email" => $email, "nom" => $nom, "cognoms" => $cognom1, "password" => md5($password), "data_naix" => $dataNaix, "telefon" => $telefon, "genere" => $genere, "nacionalitat" => $nacionalitat, "token"=>md5($email)));
+            if(strlen($request->token) == 0) {
+                if (strlen($cognom2) == 0) {
+                    $users = Users::create(array("email" => $email, "nom" => $nom, "cognoms" => $cognom1, "password" => md5($password), "data_naix" => $dataNaix, "telefon" => $telefon, "genere" => $genere, "nacionalitat" => $nacionalitat, "token"=>md5($email)));
+                }
+                else {
+                    $users = Users::create(array("email"=>$email, "nom"=>$nom, "cognoms"=>$cognom1." ".$cognom2, "password"=>md5($password), "data_naix"=>$dataNaix, "telefon"=>$telefon,"genere"=>$genere, "nacionalitat"=>$nacionalitat, "token"=>md5($email)));
+                }
             }
             else {
-                $users = Users::create(array("email"=>$email, "nom"=>$nom, "cognoms"=>$cognom1." ".$cognom2, "password"=>md5($password), "data_naix"=>$dataNaix, "telefon"=>$telefon,"genere"=>$genere, "nacionalitat"=>$nacionalitat, "token"=>md5($email)));
+                $users = Users::where('email',$email)->get()->first();
+                $users->nom = $nom;
+                if (strlen($cognom2) == 0) {
+                    $users->cognoms = $cognom1;
+                }
+                else {
+                    $users->cognoms = $cognom1 . " ". $cognom2;
+                }
+                $users->password = md5($password);
+                $users->data_naix = $dataNaix;
+                $users->telefon = $telefon;
+                $users->genere = $genere;
+                $users->nacionalitat = $nacionalitat;
+                $users->token = md5($email);
+                $users->save();
             }
+
             $emailName = $nom." ".$cognom1;
             if(strlen($cognom2) > 0) {
                 $emailName .= " " . $cognom2;
@@ -99,5 +119,31 @@ class AppController extends Controller
 
         }
 
+    }
+
+    public function registerCompletar($token) {
+        $user = Users::where("token", $token)->where('validat', false)->get()->first();
+        if($user == null) {
+            return redirect("/login")->with("message", "Token invalid")->with("tipus", "danger");
+        }
+        else {
+            try {
+                $user->validat = true;
+                $user->save();
+                return redirect("/login")->with("message", "La validacio s'ha pogut completar ja pot iniciar sessio")->with("tipus", "success");
+            }
+            catch(PDOException $ex) {
+                return redirect("/login")->with("message", "La validacio no s'ha pogut completar")->with("tipus", "danger");
+            }
+        }
+    }
+    
+    public function registerAcceptarInvitacio($token) {
+        $user = Users::where('token',$token)->where('validat',false)->get()->first();
+        if($user == null) {
+            return redirect("/login")->with("message", "Token Invalid")->with("tipus", "danger"); 
+        }
+        $nacionalities = Nacionalitat::all();
+        return view("registerForm", array("nacionalities" => $nacionalities, "email"=>$user->email, "token"=>$token));
     }
 }

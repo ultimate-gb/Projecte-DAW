@@ -26,7 +26,6 @@ function f_main() {
         console.log(alert.textContent.length);
         if(alert.textContent.length > 14) {
             alert.classList.remove("d-none");
-            alert.classList.add('alert-danger');
         }
     }
 }
