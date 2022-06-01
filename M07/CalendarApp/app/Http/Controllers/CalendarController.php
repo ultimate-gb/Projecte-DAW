@@ -266,7 +266,7 @@ class CalendarController extends Controller
 
     public function exportarActivitats(Request $request) {
         $user = Users::where("email", session('email'))->get()->first();
-        $url = "http://localhost:8081/projecte/CalendarApp/public/api/getToken";
+        $url = "http://localhost/projecte/CalendarApp/public/api/getToken";
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $url);
         curl_setopt($ch, CURLOPT_POST, true);
@@ -276,7 +276,7 @@ class CalendarController extends Controller
         $output = json_decode($result);
         if($output->status == 200) {
             $token = $output->data;
-            $url2 = "http://localhost:8081/projecte/CalendarApp/public/api/exportarActivitats";
+            $url2 = "http://localhost/projecte/CalendarApp/public/api/exportarActivitats";
             $ch2 = curl_init();
             curl_setopt($ch2, CURLOPT_URL, $url2);
             curl_setopt($ch2, CURLOPT_POST, true);

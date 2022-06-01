@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use Exception;
+use Google\Client;
+use Google\Service\Calendar;
 use Illuminate\Http\Request;
-use Google_Client;
 
 class MyUtilities extends Controller
 {
@@ -33,9 +35,9 @@ class MyUtilities extends Controller
 
     public static function getClient()
     {
-        $client = new Google_Client();
+        $client = new Client();
         $client->setApplicationName('Google Calendar API PHP Quickstart');
-        $client->setScopes(Google_Service_Calendar::CALENDAR);
+        $client->setScopes(Calendar::CALENDAR);
         $client->setAuthConfig('credentials.json');
         $client->setAccessType('offline');
         $client->setPrompt('select_account consent');
