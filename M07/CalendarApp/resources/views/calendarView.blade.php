@@ -131,6 +131,7 @@
                 @endforeach
                 </tbody>
             </table>
+            {{$targets->links()}}
         </section>
         <section class="container mb-3">
             <header class="titolZone">

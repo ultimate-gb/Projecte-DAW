@@ -11,7 +11,7 @@ class Calendar extends Model
 {
     use HasFactory;
     public $table = "calendari";
-    public $fillable = array('id', "nom", "data_creacio", "user");
+    public $fillable = array('id', "nom", "data_creacio", "user", "googleCalId");
     public $timestamps = false;
 
     public function Users(): \Illuminate\Database\Eloquent\RelatioNS\BelongsTo

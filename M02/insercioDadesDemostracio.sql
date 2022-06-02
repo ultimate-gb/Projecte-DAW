@@ -50,7 +50,7 @@ INSERT INTO tipus_activitat(codi,nom,user) VALUES(10,'Tallers', 2);
 /* Inserint activitats */
 INSERT INTO activitat(calendari,nom, data_inici, data_fi, descripcio, user, tipus) VALUES(1,'Xerrada Trilogi','2022-06-30 15:00:00', '2022-06-30 17:00:00', "Una xerrada de presentacio de l'empresa",1, 2);
 
-INSERT INTO activitat(calendari,nom, data_inici, data_fi, descripcio, user, tipus) VALUES(1,'Sortida Exterior','2022-07-01 15:00:00', '2022-07-01 15:00:00', "Sortida a el autoforum de tarragona",2, 4);
+INSERT INTO activitat(calendari,nom, data_inici, data_fi, descripcio, user, tipus) VALUES(1,'Sortida Exterior','2022-07-01 15:00:00', '2022-07-01 15:00:00', "Sortida a el autoforum de tarragona",2, 9);
 /* Inserint target del calendari */
 INSERT INTO calendari_target(email, calendar) VALUES ('gerard.proves.01@gmail.com', 1);
 

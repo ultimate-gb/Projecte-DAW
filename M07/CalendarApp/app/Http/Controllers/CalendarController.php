@@ -12,6 +12,9 @@ use App\Models\CalendariTarget;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use App\Rules\CsvExtensionValidator;
+use Google\Service\Calendar as GoogleCalendar;
+use Google\Service\Calendar\AclRule;
+use Google\Service\Calendar\AclRuleScope;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Pagination\LengthAwarePaginator;
@@ -128,14 +131,13 @@ class CalendarController extends Controller
         $data = array();
         if($esPropietari) {
             foreach($calendari->Ajuda()->get() as $ajuda) {
-                array_push($ajudants, $ajuda->Users()->first());
+                if($ajuda->Users()->first()->validat == 1) {
+                    array_push($ajudants, $ajuda->Users()->first());
+                }
             }
             $myCollectionObj = collect($ajudants);
             $data = $this->paginate($myCollectionObj)->withPath(url()->current())->withQueryString();
-            $calendarisTarget = CalendariTarget::where('calendar', $id)->get();
-            foreach($calendarisTarget as $target) {
-                array_push($calendariTarget, $target);
-            }
+            $calendariTarget = CalendariTarget::where('calendar', $id)->paginate(5,['*'], "targets")->withQueryString();
         }
         return view("calendarView", array(
             'calendari'=>$calendari, 
@@ -242,7 +244,7 @@ class CalendarController extends Controller
             return redirect("/index")->with("message", "Falta el id o el id es incorrecte")->with("tipus", "danger");
         }
         $calendari = Calendar::find($request->id);
-        $activitats = Activitat::where('calendari', $request->id)->paginate(10)->withQueryString();
+        $activitats = Activitat::where('calendari', $request->id)->where('publicada', false)->paginate(10)->withQueryString();
         if($calendari == null) {
             return redirect("/index")->with("message", "Falta el id o el id es incorrecte")->with("tipus", "danger");
         }
@@ -250,6 +252,89 @@ class CalendarController extends Controller
     }
 
     public function publicarActivitats(Request $request) {
+        $calendari = Calendar::find($request->calendar);
+        if($calendari == null) {
+            $id = session("calendarId");
+            if($id == null) {
+                return redirect("/calendar/publicar")->with("message", "Falta el id o el id es incorrecte")->with("tipus", "danger");
+            }
+            else {
+                $calendari = Calendar::find($id);
+                session()->forget("calendarId");
+            }
+            
+        }
+        else {
+            session()->put("calendarId", $request->calendar);
+            session()->put("publicar", json_encode($request->publicar));
+        }
+        $client = MyUtilities::getGoogleClient($request);
+        $idGoogleCalendar = null;
+        $service = new GoogleCalendar($client);
+        if($calendari->googleCalId == null || strlen($calendari->googleCalId) == 0) {
+            $idGoogleCalendar = MyUtilities::createGoogleCalendar($client, $calendari->nom, "Europe/Madrid", $service);
+            try {
+                $calendari->googleCalId = $idGoogleCalendar;
+                $calendari->save();
+            } catch(PDOException $ex) {
+                return redirect("/calendar/publicar")->with("message", "No s'ha pogut inserir guardar el id del calendari creat.")->with("tipus", "danger");
+                $service->calendars->delete($idGoogleCalendar);
+            }
+        }
+        else {
+            $idGoogleCalendar = $calendari->googleCalId;
+        }
+        $activitats = Activitat::findMany(json_decode(session("publicar"),true));
+        session()->forget("publicar");
+        if($activitats == null) {
+            return redirect("/calendar/publicar")->with("message", "Ha ocurregut un error")->with("tipus", "danger");
+        }
+        foreach($activitats as $act) {
+            $descripcio = "";
+            if($act->descripcio != null) {
+                $descripcio = $act->descripcio;
+            }
+            $event = MyUtilities::createGoogleCalendarEvent($service, $idGoogleCalendar, MyUtilities::convertDateTimeSqlToDateTimeCalendar($act->data_inici), MyUtilities::convertDateTimeSqlToDateTimeCalendar($act->data_fi),$act->nom,$descripcio, "Europe/Madrid" );
+            if(isset($event->error)) {
+                continue;
+            }
+            else {
+                try {
+                    $activitat = Activitat::find($act->id);
+                    $activitat->publicada = 1;
+                    $activitat->save();
+                } catch(PDOException $ex) {
+                    $service->events->delete($idGoogleCalendar, $event->id);
+                    return redirect("/calendar/publicar")->with("message", "Ha ocurregut un error al passar a actualitzar")->with("tipus", "danger");
+                }
+            }
+        }
+        $targets = CalendariTarget::where('calendar',$calendari->id)->get();
+        $acl = $service->acl->listAcl('primary');
+        foreach($targets as $targ) {
+            $i = 0;
+            foreach ($acl->getItems() as $rule) {
+                $email = $rule->getScope()->getValue();
+                if($email != $targ->email) {
+                    $i++;
+                }   
+            }
+            if($i == count($acl->getItems())) {
+                $rule = new AclRule();
+                $scope = new AclRuleScope();
+
+                $scope->setType("user");
+                $scope->setValue("$targ->email");
+                $rule->setScope($scope);
+                $rule->setRole("reader");
+
+                $createdRule = $service->acl->insert('primary', $rule);
+                if(isset($createdRule->error)) {
+                    continue;
+                }
+            }
+        }
+        return redirect("/calendar/see?id=". $calendari->id)->with("message", "Tot publicat correctament")->with("tipus", "success");
 
     }
 

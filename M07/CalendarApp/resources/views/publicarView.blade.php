@@ -19,7 +19,8 @@
         </div>
     @endif
     <h2>Publicar Activitats: </h2>
-    <form class="container mt-3" method="POST" action="{{ route('calendar.export.on') }}"> 
+    <form class="container mt-3" method="GET" action="{{ route('calendar.publicar.on') }}"> 
+        @csrf
         <section class="table-responsive">
             <table class="table table-bordered">
                 <thead>
@@ -38,7 +39,7 @@
                 <tbody>
                 @foreach($activitats as $item)
                     <tr>
-                        <td><input type="checkbox" name="publicar[]"></td>
+                        <td><input type="checkbox" name="publicar[]" value="{{ $item->id }}"></td>
                         <td scope="row">{{$item->id}}</td>
                         <td>{{$item->nom}}</td>
                         <td>{{$item->data_inici}}</td>
@@ -66,7 +67,7 @@
         </section>
         <input type="hidden" name="calendar" value="{{ $calendar }}">
         <div class="d-flex justify-content-end">
-            <input type="submit" name="publicar" value="Publicar" class="btn btn-secondary btn-manager">
+            <input type="submit" name="publicarBtn" value="Publicar" class="btn btn-secondary btn-manager">
         </div>
     </form>
 @endsection

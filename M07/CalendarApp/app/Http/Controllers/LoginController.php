@@ -22,9 +22,9 @@ class LoginController extends Controller
     public function check(Request $request) {
         $email = $request->input("email");
         $pass = $request->input('pass');
-        $usuari = Users::where('email',$email)->where('password',md5($pass))->get()->first();
+        $usuari = Users::where('email',$email)->where('password',md5($pass))->where('validat',1)->get()->first();
         if($usuari == null) {
-            session()->flash("message","Credencials Introduides Invalides");
+            session()->flash("message","Credencials Introduides Invalides o falta validar compte");
             session()->flash("tipus","danger");
             return redirect("/login");
         }

@@ -180,6 +180,9 @@
         display: flex;
         justify-content: space-between;
         width: 8%;
+        a:first-child  {
+            margin-right: 2%;
+        }
     }
 }
 @media only screen and (max-width: 1200px) {
@@ -189,7 +192,45 @@
                 width: 60%;
             }
         }
-        
+        .calendariArt {
+            width: 50%;
+        }
+                #index {
+            &>main {
+                &>main {
+                    &>section {
+                        display: flex;
+                        justify-content: space-around;
+                        flex-direction: column;
+                    }
+                }
+                &>section {
+                    margin-bottom: 2%;
+                    &>div {
+                        display: flex;
+                        justify-content: space-around;
+                        flex-wrap: wrap;
+                        gap: 2%;
+                        .calendariArt {
+                            margin-bottom: 2%;
+                        }
+                    }
+                }
+            }
+            .titolZone {
+                .btn {
+                    width: 25%;
+                    height: 5%;
+                }
+             }
+        }
+        #calendariViewer {
+            .titolZone {
+                .btn {
+                    width: 25%;
+                }
+            }   
+        }
     }
 }
 
@@ -233,6 +274,62 @@
                 }
             }
         }
-        
+        .calendariArt {
+            width: 100%;
+        }
+        #index {
+            &>main {
+                &>main {
+                    &>section {
+                        display: flex;
+                        justify-content: space-around;
+                        flex-direction: column;
+                    }
+                }
+                &>section {
+                    margin-bottom: 2%;
+                    &>div {
+                        display: flex;
+                        justify-content: space-around;
+                        flex-wrap: wrap;
+                        gap: 2%;
+                        .calendariArt {
+                            margin-bottom: 2%;
+                        }
+                    }
+                }
+            }
+            .titolZone {
+                display: flex;
+                align-items: center;
+                flex-direction: column;
+                margin-top: 0.5%;
+                .btn {
+                    width: 95%;
+                    height: 10%;
+                }
+                margin-bottom: 5%;
+             }
+        }
+        #calendariViewer {
+            .titolZone {
+                display: flex;
+                align-items: center;
+                flex-direction: column;
+                margin-top: 0.5%;
+                .btn {
+                    width: 95%;
+                    height: 10%;
+                }
+                margin-bottom: 5%;
+            }   
+        }
+        .leftHeader {
+            display: flex;
+            justify-content: space-between;
+            width: 15%;
+        }
     }
+
+    
 }

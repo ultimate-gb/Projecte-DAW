@@ -49,6 +49,9 @@ class ActivitatsController extends Controller
         else if($op == "edit") {
             try {
                 $activitat = Activitat::find($id);
+                if($activitat->publicada == 1) {
+                    return redirect("/calendar/see?id=".$calendariId)->with("message", "No pot modificar una activitat publicada")->with("tipus", "danger");
+                }
                 if($activitat == null) {
                     throw new PDOException("Activitat no trobada");
                 }
@@ -71,6 +74,10 @@ class ActivitatsController extends Controller
         }
         else if($op == "del") {
             $opType = "Esborrar";
+            $activitat = Activitat::find($id);
+            if($activitat->publicada == 1) {
+                return redirect("/calendar/see?id=".$calendariId)->with("message", "No pot eliminar una activitat publicada")->with("tipus", "danger");
+            }
         }
         return view("activitatManager", array('op'=>$op,'calendar'=>$calendariId, "opType"=>$opType, "user" =>$usuari->id, 'id'=>$id, "message"=>$message, "tipus"=>$type, "activitat"=>$activitat, "tipusActivitats"=>$tipusActivitats, "actDataInici"=>$dtInici, "actDataFi"=>$dtFi));
     }

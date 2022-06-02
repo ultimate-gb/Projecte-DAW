@@ -177,10 +177,40 @@
   justify-content: space-between;
   width: 8%;
 }
+#projecteCalendarApp .leftHeader a:first-child {
+  margin-right: 2%;
+}
 @media only screen and (max-width: 1200px) {
   #projecteCalendarApp #loginForm main,
   #projecteCalendarApp #registerForm main {
     width: 60%;
+  }
+  #projecteCalendarApp .calendariArt {
+    width: 50%;
+  }
+  #projecteCalendarApp #index>main>main>section {
+    display: flex;
+    justify-content: space-around;
+    flex-direction: column;
+  }
+  #projecteCalendarApp #index>main>section {
+    margin-bottom: 2%;
+  }
+  #projecteCalendarApp #index>main>section>div {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    gap: 2%;
+  }
+  #projecteCalendarApp #index>main>section>div .calendariArt {
+    margin-bottom: 2%;
+  }
+  #projecteCalendarApp #index .titolZone .btn {
+    width: 25%;
+    height: 5%;
+  }
+  #projecteCalendarApp #calendariViewer .titolZone .btn {
+    width: 25%;
   }
 }
 @media only screen and (max-width: 768px) {
@@ -228,5 +258,52 @@
   #projecteCalendarApp #loginForm main .btnLogin,
   #projecteCalendarApp #registerForm main .btnLogin {
     font-size: 20px;
+  }
+  #projecteCalendarApp .calendariArt {
+    width: 100%;
+  }
+  #projecteCalendarApp #index>main>main>section {
+    display: flex;
+    justify-content: space-around;
+    flex-direction: column;
+  }
+  #projecteCalendarApp #index>main>section {
+    margin-bottom: 2%;
+  }
+  #projecteCalendarApp #index>main>section>div {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    gap: 2%;
+  }
+  #projecteCalendarApp #index>main>section>div .calendariArt {
+    margin-bottom: 2%;
+  }
+  #projecteCalendarApp #index .titolZone {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    margin-top: 0.5%;
+    margin-bottom: 5%;
+  }
+  #projecteCalendarApp #index .titolZone .btn {
+    width: 95%;
+    height: 10%;
+  }
+  #projecteCalendarApp #calendariViewer .titolZone {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    margin-top: 0.5%;
+    margin-bottom: 5%;
+  }
+  #projecteCalendarApp #calendariViewer .titolZone .btn {
+    width: 95%;
+    height: 10%;
+  }
+  #projecteCalendarApp .leftHeader {
+    display: flex;
+    justify-content: space-between;
+    width: 15%;
   }
 }

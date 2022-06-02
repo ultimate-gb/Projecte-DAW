@@ -57,7 +57,7 @@ Route::get("/calendar/destinataris", [CalendarController::class, "vistaAfegirDes
 Route::post("/calendar/destinataris/add", [CalendarController::class, "afegirDestinataris"])->name("calendar.destinataris.add");
 
 Route::get("/calendar/publicar", [CalendarController::class, "publicar"])->name("calendar.publicar");
-Route::get("/calendar/publicar/on", [CalendarController::class, "publicarActivitats"])->name("calendar.publicar.on");
+Route::get("/calendar/publicar-on", [CalendarController::class, "publicarActivitats"])->name("calendar.publicar.on");
 
 Route::get("/calendar/export", [CalendarController::class, "export"])->name("calendar.export");
 Route::post("/calendar/export/on", [CalendarController::class, "exportarActivitats"])->name("calendar.export.on");

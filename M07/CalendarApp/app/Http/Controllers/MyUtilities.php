@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use Exception;
 use Google\Client;
-use Google\Service\Calendar;
+use Google\Service\Calendar as GoogleCalendar;
+use Google\Service\Calendar\Event as GoogleCalendarEvent;
+use Google\Service\Calendar\Calendar as GoogleCalendarCalendar;
 use Illuminate\Http\Request;
 
 class MyUtilities extends Controller
@@ -33,11 +35,11 @@ class MyUtilities extends Controller
         return $resultat;
     }
 
-    public static function getClient()
+    public static function getGoogleClient(Request $request)
     {
         $client = new Client();
         $client->setApplicationName('Google Calendar API PHP Quickstart');
-        $client->setScopes(Calendar::CALENDAR);
+        $client->setScopes(GoogleCalendar::CALENDAR);
         $client->setAuthConfig('credentials.json');
         $client->setAccessType('offline');
         $client->setPrompt('select_account consent');
@@ -60,8 +62,8 @@ class MyUtilities extends Controller
             } else {
                 // Request authorization from the user.
                 $authUrl = $client->createAuthUrl();
-                if(isset($_GET['code'])) {
-                    $code = $_GET['code'];
+                if(isset($request->code)) {
+                    $code = $request->code;
                     $authCode = trim($code);
                 } 
                 else {
@@ -87,5 +89,40 @@ class MyUtilities extends Controller
             file_put_contents($tokenPath, json_encode($client->getAccessToken()));
         }
         return $client;
+    }
+
+    public static function createGoogleCalendar(Client $client, String $nomCalendari, String $timeZone, GoogleCalendar $service) {
+        $calendar = new GoogleCalendarCalendar();
+        $calendar->setSummary($nomCalendari);
+        $calendar->setTimeZone($timeZone);
+
+        $createdCalendar = $service->calendars->insert($calendar);
+
+        return $createdCalendar->getId();
+    }
+
+    public static function createGoogleCalendarEvent(GoogleCalendar $service, String $calendarId, String $dateStart, String $dateFinish, String $summary, String $descripcio, String $timeZone) {
+        $event = new GoogleCalendarEvent(array(
+            'summary' => $summary,
+            'description' => $descripcio,
+            'start' => array(
+              'dateTime' => $dateStart,
+              'timeZone' => $timeZone,
+            ),
+            'end' => array(
+                'dateTime' => $dateFinish,
+                'timeZone' => $timeZone,
+            ),
+            'reminders' => array(
+              'useDefault' => FALSE,
+              'overrides' => array(
+                array('method' => 'email', 'minutes' => 24 * 60),
+                array('method' => 'popup', 'minutes' => 10),
+              ),
+            ),
+          ));
+          
+          $event = $service->events->insert($calendarId, $event);
+          return $event;
     }
 }

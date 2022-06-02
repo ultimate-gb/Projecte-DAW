@@ -169,7 +169,7 @@ function validarForm() {
         else {
             data =generarLiniaDeParametres({email:email,nom:nom,cognom1:cognom1,cognom2:cognom2,pass:passwd, genere:genere,telefon:telefon,nacionalitat,nacionalitat, dataNaix:dataNaix, token:""}); 
         }
-        f_ferPeticioAjax("POST", "http://localhost:8081/projecte/CalendarApp/public/register/save", true, data,f_enviarALogin, f_notificarError);
+        f_ferPeticioAjax("POST", "http://localhost/projecte/CalendarApp/public/register/save", true, data,f_enviarALogin, f_notificarError);
     }
     else {
         let errorAlert = document.querySelector('#errorAlert');
@@ -196,7 +196,7 @@ function f_enviarALogin(data) {
         else {
             message = encodeURIComponent('Registre Realitzat Correctament. No se li ha pogut enviar un correu de la validacio del compte en el correu ' + user.email );
         }
-        window.location.href = "http://localhost:8081/projecte/CalendarApp/public/login?message="+message;
+        window.location.href = "http://localhost/projecte/CalendarApp/public/login?message="+message;
     }
 
 }

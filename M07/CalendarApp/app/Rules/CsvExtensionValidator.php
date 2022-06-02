@@ -26,7 +26,7 @@ class CsvExtensionValidator implements Rule
      */
     public function passes($attribute, $value)
     {
-        $ext = MyUtilities::extensionDicover($value);
+        $ext = MyUtilities::extensionDicover($value->getClientOriginalName());
         if($ext == '.csv') {
             return true;
         }
