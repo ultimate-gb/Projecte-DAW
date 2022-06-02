@@ -72,4 +72,13 @@
             @endforeach
         </div>
     </section>
+    <section class="container mb-3" id="informe">
+        <header class="titolZone">
+            <h4>Vols Un Informe de les Activitats del Calendari?</h4>
+        </header>
+        <main>
+            <p>Si es aixi pressiona el buto d'informe</p>
+            <a href="{{ route("calendar.inform") }}" class="btn btn-primary bg-newblue">Inform</a>
+        </main>    
+    </section>  
 @endsection

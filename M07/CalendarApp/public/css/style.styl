@@ -1,8 +1,19 @@
+$bgblue = rgb(0, 0, 117);
 #projecteCalendarApp {
+    body {
+        min-height: 100vh;
+    }
+    .app {
+        display: flex;
+        justify-content: space-between;
+        flex-direction: column;
+        main {
+            flex: 1;
+        }
+    }
     #loginForm, #registerForm {
         display: flex;
         justify-content: center;
-        min-height: 100vh;
         background-image: url("../img/backgroundLoginImg.jpg");
         background-repeat: no-repeat;
         background-size: cover;
@@ -14,7 +25,7 @@
             header {
                 padding-bottom: 2%;
                 font-family: 'Baloo 2', cursive;
-                //background-color: rgb(0, 0, 117);
+                //background-color: $blue;
                 h1 {
                     text-align: center;
                     color: white;
@@ -28,7 +39,7 @@
                         padding-top: 2%;
                         padding-bottom: 2%;
                         background-color: white;
-                        color: rgb(0, 0, 117);
+                        color: $bgblue;
                     }
                     label.input-group-text  {
                         border-right: 0px;
@@ -68,20 +79,20 @@
         border-color: red;
     }
     .onFocus {
-        border-color: blue;
+        border-color: $bgblue;
         border-width: 1.5px;
         box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
     }
     .bg-newblue {
-        background-color: rgb(0, 0, 117);
+        background-color: $bgblue;
     }
     .calendariArt {
-        width: 25%;
+        width: 35%;
         border: 1px solid black;
         padding-left: 0px;
         padding-right: 0px;
         header {
-            background-color: rgb(0, 0, 121);
+            background-color: $bgblue;
             color: white;
         }
         main {
@@ -117,7 +128,11 @@
                 &>section {
                     display: flex;
                     justify-content: space-around;
+                    flex-wrap: wrap;
                     gap: 2%;
+                    .calendariArt {
+                        margin-bottom: 2%;
+                    }
                 }
             }
             &>section {
@@ -142,6 +157,18 @@
                 height: 5%;
             }
             height: 5%;
+        }
+        #informe {
+            text-align: center;
+            header {
+                justify-content: center
+            }
+            main {
+                text-align: center;
+                a {
+                    width: 25%;
+                }
+            }
         }
     }
     #calendariManager {
@@ -169,6 +196,26 @@
             }
         }
     }
+    #calendariViewer {
+        #publicacio {
+            text-align: center;
+            .titolZone {
+                justify-content: center;
+            }
+            a {
+                width: 25%;
+            }
+        }
+        #exportacio {
+            text-align: center;
+            .titolZone {
+                justify-content: center;
+            }
+            a {
+                width: 25%;
+            }
+        }
+    }
     .topMessage {
         position: absolute;
         top: 0px;
@@ -184,6 +231,45 @@
             margin-right: 2%;
         }
     }
+    #loader {
+        width: 100%;
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        position: fixed;
+        background: white;
+        top: 0px;
+        .log, .log2 {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+        }
+        .log {
+            border:20px solid transparent;
+            border-top-color: rgb(0, 0, 121);
+            animation: example 1s linear 0s infinite;
+        }
+        .log2 {
+            position: absolute;
+            border-radius: 50%;
+            border:20px solid grey;
+        }
+    }
+    footer {
+        padding-top: 1%;
+        padding-bottom: 1%;
+        &>div {
+            display: flex;
+            justify-content: space-between;
+            color: white;
+            p {
+                padding-bottom: 0px;
+                margin-bottom: 0px;
+            }
+        }
+
+    }
 }
 @media only screen and (max-width: 1200px) {
     #projecteCalendarApp {
@@ -195,13 +281,12 @@
         .calendariArt {
             width: 50%;
         }
-                #index {
+        #index {
             &>main {
                 &>main {
                     &>section {
                         display: flex;
                         justify-content: space-around;
-                        flex-direction: column;
                     }
                 }
                 &>section {
@@ -223,6 +308,13 @@
                     height: 5%;
                 }
              }
+            #informe {
+                main {
+                    a {
+                        width: 50%;
+                    }
+                }
+            }
         }
         #calendariViewer {
             .titolZone {
@@ -230,6 +322,9 @@
                     width: 25%;
                 }
             }   
+        }
+        .btn-manager {
+            width: 50%;
         }
     }
 }
@@ -327,9 +422,52 @@
         .leftHeader {
             display: flex;
             justify-content: space-between;
-            width: 15%;
+            width: 50%;
+        }
+        &>body {
+            &>header {
+                &>nav {
+                    flex-direction: column;
+
+                }
+            }
+        }
+        #calendariViewer {
+            #publicacio {
+                a {
+                    width: 100%;
+                }
+            }
+            #exportacio {
+                text-align: center;
+                a {
+                    width: 100%;
+                    margin-bottom: 5%;
+                }
+            }
+        }
+        .btn-manager {
+            width: 100%;
         }
     }
 
     
+}
+
+@keyframes example {
+    0% {
+        transform: rotate(0deg);
+    }
+    25% {
+        transform: rotate(90deg);
+    }
+    50% {
+        transform: rotate(180deg);
+    }
+    75% {
+        transform: rotate(260deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
 }

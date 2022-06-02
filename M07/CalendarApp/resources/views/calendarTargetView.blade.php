@@ -4,7 +4,7 @@
 
 @section('returnBack', route("calendar.see", ["id"=>$calendar]))
 
-@section('webZone', "Calendari -> Destinataris Manager")
+@section('webZone', "Calendari -> Target")
 
 @section('bodyId', "calendariDestinatarisManager")
 

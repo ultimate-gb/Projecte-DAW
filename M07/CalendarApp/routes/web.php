@@ -61,3 +61,6 @@ Route::get("/calendar/publicar-on", [CalendarController::class, "publicarActivit
 
 Route::get("/calendar/export", [CalendarController::class, "export"])->name("calendar.export");
 Route::post("/calendar/export/on", [CalendarController::class, "exportarActivitats"])->name("calendar.export.on");
+
+Route::get("/calendar/inform", [CalendarController::class, "inform"])->name("calendar.inform");
+Route::post("/calendar/inform/on", [CalendarController::class, "generarInforme"])->name("calendar.inform.on");

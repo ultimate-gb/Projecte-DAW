@@ -65,10 +65,15 @@ public class ActivitatPage {
         this.modelTaula = modelTaula;
         this.selectedRowTable = selectedRowTable;
         this.actList = actList;
-        if (tipus == 0) {
-            carregarVistaAfegir();
-        } else if (tipus == 1) {
-            carregarVistaModificar();
+        if (act.isPublicada() != true) {
+            if (tipus == 0) {
+                carregarVistaAfegir();
+            } else if (tipus == 1) {
+                carregarVistaModificar();
+            }
+        }
+        else {
+            JOptionPane.showMessageDialog(activitatPage, "Error: No pots editar una activitat publicada", "Error En Obrir Editar Activitat", JOptionPane.ERROR_MESSAGE);
         }
     }
 
@@ -91,10 +96,9 @@ public class ActivitatPage {
         dataTarget.add(dataIniciT);
         dataLabel.add(new JLabel("Data Final: "));
         JTextField dataFiT = new JTextField(15);
-        if(act.getDateFi() == null) {
+        if (act.getDateFi() == null) {
             dataFiT.setText("");
-        }
-        else {
+        } else {
             dataFiT.setText(act.getDateFi().toString());
         }
         dataFiT.setName("dataFi");

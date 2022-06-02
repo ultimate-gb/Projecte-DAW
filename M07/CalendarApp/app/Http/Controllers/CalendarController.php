@@ -147,7 +147,8 @@ class CalendarController extends Controller
             "targets"=>$calendariTarget, 
             "message"=>$message,
             "tipus"=>$type,
-            "user"=>$user
+            "user"=>$user,
+            'isMobile'=>MyUtilities::isMobile()
         ));
     }
 
@@ -376,8 +377,34 @@ class CalendarController extends Controller
         else {
             return redirect("calendar/export?id=".$request->calendar)->with("message", "No s'ha pogut descarregar")->with("tipus","danger");
         }
-
     }
 
+    public function inform(Request $request) {
+        $calendaris = Calendar::all();
+        return view("informView", array("message"=>"", "tipus"=>"", "calendaris"=>$calendaris));
+    }
+
+    public function generarInforme(Request $request) {
+        $url = "http://51.68.224.27:8080/jasperserver/rest_v2/reports/daw2-gbalsells/InformeProjecte_02_06_2022.pdf?";
+        $i = 0;
+        if(strlen($request->informe) > 0) {
+            foreach($request->informe as $id) {
+                $url .= "cal=".$id;
+                $i++;
+                if($i < count($request->informe)) {
+                    $url .= "&";
+                }
+            }
+        }
+
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_POST, false);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, ["Authorization:Basic ".base64_encode("daw2-gbalsells:4192G")]);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        $result = curl_exec($ch);
+        Storage::put("informe.pdf", $result);
+        return Storage::download("informe.pdf");
+    }
 
 }

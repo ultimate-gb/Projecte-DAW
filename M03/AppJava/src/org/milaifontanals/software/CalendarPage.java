@@ -242,7 +242,7 @@ public class CalendarPage {
         private CalendarPage calendariPage;
         private DefaultTableModel modelTaula;
 
-        public AddAct(ArrayList<Activitat> actList, CalendarPage calendariPage,DefaultTableModel modelTaula) {
+        public AddAct(ArrayList<Activitat> actList, CalendarPage calendariPage, DefaultTableModel modelTaula) {
             this.actList = actList;
             this.calendariPage = calendariPage;
             this.modelTaula = modelTaula;
@@ -273,16 +273,21 @@ public class CalendarPage {
         public void actionPerformed(ActionEvent e) {
             if (activitatTable.getSelectedRow() != -1) {
                 Activitat act = actList.get(activitatTable.getSelectedRow());
-                try {
-                    if (db.deleteActivitat(act) < 0) {
-                        JOptionPane.showMessageDialog(calendarPage, "Error En Eliminar la activtat " + act.getNom(), "Error En Eliminar la activtat " + act.getNom(), JOptionPane.ERROR_MESSAGE);
-                    } else {
-                        db.aplicarCanvis();
-                        modelTaula.removeRow(activitatTable.getSelectedRow());
-                    }
+                if (act.isPublicada() == false) {
+                    try {
+                        if (db.deleteActivitat(act) < 0) {
+                            JOptionPane.showMessageDialog(calendarPage, "Error En Eliminar la activtat " + act.getNom(), "Error En Eliminar la activtat " + act.getNom(), JOptionPane.ERROR_MESSAGE);
+                        } else {
+                            db.aplicarCanvis();
+                            modelTaula.removeRow(activitatTable.getSelectedRow());
+                        }
 
-                } catch (ProjecteDawException ex) {
-                    JOptionPane.showMessageDialog(calendarPage, "Error En Eliminar la activtat " + act.getNom(), "Error En Eliminar la activtat " + act.getNom(), JOptionPane.ERROR_MESSAGE);
+                    } catch (ProjecteDawException ex) {
+                        JOptionPane.showMessageDialog(calendarPage, "Error En Eliminar la activtat " + act.getNom(), "Error En Eliminar la activtat " + act.getNom(), JOptionPane.ERROR_MESSAGE);
+                    }
+                }
+                else {
+                    JOptionPane.showMessageDialog(calendarPage, "Error: No pots eliminar una activitat publicada", "Error En Eliminar Activitat", JOptionPane.ERROR_MESSAGE);
                 }
             } else {
                 JOptionPane.showMessageDialog(calendarPage, "Seleccioni algun element a eliminar", "Atencio ", JOptionPane.INFORMATION_MESSAGE);

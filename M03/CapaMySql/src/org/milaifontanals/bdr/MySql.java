@@ -55,6 +55,7 @@ public class MySql implements IBaseDeDades {
             this.con = DriverManager.getConnection(url, usu, pwd);
             this.con.setAutoCommit(false);
         } catch (SQLException ex) {
+            ex.printStackTrace();
             throw new ProjecteDawException("Problemes en intentar fer la connexio", (Throwable) ex);
         }
     }
@@ -312,9 +313,16 @@ public class MySql implements IBaseDeDades {
     @Override
     public ArrayList<Activitat> getActivitatsCalendari(Calendari calendari, Usuari user) throws ProjecteDawException {
         try {
-            PreparedStatement ps = con.prepareStatement("select a.id, a.nom, a.data_inici, a.data_fi, a.descripcio, t.codi as 'Codi Act', t.nom as 'Nom Act', a.publicada from activitat a JOIN tipus_activitat t ON t.codi = a.tipus Where a.user = ? and a.calendari = ?");
-            ps.setInt(1, user.getId());
-            ps.setInt(2, calendari.getId());
+            PreparedStatement ps = null;
+            if(calendari.getUser().getId() == user.getId()) {
+                 ps = con.prepareStatement("select a.id, a.nom, a.data_inici, a.data_fi, a.descripcio, t.codi as 'Codi Act', t.nom as 'Nom Act', a.publicada from activitat a JOIN tipus_activitat t ON t.codi = a.tipus Where a.calendari = ?");
+                 ps.setInt(1, calendari.getId());
+            }
+            else {
+                 ps = con.prepareStatement("select a.id, a.nom, a.data_inici, a.data_fi, a.descripcio, t.codi as 'Codi Act', t.nom as 'Nom Act', a.publicada from activitat a JOIN tipus_activitat t ON t.codi = a.tipus Where a.user = ? and a.calendari = ?");
+                 ps.setInt(1, user.getId());
+                 ps.setInt(2, calendari.getId());
+            }      
             ResultSet rs = ps.executeQuery();
             ArrayList<Activitat> activityList = new ArrayList();
             while (rs.next()) {

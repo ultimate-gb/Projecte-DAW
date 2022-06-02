@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Projecte" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="f0e69f01-308f-4e3a-a9fe-dd623063754e">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<property name="ireport.jasperserver.reportUnit" value="/daw2-gbalsells/InformeProjecte_02_06_2022"/>
+	<property name="ireport.jasperserver.url" value="http://51.68.224.27:8080/jasperserver/services/repository"/>
+	<parameter name="cal" class="java.util.Collection">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT a.id, a.nom, a.data_inici, a.data_fi, a.descripcio, concat(u.nom,concat(" ", u.cognoms)) as "Nom", tp.nom as "Tipus", c.nom as "Calendari" FROM activitat a JOIN tipus_activitat tp ON tp.codi=a.tipus JOIN users u ON u.id=a.user JOIN calendari c ON c.id=a.calendari WHERE $X{IN, a.calendari, cal} OR $X{IN, "", cal};]]>
+	</queryString>
+	<field name="id" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="nom" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="data_inici" class="java.sql.Timestamp">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="data_fi" class="java.sql.Timestamp">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="descripcio" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="Tipus" class="java.lang.String"/>
+	<field name="Calendari" class="java.lang.String"/>
+	<group name="Calendari" isStartNewPage="true">
+		<groupExpression><![CDATA[$F{Calendari}]]></groupExpression>
+		<groupHeader>
+			<band height="79">
+				<staticText>
+					<reportElement uuid="2f6e2563-6e0f-4070-a239-bbf39077e8b2" x="0" y="0" width="100" height="22"/>
+					<textElement/>
+					<text><![CDATA[Nom Calendari]]></text>
+				</staticText>
+				<staticText>
+					<reportElement uuid="2d5bfdb4-a2c4-45e1-acc3-95eac7b92592" x="0" y="51" width="92" height="20"/>
+					<textElement/>
+					<text><![CDATA[id]]></text>
+				</staticText>
+				<staticText>
+					<reportElement uuid="9639ca3a-c4d4-489b-a971-a0b4fd2b8a53" x="92" y="51" width="92" height="20"/>
+					<textElement/>
+					<text><![CDATA[nom]]></text>
+				</staticText>
+				<staticText>
+					<reportElement uuid="cdcf30fd-91d5-4a04-841c-7b362bb3ef3f" x="184" y="51" width="92" height="20"/>
+					<textElement/>
+					<text><![CDATA[data_inici]]></text>
+				</staticText>
+				<staticText>
+					<reportElement uuid="798753a1-5a7b-48fd-b7a6-d6a5dc4fe431" x="276" y="51" width="92" height="20"/>
+					<textElement/>
+					<text><![CDATA[data_fi]]></text>
+				</staticText>
+				<staticText>
+					<reportElement uuid="2bacaaa6-e5d0-4156-a9c0-55872c7aff2b" x="368" y="51" width="92" height="20"/>
+					<textElement/>
+					<text><![CDATA[descripcio]]></text>
+				</staticText>
+				<staticText>
+					<reportElement uuid="63a65c48-2e4b-4baf-8049-5668fa862afc" x="460" y="51" width="92" height="20"/>
+					<textElement/>
+					<text><![CDATA[Tipus]]></text>
+				</staticText>
+				<line>
+					<reportElement uuid="8d09c12b-7a74-4ceb-beb9-8ddb636e0b24" x="0" y="71" width="555" height="1"/>
+				</line>
+				<textField>
+					<reportElement uuid="bfb6f324-3d97-4122-8f4f-9eb78e5f5848" x="100" y="0" width="100" height="20"/>
+					<textElement/>
+					<textFieldExpression><![CDATA[$F{Calendari}]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band height="50"/>
+		</groupFooter>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<pageHeader>
+		<band height="85" splitType="Stretch">
+			<staticText>
+				<reportElement uuid="873a394e-0abd-44f5-bd3e-b60a4dcbe8b2" x="110" y="1" width="445" height="25"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Informe Mestre-Detall - Calendari - Activitats]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="c82d81d1-b715-4638-b50b-cd5dd24f7c52" x="110" y="25" width="220" height="20"/>
+				<textElement/>
+				<text><![CDATA[Nom Empresa: Calendar S.A]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="91190411-7c7f-4aef-be72-c3c394a89e08" x="330" y="27" width="225" height="18"/>
+				<textElement/>
+				<text><![CDATA[Adreça: C/ Nostra Senyora de la Merce, n23]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="03665134-df98-418b-8b29-9c6be241bd33" x="110" y="45" width="220" height="20"/>
+				<textElement/>
+				<text><![CDATA[Telefon: 608975968]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="d8213da0-6943-4e7c-8405-6769b80f871c" x="330" y="45" width="225" height="20"/>
+				<textElement/>
+				<text><![CDATA[Municipi: Santa Coloma de Queralt]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="f4b36067-0f97-481f-ae6d-310ac5d72b82" x="110" y="65" width="145" height="20"/>
+				<textElement/>
+				<text><![CDATA[Calendari Seleccionat: ]]></text>
+			</staticText>
+			<textField>
+				<reportElement uuid="5a2227ef-8439-4ffd-ac13-75308defaedb" x="255" y="65" width="300" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[""+$P{cal}]]></textFieldExpression>
+			</textField>
+			<image>
+				<reportElement uuid="d6d1feaa-74ff-4222-96fe-4e1fb3cca6ed" x="-24" y="0" width="374" height="85"/>
+				<imageExpression><![CDATA["F:\\Ins Mila i Fontanals\\DAW\\2n Curs\\M12-Proj\\Projecte\\Git\\M03\\Google-Calendar-Logo.png"]]></imageExpression>
+			</image>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="39" splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band height="33" splitType="Stretch">
+			<textField>
+				<reportElement uuid="74e45638-3016-4f21-8024-25c197cd6e5e" x="0" y="0" width="92" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{id}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="a6e5d41b-0b6f-4593-825e-8995e4d8aa66" x="92" y="0" width="92" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{nom}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="f2e6416d-f0a9-4825-84cd-1bd88dc1288c" x="184" y="0" width="92" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{data_inici}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="e2b8826b-6d7a-4541-aff0-15bfcacc2f88" x="276" y="0" width="92" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{data_fi}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="f49200c2-dc1e-4b3e-bf62-c4d2ec9cf2e8" x="368" y="0" width="92" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{descripcio}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="d6f6087a-3fbe-4d92-b07d-979f12ecb995" x="460" y="0" width="92" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{Tipus}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement uuid="b2c0a8a7-7e0e-411c-8661-8dae857d0f13" x="18" y="20" width="508" height="3"/>
+			</line>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="45" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="54" splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="42" splitType="Stretch"/>
+	</summary>
+</jasperReport>

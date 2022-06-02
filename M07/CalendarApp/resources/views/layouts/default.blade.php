@@ -11,6 +11,21 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;500;600;700;800&display=swap" rel="stylesheet"> 
+    <!-- Esta aqui aquest script perque es el primer que s'ha de mostrar -->
+    <script>
+        window.addEventListener('load', f_main);
+
+        function f_main() {
+            let loader = document.querySelector("#loader");
+            fadeOutEffect();
+        }
+
+        function fadeOutEffect() {
+            let fadeTarget = document.getElementById("loader");
+            fadeTarget.style.opacity -= 0.5;
+            fadeTarget.style.transition= "opacity 0.7s linear";
+        }
+    </script>
     @section('scriptHeaderZone')
     @show
     <title>Calendar App - @yield('webTitle')</title>

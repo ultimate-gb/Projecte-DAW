@@ -26,8 +26,8 @@
         @csrf
         @if ($op != "del")
             <div class="input-group mb-3">
-                <label class="input-group-text" for="nomInput">Nom</label>
-                <input type="text" class="form-control" id="nomInput" name="nom" placeholder="Introdueixi un Nom per al calendari" value="{{ $calendar->nom }}" aria-label="Nom" aria-describedby="nomInput">
+                <label class="input-group-text col-3 col-md-1" for="nomInput">Nom</label>
+                <input type="text" class="form-control col-9 col-md-11" id="nomInput" name="nom" placeholder="Introdueixi un Nom per al calendari" value="{{ $calendar->nom }}" aria-label="Nom" aria-describedby="nomInput">
             </div>
         @endif
         @if ($op == "add")

@@ -21,10 +21,12 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.io.FileReader;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
+import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.BoxLayout;
@@ -90,17 +92,24 @@ public class App {
                                 JOptionPane.QUESTION_MESSAGE, null, noms, noms[0]);
 
                 if (opc == JOptionPane.YES_OPTION) {
-                    f.dispose();
                     try {
                         db.tancarConnexio();
                     } catch (ProjecteDawException ex) {
-                        Logger.getLogger(App.class.getName()).log(Level.SEVERE, null, ex);
+                        JOptionPane.showMessageDialog(f, "Error en tancar la connexio", "Error En tancar aplicacio", JOptionPane.ERROR_MESSAGE);
                     }
+                    f.dispose();
                 }
             }
         });
+        Properties p = new Properties();
+        try {
+            p.load(new FileReader("connexio.properties"));
+        } catch (IOException ex) {
+            JOptionPane.showMessageDialog(f, "Error Fitxer de configuracio no trobat", "Error En obrir aplicacio", JOptionPane.ERROR_MESSAGE);
+            System.exit(0);
+        }
         /* Connectant a la base de dades */
-        String nomCapa = "org.milaifontanals.bdr.MySql";     // Aquest nom s'ha d'obtenir
+        String nomCapa = p.getProperty("capa");     // Aquest nom s'ha d'obtenir
         try {
             // des de fitxer de propietats o via args. Mai per codi
             db = (IBaseDeDades) Class.forName(nomCapa).newInstance();

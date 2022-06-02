@@ -13,8 +13,8 @@
 @endsection
 
 @php
-    $labelClassCols = "col-2";
-    $inputClassCols = "col-10";
+    $labelClassCols = "col-3 col-md-2";
+    $inputClassCols = "col-9 col-md-10";
     $nom = $activitat->nom;
     $dataInici = $actDataInici;
     $dataFi = $actDataFi;
@@ -56,7 +56,7 @@
     @if ($op == "del")
         <p>Estas Segur que vols esborar el activitat. Si aixo es cert pressiona el buto de esborrar. Si no es pot esborrar tambe se li notificara</p>
     @endif
-    <form class="container mt-3" method="POST" action="{{ route('activitat.'.$op) }}">
+    <form class="container-md mt-3" method="POST" action="{{ route('activitat.'.$op) }}">
         @csrf
         @if ($op != "del")
             <div class="input-group mb-3">

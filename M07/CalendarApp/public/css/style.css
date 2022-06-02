@@ -1,8 +1,18 @@
+#projecteCalendarApp body {
+  min-height: 100vh;
+}
+#projecteCalendarApp .app {
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
+}
+#projecteCalendarApp .app main {
+  flex: 1;
+}
 #projecteCalendarApp #loginForm,
 #projecteCalendarApp #registerForm {
   display: flex;
   justify-content: center;
-  min-height: 100vh;
   background-image: url("../img/backgroundLoginImg.jpg");
   background-repeat: no-repeat;
   background-size: cover;
@@ -74,7 +84,7 @@
   border-color: #f00;
 }
 #projecteCalendarApp .onFocus {
-  border-color: #00f;
+  border-color: #000075;
   border-width: 1.5px;
   box-shadow: rgba(0,0,0,0.35) 0px 5px 15px;
 }
@@ -82,13 +92,13 @@
   background-color: #000075;
 }
 #projecteCalendarApp .calendariArt {
-  width: 25%;
+  width: 35%;
   border: 1px solid #000;
   padding-left: 0px;
   padding-right: 0px;
 }
 #projecteCalendarApp .calendariArt header {
-  background-color: #000079;
+  background-color: #000075;
   color: #fff;
 }
 #projecteCalendarApp .calendariArt main {
@@ -122,7 +132,11 @@
 #projecteCalendarApp #index>main>main>section {
   display: flex;
   justify-content: space-around;
+  flex-wrap: wrap;
   gap: 2%;
+}
+#projecteCalendarApp #index>main>main>section .calendariArt {
+  margin-bottom: 2%;
 }
 #projecteCalendarApp #index>main>section {
   margin-bottom: 2%;
@@ -146,6 +160,18 @@
   width: 5%;
   height: 5%;
 }
+#projecteCalendarApp #index #informe {
+  text-align: center;
+}
+#projecteCalendarApp #index #informe header {
+  justify-content: center;
+}
+#projecteCalendarApp #index #informe main {
+  text-align: center;
+}
+#projecteCalendarApp #index #informe main a {
+  width: 25%;
+}
 #projecteCalendarApp #calendariManager .btn-manager {
   width: 20%;
 }
@@ -165,6 +191,24 @@
 #projecteCalendarApp #helperManager form .selectDiv select {
   height: 100%;
 }
+#projecteCalendarApp #calendariViewer #publicacio {
+  text-align: center;
+}
+#projecteCalendarApp #calendariViewer #publicacio .titolZone {
+  justify-content: center;
+}
+#projecteCalendarApp #calendariViewer #publicacio a {
+  width: 25%;
+}
+#projecteCalendarApp #calendariViewer #exportacio {
+  text-align: center;
+}
+#projecteCalendarApp #calendariViewer #exportacio .titolZone {
+  justify-content: center;
+}
+#projecteCalendarApp #calendariViewer #exportacio a {
+  width: 25%;
+}
 #projecteCalendarApp .topMessage {
   position: absolute;
   top: 0px;
@@ -180,6 +224,45 @@
 #projecteCalendarApp .leftHeader a:first-child {
   margin-right: 2%;
 }
+#projecteCalendarApp #loader {
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  background: #fff;
+  top: 0px;
+}
+#projecteCalendarApp #loader .log,
+#projecteCalendarApp #loader .log2 {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+}
+#projecteCalendarApp #loader .log {
+  border: 20px solid transparent;
+  border-top-color: #000079;
+  animation: example 1s linear 0s infinite;
+}
+#projecteCalendarApp #loader .log2 {
+  position: absolute;
+  border-radius: 50%;
+  border: 20px solid #808080;
+}
+#projecteCalendarApp footer {
+  padding-top: 1%;
+  padding-bottom: 1%;
+}
+#projecteCalendarApp footer>div {
+  display: flex;
+  justify-content: space-between;
+  color: #fff;
+}
+#projecteCalendarApp footer>div p {
+  padding-bottom: 0px;
+  margin-bottom: 0px;
+}
 @media only screen and (max-width: 1200px) {
   #projecteCalendarApp #loginForm main,
   #projecteCalendarApp #registerForm main {
@@ -191,7 +274,6 @@
   #projecteCalendarApp #index>main>main>section {
     display: flex;
     justify-content: space-around;
-    flex-direction: column;
   }
   #projecteCalendarApp #index>main>section {
     margin-bottom: 2%;
@@ -209,8 +291,14 @@
     width: 25%;
     height: 5%;
   }
+  #projecteCalendarApp #index #informe main a {
+    width: 50%;
+  }
   #projecteCalendarApp #calendariViewer .titolZone .btn {
     width: 25%;
+  }
+  #projecteCalendarApp .btn-manager {
+    width: 50%;
   }
 }
 @media only screen and (max-width: 768px) {
@@ -304,6 +392,90 @@
   #projecteCalendarApp .leftHeader {
     display: flex;
     justify-content: space-between;
-    width: 15%;
+    width: 50%;
+  }
+  #projecteCalendarApp>body>header>nav {
+    flex-direction: column;
+  }
+  #projecteCalendarApp #calendariViewer #publicacio a {
+    width: 100%;
+  }
+  #projecteCalendarApp #calendariViewer #exportacio {
+    text-align: center;
+  }
+  #projecteCalendarApp #calendariViewer #exportacio a {
+    width: 100%;
+    margin-bottom: 5%;
+  }
+  #projecteCalendarApp .btn-manager {
+    width: 100%;
+  }
+}
+@-moz-keyframes example {
+  0% {
+    transform: rotate(0deg);
+  }
+  25% {
+    transform: rotate(90deg);
+  }
+  50% {
+    transform: rotate(180deg);
+  }
+  75% {
+    transform: rotate(260deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+@-webkit-keyframes example {
+  0% {
+    transform: rotate(0deg);
+  }
+  25% {
+    transform: rotate(90deg);
+  }
+  50% {
+    transform: rotate(180deg);
+  }
+  75% {
+    transform: rotate(260deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+@-o-keyframes example {
+  0% {
+    transform: rotate(0deg);
+  }
+  25% {
+    transform: rotate(90deg);
+  }
+  50% {
+    transform: rotate(180deg);
+  }
+  75% {
+    transform: rotate(260deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+@keyframes example {
+  0% {
+    transform: rotate(0deg);
+  }
+  25% {
+    transform: rotate(90deg);
+  }
+  50% {
+    transform: rotate(180deg);
+  }
+  75% {
+    transform: rotate(260deg);
+  }
+  100% {
+    transform: rotate(360deg);
   }
 }
